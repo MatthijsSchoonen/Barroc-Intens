@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore; // Important to include, so DbContext gets regionized
 namespace Barroc_Intens.Data
 {
-    internal class AppDbContext : DbContext
+    internal class AppDbContextExample : DbContext
     {
         // DbSet for each model
         // Example: public DbSet<User> Users { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<User> Users { get; set; }
 
         // Override OnConfiguring from DbContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -20,6 +22,31 @@ namespace Barroc_Intens.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Department>().HasData(
+                new Department
+                {
+                    Id = 1,
+                    Type = "Financial"
+                }
+            );
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    UserName = "Alice",
+                    Email = "alice@example.com",
+                    Password = SecureHasher.Hash("pass"),
+                    DepartmentId = 1,
+                },
+                new User
+                {
+                    Id = 2,
+                    UserName = "Bob",
+                    Email = "bob@example.com",
+                    Password = SecureHasher.Hash("pass"),
+                    DepartmentId = 1,
+                }
+            );
 
             base.OnModelCreating(modelBuilder);
             // Example seed data

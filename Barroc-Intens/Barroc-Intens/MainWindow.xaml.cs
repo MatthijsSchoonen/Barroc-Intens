@@ -1,3 +1,5 @@
+using Barroc_Intens.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +28,13 @@ namespace Barroc_Intens
         public MainWindow()
         {
             this.InitializeComponent();
+
+            using (AppDbContext dbContext = new())
+            {
+                dbContext.Database.EnsureDeleted();
+                dbContext.Database.EnsureCreated();
+
+            }
         }
 
         private void myButton_Click(object sender, RoutedEventArgs e)
