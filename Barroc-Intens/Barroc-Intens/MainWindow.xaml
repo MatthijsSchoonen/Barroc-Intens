@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Window
     x:Class="Barroc_Intens.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,8 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+    <StackPanel>
+        <NavigationView x:Name="nvSample" SelectionChanged="NvSample_SelectionChanged">
+            <NavigationView.MenuItems>
+                
+                <NavigationViewItem Icon="Play" Content="Menu Item1" Tag="SamplePage1" />
+                <NavigationViewItem Icon="Save" Content="Menu Item2" Tag="SamplePage2" />
+                <NavigationViewItem Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />
+                <NavigationViewItem Icon="Download" Content="Menu Item4" Tag="SamplePage4" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame"/>
+        </NavigationView>
+        <TextBlock x:Name="TbNavDebug"/>
     </StackPanel>
 </Window>

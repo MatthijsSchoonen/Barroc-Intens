@@ -25,21 +25,51 @@ namespace Barroc_Intens
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private bool isLoggedIn = false;
+        private string loggedInUser;
+
         public MainWindow()
         {
             this.InitializeComponent();
-
             using (AppDbContext dbContext = new())
             {
                 dbContext.Database.EnsureDeleted();
                 dbContext.Database.EnsureCreated();
-
             }
+
+            // Show login page initially
+            ShowLoginPage();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private void ShowLoginPage()
         {
-            myButton.Content = "Clicked";
+            var signInPage = new SignIn();
+            signInPage.LoginSuccessful += OnLoginSuccessful;
+            contentFrame.Content = signInPage;
+        }
+
+        private void OnLoginSuccessful(object sender, LoginData e)
+        {
+            isLoggedIn = true;
+            loggedInUser = e.Username;
+            // Use loggedInUser as needed
+            TbNavDebug.Text = loggedInUser;
+            contentFrame.Content = null; // Clear login page
+        }
+
+        private void NvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (isLoggedIn)
+            {
+                var selectedItem = (NavigationViewItem)args.SelectedItem;
+                string pageName = selectedItem.Tag.ToString();
+                Type pageType = Type.GetType($"Barroc_Intens.{pageName}");
+
+                if (pageType != null)
+                {
+                    contentFrame.Navigate(pageType);
+                }
+            }
         }
     }
 }
