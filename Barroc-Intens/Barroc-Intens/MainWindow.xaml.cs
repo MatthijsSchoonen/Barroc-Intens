@@ -43,15 +43,15 @@ namespace Barroc_Intens
 
         private void ShowLoginPage()
         {
-            var signInPage = new SignIn();
+            SignIn signInPage = new();
             signInPage.LoginSuccessful += OnLoginSuccessful;
             contentFrame.Content = signInPage;
         }
 
-        private void OnLoginSuccessful(object sender, LoginData e)
+        private void OnLoginSuccessful(object sender, User e)
         {
             isLoggedIn = true;
-            loggedInUser = e.Username;
+            loggedInUser = e.Email;
             // Use loggedInUser as needed
             TbNavDebug.Text = loggedInUser;
             contentFrame.Content = null; // Clear login page

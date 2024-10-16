@@ -20,15 +20,9 @@ using Windows.Foundation.Collections;
 namespace Barroc_Intens
 {
 
-    public class LoginData
-    {
-        public string Username { get; set; }
-        // Add more properties as needed
-    }
-
     public sealed partial class SignIn : UserControl
     {
-        public event EventHandler<LoginData> LoginSuccessful;
+        internal event EventHandler<User> LoginSuccessful;
 
         public SignIn()
         {
@@ -39,25 +33,21 @@ namespace Barroc_Intens
         {
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-
-            if (username == "admin" && password == "password") // Example validation
+            User user = new();
+            using(AppDbContext dbContext = new())
             {
-                User user = new();
-                using(AppDbContext dbContext = new())
-                {
+                user = dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
+            }
 
+            if (user != null) {
+                if (SecureHasher.Verify(password, user.Password))
+                {
+                    LoginSuccessful?.Invoke(this, user);
                 }
-                var loginData = new LoginData
-                {
-                    Username = username,
-                    // Add more data as needed
-                };
-                LoginSuccessful?.Invoke(this, loginData); // Raise event with data
+                ErrorMessage.Text = "Incorrect password";
+                return;
             }
-            else
-            {
-                ErrorMessage.Text = "Invalid credentials.";
-            }
+            ErrorMessage.Text = "User not found";
         }
     }
 }
