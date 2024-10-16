@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid>
-        <NavigationView x:Name="nvSample" SelectionChanged="NvSample_SelectionChanged">
+        <NavigationView x:Name="nvMainNavBar" SelectionChanged="NvSample_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Play" Content="Menu Item1" Tag="SamplePage1" />
                 <NavigationViewItem Icon="Save" Content="Menu Item2" Tag="SamplePage2" />

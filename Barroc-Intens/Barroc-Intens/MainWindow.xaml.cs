@@ -36,8 +36,8 @@ namespace Barroc_Intens
                 dbContext.Database.EnsureDeleted();
                 dbContext.Database.EnsureCreated();
             }
-
             // Show login page initially
+            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
             ShowLoginPage();
         }
 
@@ -53,6 +53,7 @@ namespace Barroc_Intens
         {
             isLoggedIn = true;
             contentFrame.Content = null; // Clear login page
+            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
             SwitchPage(user.Department + "Dashboard");
   
         }
