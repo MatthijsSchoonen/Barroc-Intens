@@ -7,8 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <StackPanel x:Name="spSignInPanel"  Background="White" Padding="35"  VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="10" Shadow="{StaticResource SharedShadow}" >
             <Image Source="ms-appx:///Assets/Images/Logos/Logo1_groot.png" Width="250" Height="100" />
             <TextBox Margin="20" x:Name="UsernameTextBox" PlaceholderText="Username" />
             <PasswordBox Margin="20" x:Name="PasswordBox" PlaceholderText="Password" />
