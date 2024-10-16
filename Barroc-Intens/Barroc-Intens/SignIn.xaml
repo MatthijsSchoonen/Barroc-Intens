@@ -7,11 +7,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
-        <TextBox x:Name="UsernameTextBox" PlaceholderText="Username" />
-        <PasswordBox x:Name="PasswordBox" PlaceholderText="Password" />
-        <Button Content="Login" Click="LoginButton_Click"/>
-        <TextBlock x:Name="ErrorMessage" Foreground="Red"/>
-    </StackPanel>
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="ms-appx:///Assets/Images/Logos/Logo1_groot.png" Width="250" Height="100" />
+            <TextBox Margin="20" x:Name="UsernameTextBox" PlaceholderText="Username" />
+            <PasswordBox Margin="20" x:Name="PasswordBox" PlaceholderText="Password" />
+            <TextBlock x:Name="ErrorMessage" Foreground="Red"/>
+            <Button Content="Login" Click="LoginButton_Click"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

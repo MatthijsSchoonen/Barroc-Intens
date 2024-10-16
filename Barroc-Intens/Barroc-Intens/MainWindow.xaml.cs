@@ -46,15 +46,15 @@ namespace Barroc_Intens
             SignIn signInPage = new();
             signInPage.LoginSuccessful += OnLoginSuccessful;
             contentFrame.Content = signInPage;
+
         }
 
-        private void OnLoginSuccessful(object sender, User e)
+        private void OnLoginSuccessful(object sender, User user)
         {
             isLoggedIn = true;
-            loggedInUser = e.Email;
-            // Use loggedInUser as needed
-            TbNavDebug.Text = loggedInUser;
             contentFrame.Content = null; // Clear login page
+            SwitchPage(user.Department + "Dashboard");
+  
         }
 
         private void NvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -63,13 +63,25 @@ namespace Barroc_Intens
             {
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
                 string pageName = selectedItem.Tag.ToString();
-                Type pageType = Type.GetType($"Barroc_Intens.{pageName}");
-
-                if (pageType != null)
-                {
-                    contentFrame.Navigate(pageType);
-                }
+                SwitchPage(pageName);
+                return;
             }
+            ShowLoginPage();
+        }
+
+        private void SwitchPage(string pageName)
+        {
+            Type pageType = Type.GetType($"Barroc_Intens.{pageName}");
+
+            if (pageType != null)
+            {
+                contentFrame.Navigate(pageType);
+                return;
+            }
+
+            NotFound notFoundPage = new();
+            contentFrame.Content = notFoundPage;
+            return;
         }
     }
 }
