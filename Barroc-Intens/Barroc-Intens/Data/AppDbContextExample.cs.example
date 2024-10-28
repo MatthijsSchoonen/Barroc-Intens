@@ -1,4 +1,4 @@
-﻿//using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
@@ -527,6 +527,7 @@
 //                    Id = 1,
 //                    Name = "Barroc Intens Italian Light",
 //                    Description = "Een Koffie machine",
+//                    Brand = "Barroc",
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -536,6 +537,7 @@
 //                    Id = 2,
 //                    Name = "Barroc Intens Italian",
 //                    Description = "Een Koffie machine",
+//                    Brand = "Barroc",
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -545,6 +547,7 @@
 //                    Id = 3,
 //                    Name = "Barroc Intens Italian Deluxe",
 //                    Description = "Een Koffie machine",
+//                    Brand = "Barroc",
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -554,6 +557,7 @@
 //                    Id = 4,
 //                    Name = "Barroc Intens Italian Deluxe Special",
 //                    Description = "Een Koffie machine",
+//                    Brand = "Barroc",
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
