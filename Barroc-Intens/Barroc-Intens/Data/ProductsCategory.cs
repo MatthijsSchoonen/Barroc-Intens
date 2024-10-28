@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intens.Data
 {
-    public class Department
+    public class ProductsCategory
     {
         public int Id { get; set; }
-        public string Type {  get; set; }
+        public string Name { get; set; }
+        public int IsEmployeeOnly {  get; set; }
     }
 }
