@@ -15,6 +15,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Data\AppDbContext.cs.example" />
+    <None Remove="Data\AppDbContextExample.cs.example" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AppDbContextExample.cs.example" />
   </ItemGroup>
 
   <ItemGroup>
