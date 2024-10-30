@@ -54,6 +54,6 @@ A separate branch for the development phase of the application. Features are les
 When an issue is completed, it will be merged into the development branch.
 
 **Issues**
-For each user story, a separate branch will be created that is derived from the development branch.
+For each user story, a separate branch will be created that is derived from the main branch, so everyone has a initial working version.
 This way, everyone has an isolated environment to work on, without team members being affected by, for example, non-working functionalities that make the work more difficult.
 
