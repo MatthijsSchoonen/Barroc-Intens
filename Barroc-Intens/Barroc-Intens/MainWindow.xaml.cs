@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Barroc_Intens.Dashboards;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,7 +26,7 @@ namespace Barroc_Intens
     public sealed partial class MainWindow : Window
     {
         private bool isLoggedIn = false;
-        private string loggedInUser;
+        private User loggedInUser;
 
         public MainWindow()
         {
@@ -52,25 +53,35 @@ namespace Barroc_Intens
             isLoggedIn = true;
             contentFrame.Content = null; // Clear login page
             nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
-            SwitchPage(user.Department + "Dashboard");
-  
+            Department userDepartment = user.Department;
+            loggedInUser = user;
+            NavItemBackToDashboard.Tag = $"Barroc_Intens.Dashboards.{loggedInUser.Department.Type}";
+            SwitchPage(user.Department.Type, "Barroc_Intens.Dashboards");
         }
 
-        private void NvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void nvMainNavBar_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             if (isLoggedIn)
             {
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
-                string pageName = selectedItem.Tag.ToString();
-                SwitchPage(pageName);
+                string searchTerm = selectedItem.Tag.ToString();
+                SwitchPage("","",searchTerm);
                 return;
             }
             ShowLoginPage();
         }
 
-        private void SwitchPage(string pageName)
+        private void SwitchPage(string pageName="NotFound", string nameSpace = "Barroc_Intens",string completeTerm = "None")
         {
-            Type pageType = Type.GetType($"Barroc_Intens.{pageName}");
+            Type pageType;
+            if (completeTerm != "None") {
+                pageType = Type.GetType(completeTerm);
+            }
+            else
+            {
+                pageType = Type.GetType($"{nameSpace}.{pageName}");
+            }
+            
 
             if (pageType != null)
             {

@@ -10,6 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <TextBlock FontSize="24" FontWeight="Bold" Text="Customer Dashboard" />
+        <!--  Style="{StaticResource.HeadingStyle}" -->
     </Grid>
 </Page>

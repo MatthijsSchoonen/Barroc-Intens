@@ -13,6 +13,11 @@
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
             <ThemeShadow x:Key="SharedShadow"/>
+            <Style TargetType="TextBlock" x:Key="HeadingStyle">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <!--<Setter Property="Foreground" Value="#0078D7" />-->
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
