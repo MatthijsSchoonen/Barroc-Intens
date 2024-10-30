@@ -18,7 +18,7 @@ using Windows.Foundation.Collections;
 
 namespace Barroc_Intens
 {
-    public sealed partial class NotFound : UserControl
+    public sealed partial class NotFound : Page
     {
         public NotFound()
         {

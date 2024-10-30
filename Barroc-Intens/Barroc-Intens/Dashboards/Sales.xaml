@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <StackPanel Padding="5">
         <TextBlock FontSize="24" FontWeight="Bold" Text="Sales Dashboard" />
-    </Grid>
+    </StackPanel>
 </Page>

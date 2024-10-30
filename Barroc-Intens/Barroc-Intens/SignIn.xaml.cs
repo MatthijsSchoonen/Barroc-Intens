@@ -23,7 +23,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Barroc_Intens
 {
 
-    public sealed partial class SignIn : UserControl
+    public sealed partial class SignIn : Page
     {
         internal event EventHandler<User> LoginSuccessful;
 
