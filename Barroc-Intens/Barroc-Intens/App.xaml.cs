@@ -47,4 +47,6 @@ namespace Barroc_Intens
 
         private Window m_window;
     }
+
+
 }

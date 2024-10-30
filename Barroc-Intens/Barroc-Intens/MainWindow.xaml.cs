@@ -24,17 +24,63 @@ namespace Barroc_Intens
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private bool isLoggedIn = false;
+        private string loggedInUser;
+
         public MainWindow()
         {
             this.InitializeComponent();
-            using var db = new AppDbContext();
+            using AppDbContext db = new AppDbContext();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+         
+            // Show login page initially
+            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
+            ShowLoginPage();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private void ShowLoginPage()
         {
-            myButton.Content = "Clicked";
+            SignIn signInPage = new();
+            signInPage.LoginSuccessful += OnLoginSuccessful;
+            contentFrame.Content = signInPage;
+
+        }
+
+        private void OnLoginSuccessful(object sender, User user)
+        {
+            isLoggedIn = true;
+            contentFrame.Content = null; // Clear login page
+            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.Auto;
+            SwitchPage(user.Department + "Dashboard");
+  
+        }
+
+        private void NvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (isLoggedIn)
+            {
+                var selectedItem = (NavigationViewItem)args.SelectedItem;
+                string pageName = selectedItem.Tag.ToString();
+                SwitchPage(pageName);
+                return;
+            }
+            ShowLoginPage();
+        }
+
+        private void SwitchPage(string pageName)
+        {
+            Type pageType = Type.GetType($"Barroc_Intens.{pageName}");
+
+            if (pageType != null)
+            {
+                contentFrame.Navigate(pageType);
+                return;
+            }
+
+            NotFound notFoundPage = new();
+            contentFrame.Content = notFoundPage;
+            return;
         }
     }
 }

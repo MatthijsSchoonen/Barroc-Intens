@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Barroc_Intens.Data
 {
-    internal class AppDbContext : DbContext
+    internal class AppDbContextExample : DbContext
     {
         public DbSet<Company> Companies { get; set; }
         public DbSet<Contract> Contracts { get; set; }
