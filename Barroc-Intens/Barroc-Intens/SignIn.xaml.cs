@@ -38,7 +38,7 @@ namespace Barroc_Intens
             User user = new();
             using(AppDbContext dbContext = new())
             {
-                user = dbContext.Users.FirstOrDefault(u => u.UserName.ToLower() == username.ToLower());
+                user = dbContext.Users.FirstOrDefault(u => u.Name.ToLower() == username.ToLower());
             }
 
             if (user != null) {
