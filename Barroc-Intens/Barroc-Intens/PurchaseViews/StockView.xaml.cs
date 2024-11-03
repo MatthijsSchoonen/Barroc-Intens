@@ -40,7 +40,23 @@ namespace Barroc_Intens.PurchaseViews
 
         private void StockSearchingView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            var SelectedItem = (Product)e.ClickedItem;
+            var window = new StockEditView(SelectedItem.Id);
+            window.Closed += StockEditWindow_Closed;
+            window.Activate();
         }
+        private void StockEditWindow_Closed(object sender, WindowEventArgs args)
+        {
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            using (var db = new AppDbContext())
+            {
+                StockSearchingView.ItemsSource = db.Products.ToList();
+            }
+        }
+
     }
 }
