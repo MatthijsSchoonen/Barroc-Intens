@@ -32,5 +32,15 @@ namespace Barroc_Intens.PurchaseViews
                 StockSearchingView.ItemsSource = db.Products.ToList();
             }
         }
+
+        private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddStockView));
+        }
+
+        private void StockSearchingView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }
