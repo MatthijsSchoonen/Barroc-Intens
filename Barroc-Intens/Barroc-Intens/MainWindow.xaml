@@ -7,14 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid>
-        <NavigationView x:Name="nvMainNavBar" SelectionChanged="NvSample_SelectionChanged" Background="Black" >
+        <NavigationView x:Name="nvMainNavBar" SelectionChanged="nvMainNavBar_SelectionChanged" Background="Black" >
             <NavigationView.MenuItems>
-                <StackPanel  >
-                    <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="Menu Item1" Tag="SamplePage1" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="Menu Item2" Tag="SamplePage2" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Menu Item4" Tag="SamplePage4" />
-                </StackPanel>
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />
         </NavigationView>
