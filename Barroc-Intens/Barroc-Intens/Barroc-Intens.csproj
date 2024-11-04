@@ -15,6 +15,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Dashboards\Customer.xaml" />
+		<None Remove="Dashboards\Finance.xaml" />
+		<None Remove="Dashboards\HeadMaintenance.xaml" />
+		<None Remove="Dashboards\HeadPurchase.xaml" />
+		<None Remove="Dashboards\Maintenance.xaml" />
+		<None Remove="Dashboards\Purchase.xaml" />
+		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
 	</ItemGroup>
@@ -47,6 +54,42 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Update="Dashboards\HeadPurchase.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\HeadMaintenance.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Purchase.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Sales.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Maintenance.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Finance.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Page Update="NotFound.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
@@ -56,6 +99,12 @@
 		<Page Update="SignIn.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Customer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
