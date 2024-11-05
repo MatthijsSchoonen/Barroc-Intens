@@ -36,31 +36,23 @@ namespace Barroc_Intens
         {
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-
-            User user;
-            using (AppDbContext dbContext = new())
+            User user = new();
+            using(AppDbContext dbContext = new())
             {
-                user = dbContext.Users
-                    .Include(u => u.Department)
-                    .Include(u => u.Companies) // Ensure companies are included
-                    .FirstOrDefault(u => u.Name.ToLower() == username.ToLower());
+                user = dbContext.Users.Include(u => u.Department).FirstOrDefault(u => u.Name.ToLower() == username.ToLower());
             }
 
-            if (user != null)
-            {
+            if (user != null) {
                 if (SecureHasher.Verify(password, user.Password))
                 {
-                    // Set the logged-in user
-                    User.LoggedInUser = user;
+
                     LoginSuccessful?.Invoke(this, user);
-                    return; // Exit after successful login
                 }
                 ErrorMessage.Text = "Incorrect password";
                 return;
             }
             ErrorMessage.Text = "User not found";
         }
-
 
         //private void SignIn_Loaded(object sender, RoutedEventArgs e)
         //{

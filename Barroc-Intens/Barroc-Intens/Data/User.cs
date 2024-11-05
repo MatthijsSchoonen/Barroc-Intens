@@ -18,11 +18,5 @@ namespace Barroc_Intens.Data
         public Department Department { get; set; }
         public ICollection<Company> Companies { get; set; }
         public ICollection<Note> Notes { get; set; }
-
-        public static void ClearUser()
-        {
-            LoggedInUser = null;
-        }
     }
-
 }

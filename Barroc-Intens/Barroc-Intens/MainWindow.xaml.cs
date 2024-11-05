@@ -15,7 +15,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Barroc_Intens.Dashboards;
 using Barroc_Intens.PurchaseViews;
-using Barroc_Intens.Sales;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -96,11 +95,6 @@ namespace Barroc_Intens
                 ShowStockView();
                 return;
             }
-            if(completeTerm == "NotePage")
-            {
-                ShowNoteView();
-                return;
-            }
          
 
             NotFound notFoundPage = new();
@@ -111,11 +105,6 @@ namespace Barroc_Intens
         public void ShowStockView()
         {
             contentFrame.Navigate(typeof(StockView));
-        }
-
-        public void ShowNoteView()
-        {
-            contentFrame.Navigate(typeof(NotePage));
         }
     }
 }
