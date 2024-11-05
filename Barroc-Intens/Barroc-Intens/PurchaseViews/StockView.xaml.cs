@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,12 +25,56 @@ namespace Barroc_Intens.PurchaseViews
     /// </summary>
     public sealed partial class StockView : Page
     {
+        public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
+        public ObservableCollection<Product> FilteredProducts { get; set; } = new ObservableCollection<Product>();
+
         public StockView()
         {
             this.InitializeComponent();
+
+            // Load products from the database
+            LoadProducts();
+        }
+
+        private void LoadProducts()
+        {
             using (var db = new AppDbContext())
             {
-                StockSearchingView.ItemsSource = db.Products.ToList();
+                // Populate Products and FilteredProducts with data from the database
+                var products = db.Products.ToList();
+                Products.Clear();
+                FilteredProducts.Clear();
+                foreach (var product in products)
+                {
+                    Products.Add(product);
+                    FilteredProducts.Add(product);
+                }
+            }
+        }
+
+        private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            string brandFilter = BrandFilterTextBox.Text?.ToLower() ?? string.Empty;
+            string descriptionFilter = DescriptionFilterTextBox.Text?.ToLower() ?? string.Empty;
+
+            // Clear and repopulate FilteredProducts based on the filter criteria
+            FilteredProducts.Clear();
+            foreach (var product in Products)
+            {
+                bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
+                                    (product.Brand != null && product.Brand.ToLower().Contains(brandFilter));
+                bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
+                                          (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
+
+                if (matchesBrand && matchesDescription)
+                {
+                    FilteredProducts.Add(product);
+                }
             }
         }
 
@@ -40,11 +85,12 @@ namespace Barroc_Intens.PurchaseViews
 
         private void StockSearchingView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var SelectedItem = (Product)e.ClickedItem;
-            var window = new StockEditView(SelectedItem.Id);
+            var selectedItem = (Product)e.ClickedItem;
+            var window = new StockEditView(selectedItem.Id);
             window.Closed += StockEditWindow_Closed;
             window.Activate();
         }
+
         private void StockEditWindow_Closed(object sender, WindowEventArgs args)
         {
             Refresh();
@@ -52,11 +98,9 @@ namespace Barroc_Intens.PurchaseViews
 
         public void Refresh()
         {
-            using (var db = new AppDbContext())
-            {
-                StockSearchingView.ItemsSource = db.Products.ToList();
-            }
+            LoadProducts();
+            ApplyFilters();  // Reapply filters to update FilteredProducts after refreshing the data
         }
-
     }
+
 }
