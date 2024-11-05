@@ -93,6 +93,18 @@
 		<Page Update="NotFound.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Page Update="PurchaseViews\AddStockView.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="PurchaseViews\StockEditView.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="PurchaseViews\StockView.xaml">
+		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
