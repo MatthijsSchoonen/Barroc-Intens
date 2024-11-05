@@ -14,6 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Barroc_Intens.Dashboards;
+using Barroc_Intens.PurchaseViews;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -60,7 +61,7 @@ namespace Barroc_Intens
         }
 
         private void nvMainNavBar_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
+         {
             if (isLoggedIn)
             {
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
@@ -73,6 +74,7 @@ namespace Barroc_Intens
 
         private void SwitchPage(string pageName="NotFound", string nameSpace = "Barroc_Intens",string completeTerm = "None")
         {
+            
             Type pageType;
             if (completeTerm != "None") {
                 pageType = Type.GetType(completeTerm);
@@ -88,10 +90,21 @@ namespace Barroc_Intens
                 contentFrame.Navigate(pageType);
                 return;
             }
+            if(completeTerm == "StockView")
+            {
+                ShowStockView();
+                return;
+            }
+         
 
             NotFound notFoundPage = new();
             contentFrame.Content = notFoundPage;
             return;
+        }
+
+        public void ShowStockView()
+        {
+            contentFrame.Navigate(typeof(StockView));
         }
     }
 }

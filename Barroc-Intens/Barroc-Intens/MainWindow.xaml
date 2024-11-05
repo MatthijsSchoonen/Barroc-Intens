@@ -10,7 +10,7 @@
         <NavigationView x:Name="nvMainNavBar" SelectionChanged="nvMainNavBar_SelectionChanged" Background="Black" >
             <NavigationView.MenuItems>
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
-                    <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="Menu Item2" Tag="SamplePage2" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Menu Item4" Tag="SamplePage4" />
             </NavigationView.MenuItems>
