@@ -19,20 +19,42 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Name"/>
+            <TextBlock Text="Description"/>
+            <TextBlock Text="Price"/>
+            <TextBlock Text="Stock"/>
+            <TextBlock Text="Brand"/>
+        </StackPanel>
+
         <ListView x:Name="StockSearchingView"
-                  Grid.Row="1" IsItemClickEnabled="True"
-                  ItemClick="StockSearchingView_ItemClick">
+          Grid.Row="1"
+          IsItemClickEnabled="True"
+          ItemClick="StockSearchingView_ItemClick"
+          ScrollViewer.VerticalScrollMode="Enabled"
+          ScrollViewer.VerticalScrollBarVisibility="Visible"
+          ScrollViewer.HorizontalScrollMode="Disabled"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="localData:Product">
-                    <StackPanel Orientation="Vertical" Padding="5">
-                        <TextBlock Text="{x:Bind Name}"/>
-                        <TextBlock Text="{x:Bind Description}"/>
-                        <TextBlock Text="{x:Bind Price}"/>
-                        <TextBlock Text="{x:Bind Stock}"/>
-                    </StackPanel>
+                    <!-- Horizontal StackPanel for each row with its own ScrollViewer -->
+                    <ScrollViewer HorizontalScrollMode="Enabled"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Orientation="Horizontal" Padding="5">
+                            <TextBlock Margin="0 0 20 0" Text="{x:Bind Name}"/>
+                            <TextBlock Margin="0 0 20 0" Text="{x:Bind Description}"/>
+                            <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}"/>
+                            <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}"/>
+                            <TextBlock Margin="0 0 20 0" Text="{x:Bind Brand}"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
         <StackPanel Orientation="Vertical" Grid.Column="2">
             <Button x:Name="AddProductFormButton" Margin="10" Content="Voeg nieuw product toe" Click="AddProductFormButton_Click"/>
         </StackPanel>
