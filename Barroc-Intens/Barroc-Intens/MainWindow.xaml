@@ -11,8 +11,9 @@
             <NavigationView.MenuItems>
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" />
-                    <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder" />
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />
         </NavigationView>
