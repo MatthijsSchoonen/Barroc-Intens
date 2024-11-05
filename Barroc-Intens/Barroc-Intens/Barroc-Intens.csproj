@@ -24,6 +24,7 @@
 		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Sales\NotePage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -115,6 +116,12 @@
 
 	<ItemGroup>
 	  <Page Update="Dashboards\Customer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Sales\NotePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>
