@@ -9,11 +9,16 @@ namespace Barroc_Intens.Data
 {
     public class Product
     {
+        private decimal _price;
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string? Brand { get; set; }
-        public decimal Price { get; set; }
+        public decimal Price
+        {
+            get => Math.Round(_price, 2);
+            set => _price = Math.Round(value, 2);
+        }
         public int Stock {  get; set; }
 
         [InverseProperty(nameof(MaintenanceAppointment.Product))]
