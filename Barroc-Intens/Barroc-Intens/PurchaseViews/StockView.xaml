@@ -17,22 +17,63 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="StockSearchingView"
-                  Grid.Row="1" IsItemClickEnabled="True"
-                  ItemClick="StockSearchingView_ItemClick">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="localData:Product">
-                    <StackPanel Orientation="Vertical" Padding="5">
-                        <TextBlock Text="{x:Bind Name}"/>
-                        <TextBlock Text="{x:Bind Description}"/>
-                        <TextBlock Text="{x:Bind Price}"/>
-                        <TextBlock Text="{x:Bind Stock}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
+        <StackPanel Orientation="Horizontal"  Grid.Row="0" Margin="10">
+            <TextBox x:Name="BrandFilterTextBox"
+                 PlaceholderText="Filter by Brand"
+                 Width="200"
+                     Height="20"
+                 Margin="0 0 10 0"
+                 TextChanged="FilterTextBox_TextChanged"/>
+            <TextBox x:Name="DescriptionFilterTextBox"
+                 PlaceholderText="Filter by Description"
+                 Width="200"
+                     Height="20"
+                 TextChanged="FilterTextBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="10" Padding="5" Grid.Row="1" >
+            <TextBlock Margin="0 0 20 0" Text="Name" Width="100"/>
+            <TextBlock Margin="0 0 20 0" Text="Description" Width="500"/>
+            <TextBlock Margin="0 0 20 0" Text="Price" Width="100"/>
+            <TextBlock Margin="0 0 20 0" Text="Stock" Width="100"/>
+            <TextBlock Margin="0 0 20 0" Text="Brand" Width="100"/>
+        </StackPanel>
+
+
+
+        <ScrollViewer HorizontalScrollMode="Enabled"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollMode="Disabled"
+                  VerticalScrollBarVisibility="Disabled"
+                  Grid.Row="3"
+                      BorderBrush="Black" BorderThickness="2"
+                      Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <ListView x:Name="StockSearchingView"
+                      IsItemClickEnabled="True"
+                      ItemClick="StockSearchingView_ItemClick"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{x:Bind FilteredProducts, Mode=OneWay}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="localData:Product">
+                            <StackPanel Orientation="Horizontal" Padding="5">
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Name}" Width="100"/>
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}" Width="100"/>
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}" Width="100"/>
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Brand}" Width="100"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+
         <StackPanel Orientation="Vertical" Grid.Column="2">
             <Button x:Name="AddProductFormButton" Margin="10" Content="Voeg nieuw product toe" Click="AddProductFormButton_Click"/>
         </StackPanel>
