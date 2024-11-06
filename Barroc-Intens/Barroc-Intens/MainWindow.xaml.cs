@@ -112,6 +112,15 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(WorkOrder));
                 return;
             }
+            if(completeTerm == "logout")
+            {
+                contentFrame.Navigate(typeof(SignIn));
+                nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
+                this.loggedInUser = null;
+                this.isLoggedIn = false;
+                ShowLoginPage();
+                return;
+            }
 
             NotFound notFoundPage = new();
             contentFrame.Content = notFoundPage;

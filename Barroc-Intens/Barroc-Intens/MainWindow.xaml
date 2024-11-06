@@ -8,8 +8,42 @@
     mc:Ignorable="d">
     <Grid>
         <NavigationView x:Name="nvMainNavBar" SelectionChanged="nvMainNavBar_SelectionChanged" Background="Black" >
+            <NavigationView.Resources>
+                <Style TargetType="NavigationViewItem">
+                    <Setter Property="Foreground" Value="#f4cd1b" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="NavigationViewItem">
+                                <Grid>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="PointerOver">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="#e0b718" />
+                                                        <!-- Hover color -->
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed" />
+                                            <VisualState x:Name="Selected" />
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <!-- ContentPresenter to show icon and text -->
+                                    <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" 
+                                              Foreground="{TemplateBinding Foreground}" Margin="15" FontSize="20"
+                                               />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </NavigationView.Resources>
             <NavigationView.MenuItems>
-                    <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
+                <NavigationViewItem Foreground="#f4cd1b" Icon="OtherUser" Content="Log out" Tag="logout"/>
+                <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice" />
