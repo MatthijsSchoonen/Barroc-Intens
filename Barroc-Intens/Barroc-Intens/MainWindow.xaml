@@ -9,6 +9,8 @@
     <Grid>
         <NavigationView x:Name="nvMainNavBar" SelectionChanged="nvMainNavBar_SelectionChanged" Background="Black" >
             <NavigationView.Resources>
+                <!-- Styling navMenu-->
+                <!-- Gold text with a larger font size and margin -->
                 <Style TargetType="NavigationViewItem">
                     <Setter Property="Foreground" Value="#f4cd1b" />
                     <Setter Property="Template">
@@ -40,6 +42,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+                <!-- End styling navMenu -->
             </NavigationView.Resources>
             <NavigationView.MenuItems>
                 <NavigationViewItem Foreground="#f4cd1b" Icon="OtherUser" Content="Log out" Tag="logout"/>
