@@ -33,23 +33,23 @@ namespace Barroc_Intens
         public MainWindow()
         {
             this.InitializeComponent();
+            // Initialize Database (remove and add again withcvurrent setup, acceptable during development)
             using AppDbContext db = new AppDbContext();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-         
-            // Show login page initially
-            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
             ShowLoginPage();
         }
 
         private void ShowLoginPage()
         {
+            nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
             SignIn signInPage = new();
-            signInPage.LoginSuccessful += OnLoginSuccessful;
+            signInPage.LoginSuccessful += OnLoginSuccessful; // Bind event handler of SignIn to method.
             contentFrame.Content = signInPage;
 
         }
 
+        // Things need to be done once user is logged in.
         private void OnLoginSuccessful(object sender, User user)
         {
             isLoggedIn = true;
@@ -61,6 +61,7 @@ namespace Barroc_Intens
             SwitchPage(user.Department.Type, "Barroc_Intens.Dashboards");
         }
 
+        // Gets executed once the selection is changed in the navmenu. 
         private void nvMainNavBar_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
          {
             if (isLoggedIn)
@@ -73,6 +74,7 @@ namespace Barroc_Intens
             ShowLoginPage();
         }
 
+        // Navigation between pages.
         private void SwitchPage(string pageName="NotFound", string nameSpace = "Barroc_Intens",string completeTerm = "None")
         {
             
