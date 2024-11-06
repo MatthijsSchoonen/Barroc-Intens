@@ -35,12 +35,14 @@ namespace Barroc_Intens.PurchaseViews
         public void BackToOverviewButton_click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(StockView));
+            //navigate back to stockview
         }
 
         public void AddProductButton_click(object sender, RoutedEventArgs e)
         {
             using (var db = new AppDbContext())
             {
+                //input validatie
                 string? brand;
                 ProductsCategory selectedCategory;
                 if (nameInput.Text == "")
@@ -91,7 +93,7 @@ namespace Barroc_Intens.PurchaseViews
                     Stock = int.Parse(stockInput.Text),
                     ProductsCategoryId = selectedCategory.Id
                 });
-
+                //add product to the database
                 db.SaveChanges();
                 nameInput.Text = string.Empty;
                 descInput.Text = string.Empty;
