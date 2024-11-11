@@ -32,7 +32,7 @@ namespace Barroc_Intens.PurchaseViews
             this.currentProductId = productId;
 
             using AppDbContext db = new();
-
+            //get data from the product to fill the items
             Product product = db.Products.First(p => p.Id == productId);
             nameInput.Text = product.Name;
             descInput.Text = product.Description;
@@ -54,6 +54,7 @@ namespace Barroc_Intens.PurchaseViews
             using AppDbContext db = new();
             string? brand;
             ProductsCategory selectedCategory;
+            //checks the input if its not an empty string
             if (nameInput.Text == "")
             {
                 ErrorMessage.Text = "Name is required";
@@ -91,6 +92,7 @@ namespace Barroc_Intens.PurchaseViews
             {
                 selectedCategory = (ProductsCategory)productCategoryInput.SelectedItem;
             }
+            //updates the product in the database
             var product = db.Products.First(p => p.Id == currentProductId);
             product.Name = nameInput.Text;
             product.Description = descInput.Text;
@@ -102,6 +104,7 @@ namespace Barroc_Intens.PurchaseViews
 
         private void DeleteProductButton_click(object sender, RoutedEventArgs p)
         {
+            //delete products
             using var db = new AppDbContext();
             {
                 var product = db.Products.First(p => p.Id == currentProductId);

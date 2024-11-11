@@ -25,13 +25,15 @@ namespace Barroc_Intens
 
     public sealed partial class SignIn : Page
     {
+        // Eventhandler when user is succesfully signed in
         internal event EventHandler<User> LoginSuccessful;
 
         public SignIn()
         {
             this.InitializeComponent();
         }
-
+        
+        // SignIn method. Checks user password and username
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
@@ -46,14 +48,16 @@ namespace Barroc_Intens
                     .FirstOrDefault(u => u.Name.ToLower() == username.ToLower());
             }
 
+            // if a user is found,
+            // Verify the obtained password hash to the password submitted in the form using the SecureHasher.
             if (user != null)
             {
                 if (SecureHasher.Verify(password, user.Password))
                 {
-                    // Set the logged-in user
+                    // Password verified. Give user (with company info) along with event handler & return
                     User.LoggedInUser = user;
                     LoginSuccessful?.Invoke(this, user);
-                    return; // Exit after successful login
+                    return;
                 }
                 ErrorMessage.Text = "Incorrect password";
                 return;
@@ -61,7 +65,7 @@ namespace Barroc_Intens
             ErrorMessage.Text = "User not found";
         }
 
-
+        // Attempt to make a shadow around form container. Can be ignored
         //private void SignIn_Loaded(object sender, RoutedEventArgs e)
         //{
         //    AddDropShadow();

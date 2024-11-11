@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Invoice"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+      <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Klantinformatie" FontWeight="Bold" Margin="0,0,0,10" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Naam:" Width="80" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtNaam" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Adres:" Width="80" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtAdres" Width="300"/>
+            </StackPanel>
+            <TextBlock Text="Factuurinformatie" FontWeight="Bold" Margin="0,20,0,10" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Aansluitkosten (€):" Width="150" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtAansluitkosten" Width="100"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="BTW (%):" Width="150" VerticalAlignment="Center"/>
+                <TextBox x:Name="txtBtwPercentage" Width="100" Text="21"/>
+            </StackPanel>
+            <Button Content="Factuur genereren" Width="150" Margin="0,20,0,0" Click="GenereerFactuur_Click"/>
+            <TextBlock x:Name="lblResult" FontWeight="Bold" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

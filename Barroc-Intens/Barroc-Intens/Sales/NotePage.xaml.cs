@@ -37,8 +37,11 @@ namespace Barroc_Intens.Sales
             LoadNotes();
             LoadCompaniesAsync();
         }
+
+
         private async Task LoadCompaniesAsync()
         {
+            //connect to the database get the companies
             using (AppDbContext context = new AppDbContext())
             {
                 var companies = await context.Companies.ToListAsync();
@@ -50,6 +53,7 @@ namespace Barroc_Intens.Sales
 
         private void LoadNotes()
         {
+            //load notes from the databse
             using (AppDbContext context = new AppDbContext())
             {
                 if (User.LoggedInUser == null)
@@ -59,12 +63,10 @@ namespace Barroc_Intens.Sales
  
                 var companies = User.LoggedInUser.Companies;
 
-                int companyId = (companies != null && companies.Any()) ? companies.First().Id : 0;
-
                 int userId = User.LoggedInUser.Id;
     
                 var notes = context.Notes
-                    .Where(note => note.CompanyId == companyId && note.UserId == userId)
+                    .Where(note =>  note.UserId == userId)
                     .ToList(); 
 
                 NotesCollection.Clear();
@@ -78,6 +80,7 @@ namespace Barroc_Intens.Sales
 
         private async void SaveNoteButton_Click(object sender, RoutedEventArgs e)
         {
+            //create a new note
             string content = ContentInput.Text;
             DateTime date = DatePickerInput.Date.DateTime;
 
@@ -99,6 +102,7 @@ namespace Barroc_Intens.Sales
                 UserId = User.LoggedInUser.Id
             };
 
+            //save to note to database
             using (var context = new AppDbContext())
             {
                 context.Notes.Add(newNote);
