@@ -25,7 +25,7 @@
             <!-- Customer selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Involved Customer" />
-                <ComboBox x:Name="FCustomer" />
+                <ComboBox x:Name="FCustomer" DisplayMemberPath="Name" />
             </StackPanel>
             
             <!-- Selected employees -->
@@ -42,7 +42,7 @@
             <!-- Employee selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Employee Selector" />
-                <ComboBox x:Name="FEmployee" SelectionChanged="FEmployee_SelectionChanged" />
+                <ComboBox x:Name="FEmployee" SelectionChanged="FEmployee_SelectionChanged" DisplayMemberPath="Name" />
             </StackPanel>
 
             <StackPanel Padding="5">
