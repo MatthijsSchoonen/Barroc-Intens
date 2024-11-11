@@ -16,6 +16,7 @@ using Windows.Foundation.Collections;
 using Barroc_Intens.Dashboards;
 using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
+using Barroc_Intens.Maintenance;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -112,6 +113,11 @@ namespace Barroc_Intens
             if (completeTerm == "WorkOrder")
             {
                 contentFrame.Navigate(typeof(WorkOrder));
+                return;
+            }
+            if( completeTerm == "VisitCreate")
+            {
+                contentFrame.Navigate(typeof(VisitCreate));
                 return;
             }
             if(completeTerm == "logout")
