@@ -51,7 +51,7 @@ namespace Barroc_Intens.Maintenance
             // Set ObservableCollections as Itemsources for UI elements.
             FEmployee.ItemsSource = maintenanceEmployees;
             FCustomer.ItemsSource = companies;
-
+            FSelectedEmployees.ItemsSource = selectedEmployees;
         }
 
         // Validation and store into DB
@@ -63,9 +63,18 @@ namespace Barroc_Intens.Maintenance
         // Remove employee from ComboBox source and display elsewhere in UI
         private void FEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            User selectedEmployee = (User)FEmployee.SelectedItem;
-            maintenanceEmployees.Remove(selectedEmployee);
-            selectedEmployees.Add(selectedEmployee);
+            // Check if there's a valid selected item before proceeding
+            if (FEmployee.SelectedItem is User selectedEmployee)
+            {
+                // Remove the selected employee from maintenanceEmployees
+                maintenanceEmployees.Remove(selectedEmployee);
+
+                // Add the selected employee to selectedEmployees
+                selectedEmployees.Add(selectedEmployee);
+
+                // Clear the selection to avoid re-triggering the selection change
+                FEmployee.SelectedItem = null;
+            }
 
         }
 

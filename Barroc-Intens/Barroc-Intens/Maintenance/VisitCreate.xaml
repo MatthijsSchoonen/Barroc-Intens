@@ -22,6 +22,10 @@
                 <DatePicker x:Name="FDateOfVisit" />
             </StackPanel>
 
+            <!-- Description -->
+            <StackPanel Padding="5">
+                <TextBox x:Name="FDescription" AcceptsReturn="True" HorizontalAlignment="Stretch" />
+            </StackPanel>
             <!-- Customer selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Involved Customer" />
@@ -29,10 +33,10 @@
             </StackPanel>
             
             <!-- Selected employees -->
-            <GridView Grid.Row="0" x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
+            <GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:User">
-                        <StackPanel Background="#d8d8d8" Padding="2" Margin="3" Width="400" Height="370" >
+                        <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
                             <TextBlock Text="{x:Bind Name}"/>
                         </StackPanel>
                     </DataTemplate>
