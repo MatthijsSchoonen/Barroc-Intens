@@ -18,14 +18,55 @@
         <StackPanel Margin="15">
             <!-- Date of Visit -->
             <StackPanel Padding="5" >
-                <TextBlock Text="Date of Visit" />
-                <DatePicker x:Name="FDateOfVisit" />
+                <TextBlock Text="The start date of Visit" />
+                <DatePicker x:Name="FVisitStart" />
             </StackPanel>
 
+            <StackPanel Padding="5">
+                <TextBlock Text="End of Visit" />
+                <DatePicker x:Name="FVisitEnd" />
+            </StackPanel>
+            <!-- Product of interest selector -->
+            <StackPanel Padding="5">
+                <TextBlock Text="Product of interest"/>
+                <ComboBox x:Name="FProductOfInterest" DisplayMemberPath="Name" SelectionChanged="FProductOfInterest_SelectionChanged" />
+            </StackPanel>
+
+            <!-- Selected compartments -->
+            <GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
+                            <TextBlock Text="{x:Bind Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <!-- Compartment selector-->
+            <StackPanel Padding="5">
+                <TextBlock Text="Components" />
+                <ComboBox x:Name="FCompartments" DisplayMemberPath="Name" SelectionChanged="FCompartments_SelectionChanged" />
+            </StackPanel>
+            
+            
             <!-- Description -->
             <StackPanel Padding="5">
                 <TextBox x:Name="FDescription" AcceptsReturn="True" HorizontalAlignment="Stretch" />
             </StackPanel>
+
+            <!-- Status -->
+            <StackPanel Padding="5">
+                <TextBlock Text="Ticket Status" />
+                <ComboBox x:Name="FStatus">
+                    <ComboBoxItem Content="To do" Tag="0" />
+                    <ComboBoxItem Content="In Progress" Tag="1" />
+                    <ComboBoxItem Content="Done" Tag="2" />
+                </ComboBox>
+            </StackPanel>
+            
+            
+            
             <!-- Customer selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Involved Customer" />

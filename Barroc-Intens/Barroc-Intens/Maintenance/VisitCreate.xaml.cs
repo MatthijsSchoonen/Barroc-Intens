@@ -57,7 +57,11 @@ namespace Barroc_Intens.Maintenance
         // Validation and store into DB
         private void FOnSubmit_Click(object sender, RoutedEventArgs e)
         {
+            // Check if start does not exceed end
+            DateTimeOffset startDate = FVisitStart.Date;
+            DateTimeOffset endDate = FVisitEnd.Date;
 
+            // other inputs and other methods.
         }
 
         // Remove employee from ComboBox source and display elsewhere in UI
@@ -84,6 +88,16 @@ namespace Barroc_Intens.Maintenance
             User selectedUser = (User)e.ClickedItem;
             selectedEmployees.Remove(selectedUser);
             maintenanceEmployees.Add(selectedUser);
+        }
+
+        private void FProductOfInterest_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void FCompartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
