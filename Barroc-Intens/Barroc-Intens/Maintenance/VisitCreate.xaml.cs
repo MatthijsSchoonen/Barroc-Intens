@@ -28,7 +28,11 @@ namespace Barroc_Intens.Maintenance
         private ObservableCollection<User> maintenanceEmployees = [];
         private ObservableCollection<User> selectedEmployees = [];
         private ObservableCollection<Company> companies = [];
-        
+        private ObservableCollection<Product> products = [];
+        private ObservableCollection<Product> compartments = [];
+        private ObservableCollection<Product> selectedCompartments = [];
+
+        private Product productOfInterest;
         public VisitCreate()
         {
             this.InitializeComponent();
@@ -37,7 +41,7 @@ namespace Barroc_Intens.Maintenance
                 // Only retrieve maintenance employees, but all companies
                 List<User> retrievedUsers = dbContext.Users.Where(u => u.DepartmentId == 3).ToList();
                 List<Company> retrievedCompanies = dbContext.Companies.ToList();
-
+                List<Product> retrievedProducts = dbContext.Products.ToList();
                 // Did not find a way to properly set elements in ObservableCollections, so use foreach loops.
                 foreach (User user in retrievedUsers)
                 {
@@ -47,11 +51,18 @@ namespace Barroc_Intens.Maintenance
                 {
                     companies.Add(company);
                 }
+                foreach (Product p in retrievedProducts)
+                {
+                    products.Add(p);
+                    compartments.Add(p);
+                }
             }
             // Set ObservableCollections as Itemsources for UI elements.
             FEmployee.ItemsSource = maintenanceEmployees;
             FCustomer.ItemsSource = companies;
             FSelectedEmployees.ItemsSource = selectedEmployees;
+            FCompartments.ItemsSource = this.compartments;
+            FProductOfInterest.ItemsSource = products;
         }
 
         // Validation and store into DB
@@ -60,8 +71,32 @@ namespace Barroc_Intens.Maintenance
             // Check if start does not exceed end
             DateTimeOffset startDate = FVisitStart.Date;
             DateTimeOffset endDate = FVisitEnd.Date;
+            string description = FDescription.Text;
+            if (startDate > endDate) {
+                StartDateError.Text = "Start date cannot exceed end date, please check the input fields";
+                return;
+            }
+            if (endDate < startDate) {
+                EndDateError.Text = "End date cannot take place before the start";
+                return;
+            }
 
-            // other inputs and other methods.
+            if(this.productOfInterest == null)
+            {
+                ProductOfInterestError.Text = "Please select a product of interest (like a product where something broke or requires maintenance)";
+                return;
+            }
+            
+            if(selectedCompartments.Count < 1)
+            {
+                CompartmentsError.Text = "Please select one or more parts";
+                return;
+            }
+
+            if(description.Length < 1)
+            {
+                DescriptionError.Text = "Please enter a description (provide more information about the visit, possibly some important notes)";
+            }
         }
 
         // Remove employee from ComboBox source and display elsewhere in UI
@@ -92,12 +127,35 @@ namespace Barroc_Intens.Maintenance
 
         private void FProductOfInterest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            this.productOfInterest = (Product)FProductOfInterest.SelectedItem;
         }
 
         private void FCompartments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Check if there's a valid selected item before proceeding
+            if (FCompartments.SelectedItem is Product selectedCompartment)
+            {
+                // Remove the selected employee from maintenanceEmployees
+                compartments.Remove(selectedCompartment);
+
+                // Add the selected employee to selectedEmployees
+                selectedCompartments.Add(selectedCompartment);
+
+                // Clear the selection to avoid re-triggering the selection change
+                FCompartments.SelectedItem = null;
+            }
+        }
+        private void FSelectedCompartments_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Product selectedProduct = e.ClickedItem as Product;
+            selectedCompartments.Remove(selectedProduct);
+            compartments.Add(selectedProduct);
+        }
+        private void FCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
+
+
     }
 }

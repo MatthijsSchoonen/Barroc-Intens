@@ -20,20 +20,25 @@
             <StackPanel Padding="5" >
                 <TextBlock Text="The start date of Visit" />
                 <DatePicker x:Name="FVisitStart" />
+                <TextBlock Foreground="Red" x:Name="StartDateError" />
             </StackPanel>
-
+             
+            <!-- End of Visit -->
             <StackPanel Padding="5">
                 <TextBlock Text="End of Visit" />
                 <DatePicker x:Name="FVisitEnd" />
+                <TextBlock Foreground="Red" x:Name="EndDateError"/>
             </StackPanel>
+            
             <!-- Product of interest selector -->
             <StackPanel Padding="5">
                 <TextBlock Text="Product of interest"/>
                 <ComboBox x:Name="FProductOfInterest" DisplayMemberPath="Name" SelectionChanged="FProductOfInterest_SelectionChanged" />
+                <TextBlock Foreground="Red" x:Name="ProductOfInterestError" />
             </StackPanel>
 
             <!-- Selected compartments -->
-            <GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
+            <GridView x:Name="FSelectedCompartments" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedCompartments_ItemClick" >
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Product">
                         <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
@@ -47,12 +52,14 @@
             <StackPanel Padding="5">
                 <TextBlock Text="Components" />
                 <ComboBox x:Name="FCompartments" DisplayMemberPath="Name" SelectionChanged="FCompartments_SelectionChanged" />
+                <TextBlock x:Name="CompartmentsError" Foreground="Red" />
             </StackPanel>
             
             
             <!-- Description -->
             <StackPanel Padding="5">
                 <TextBox x:Name="FDescription" AcceptsReturn="True" HorizontalAlignment="Stretch" />
+                <TextBlock x:Name="DescriptionError" Foreground="Red" />
             </StackPanel>
 
             <!-- Status -->
@@ -70,7 +77,7 @@
             <!-- Customer selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Involved Customer" />
-                <ComboBox x:Name="FCustomer" DisplayMemberPath="Name" />
+                <ComboBox x:Name="FCustomer" DisplayMemberPath="Name" SelectionChanged="FCustomer_SelectionChanged" />
             </StackPanel>
             
             <!-- Selected employees -->
