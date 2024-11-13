@@ -31,11 +31,12 @@ namespace Barroc_Intens.Maintenance
         private ObservableCollection<Product> products = [];
         private ObservableCollection<Product> compartments = [];
         private ObservableCollection<Product> selectedCompartments = [];
-
+        private User loggedInUser = new();
         private Product productOfInterest;
-        public VisitCreate()
+        public VisitCreate(User loggedInUser)
         {
             this.InitializeComponent();
+            this.loggedInUser = loggedInUser;
             // Retrieve items and add them to ObservableCollection
             using (AppDbContext dbContext = new AppDbContext()) {
                 // Only retrieve maintenance employees, but all companies
@@ -72,6 +73,16 @@ namespace Barroc_Intens.Maintenance
             DateTimeOffset startDate = FVisitStart.Date;
             DateTimeOffset endDate = FVisitEnd.Date;
             string description = FDescription.Text;
+            if (FCustomer.SelectedItem == null) {
+                CustomerError.Text = "Please select a customer.";
+            }
+            Company customerCompany = FCustomer.SelectedItem as Company;
+            if(FStatus.SelectedIndex == -1)
+            {
+                StatusError.Text = "Please select a status.";
+                return;
+            }
+            int status = FStatus.SelectedIndex;
             if (startDate > endDate) {
                 StartDateError.Text = "Start date cannot exceed end date, please check the input fields";
                 return;
@@ -96,6 +107,34 @@ namespace Barroc_Intens.Maintenance
             if(description.Length < 1)
             {
                 DescriptionError.Text = "Please enter a description (provide more information about the visit, possibly some important notes)";
+                return;
+            }
+
+            if (status < 3 && status > 0)
+            {
+                StatusError.Text = "Select a valid status.";
+                return;
+            }
+
+            if (selectedEmployees.Count < 1) {
+                EmployeeError.Text = "Select one or more employees.";
+                return;
+            }
+
+            using (AppDbContext dbContext = new AppDbContext()) {
+                MaintenanceAppointment newApp = new();
+                newApp.Product = this.productOfInterest;
+                newApp.User = this.loggedInUser;
+                newApp.Company = customerCompany;
+                newApp.Description = description;
+                newApp.Status = status;
+                newApp.DateAdded = DateTime.Now;
+                newApp.StartTime = startDate.UtcDateTime;
+                newApp.EndTime = endDate.UtcDateTime;
+                newApp.Products = selectedCompartments;
+                dbContext.MaintenanceAppointments.Add(newApp);
+                dbContext.SaveChanges();
+
             }
         }
 

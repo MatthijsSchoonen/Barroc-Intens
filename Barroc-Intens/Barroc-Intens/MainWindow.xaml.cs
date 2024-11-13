@@ -117,7 +117,7 @@ namespace Barroc_Intens
             }
             if( completeTerm == "VisitCreate")
             {
-                contentFrame.Navigate(typeof(VisitCreate));
+                contentFrame.Navigate(typeof(VisitCreate),this.loggedInUser);
                 return;
             }
             if(completeTerm == "logout")

@@ -70,6 +70,7 @@
                     <ComboBoxItem Content="In Progress" Tag="1" />
                     <ComboBoxItem Content="Done" Tag="2" />
                 </ComboBox>
+                <TextBlock x:Name="StatusError" Foreground="Red" />
             </StackPanel>
             
             
@@ -78,6 +79,7 @@
             <StackPanel Padding="5" >
                 <TextBlock Text="Involved Customer" />
                 <ComboBox x:Name="FCustomer" DisplayMemberPath="Name" SelectionChanged="FCustomer_SelectionChanged" />
+                <TextBlock x:Name="CustomerError" Foreground="Red" />
             </StackPanel>
             
             <!-- Selected employees -->
@@ -95,11 +97,13 @@
             <StackPanel Padding="5" >
                 <TextBlock Text="Employee Selector" />
                 <ComboBox x:Name="FEmployee" SelectionChanged="FEmployee_SelectionChanged" DisplayMemberPath="Name" />
+                <TextBlock x:Name="EmployeeError" Foreground="Red" />
             </StackPanel>
 
             <StackPanel Padding="5">
                 <TextBlock Text="Submit" />
                 <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                
             </StackPanel>
         </StackPanel>
 
