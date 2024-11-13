@@ -29,6 +29,7 @@ namespace Barroc_Intens
     {
         private bool isLoggedIn = false;
         private User loggedInUser;
+        NavigationView navView = new NavigationView();
 
         public MainWindow()
         {
@@ -38,6 +39,45 @@ namespace Barroc_Intens
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             ShowLoginPage();
+            LoadNav();
+        }
+
+        private void LoadNav()
+        {
+            PurchaseLinks.Visibility = Visibility.Collapsed;
+            MaintenanceLinks.Visibility = Visibility.Collapsed;
+            SalesLinks.Visibility = Visibility.Collapsed;
+            PurchaseLinks.Visibility = Visibility.Collapsed;
+
+            if (loggedInUser == null)
+            {
+                LoginLinks.Visibility = Visibility.Visible;
+                LogoutLinks.Visibility = Visibility.Collapsed;
+                return;
+            }
+            LogoutLinks.Visibility = Visibility.Visible;
+            LoginLinks.Visibility = Visibility.Collapsed;
+            if (loggedInUser.Department.Type == "Purchase")
+            {
+                PurchaseLinks.Visibility = Visibility.Visible;
+                return;
+            }
+            if (loggedInUser.Department.Type == "Maintenance")
+            {
+                MaintenanceLinks.Visibility = Visibility.Visible;
+                return;
+            }
+            if (loggedInUser.Department.Type == "Sales")
+            {
+                SalesLinks.Visibility = Visibility.Visible;
+                return;
+            }
+            if (loggedInUser.Department.Type == "Purchase")
+            {
+                PurchaseLinks.Visibility = Visibility.Visible;
+                return;
+            }
+
         }
 
         private void ShowLoginPage()
@@ -59,6 +99,7 @@ namespace Barroc_Intens
             loggedInUser = user;
             NavItemBackToDashboard.Tag = $"Barroc_Intens.Dashboards.{loggedInUser.Department.Type}";
             SwitchPage(user.Department.Type, "Barroc_Intens.Dashboards");
+            LoadNav();
         }
 
         // Gets executed once the selection is changed in the navmenu. 
@@ -121,6 +162,7 @@ namespace Barroc_Intens
                 this.loggedInUser = null;
                 this.isLoggedIn = false;
                 ShowLoginPage();
+                LoadNav();
                 return;
             }
 
