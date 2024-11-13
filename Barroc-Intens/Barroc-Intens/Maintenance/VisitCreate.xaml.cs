@@ -27,7 +27,7 @@ namespace Barroc_Intens.Maintenance
     public sealed partial class VisitCreate : Page
     {
         private ObservableCollection<User> maintenanceEmployees = new ObservableCollection<User>();
-        private ObservableCollection<User> selectedEmployees = new ObservableCollection<User>();
+        //private ObservableCollection<User> selectedEmployees = new ObservableCollection<User>();
         private ObservableCollection<Company> companies = new ObservableCollection<Company>();
         private ObservableCollection<Product> products = new ObservableCollection<Product>();
         private ObservableCollection<Product> compartments = new ObservableCollection<Product>();
@@ -71,7 +71,7 @@ namespace Barroc_Intens.Maintenance
 
                 FEmployee.ItemsSource = maintenanceEmployees;
                 FCustomer.ItemsSource = companies;
-                FSelectedEmployees.ItemsSource = selectedEmployees;
+                //FSelectedEmployees.ItemsSource = selectedEmployees;
                 FCompartments.ItemsSource = compartments;
                 FProductOfInterest.ItemsSource = products;
                 FSelectedCompartments.ItemsSource = selectedCompartments;
@@ -149,15 +149,33 @@ namespace Barroc_Intens.Maintenance
                 return;
             }
 
-            if (selectedEmployees.Count < 1) {
-                EmployeeError.Text = "Select one or more employees.";
-                return;
+            //if (selectedEmployees.Count < 1) {
+            //    EmployeeError.Text = "Select one or more employees.";
+            //    return;
+            //}
+            if (FEmployee.SelectedItem == null)
+            {
+                EmployeeError.Text = "Please select a user";
             }
+            User attachedUser = FEmployee.SelectedItem as User;
 
             using (AppDbContext dbContext = new AppDbContext()) {
                 MaintenanceAppointment newApp = new();
+
+                //newApp.User = null;
+                //newApp.Products = null;
+                //newApp.Company = null;
+                //newApp.Product = null;
+                dbContext.Attach(customerCompany);
+                dbContext.Attach(attachedUser);
+                dbContext.Attach(productOfInterest);
+                foreach (Product product in selectedCompartments) 
+                { 
+                    dbContext.Attach(product);
+                }
+
                 newApp.Product = this.productOfInterest;
-                newApp.User = this.loggedInUser;
+                newApp.User = attachedUser;
                 newApp.Company = customerCompany;
                 newApp.Description = description;
                 newApp.Status = status;
@@ -166,36 +184,15 @@ namespace Barroc_Intens.Maintenance
                 newApp.EndTime = endDate.UtcDateTime;
                 newApp.Products = selectedCompartments;
                 dbContext.MaintenanceAppointments.Add(newApp);
+                //newApp.User = attachedUser;
+                //newApp.Products = selectedCompartments.ToArray();
+                Debug.WriteLine(newApp.ToString());
                 dbContext.SaveChanges();
 
             }
         }
 
-        // Remove employee from ComboBox source and display elsewhere in UI
-        private void FEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Check if there's a valid selected item before proceeding
-            if (FEmployee.SelectedItem is User selectedEmployee)
-            {
-                // Remove the selected employee from maintenanceEmployees
-                maintenanceEmployees.Remove(selectedEmployee);
 
-                // Add the selected employee to selectedEmployees
-                selectedEmployees.Add(selectedEmployee);
-
-                // Clear the selection to avoid re-triggering the selection change
-                FEmployee.SelectedItem = null;
-            }
-
-        }
-
-        // Removes employee from selectedEmployees and move it back to ComboBox
-        private void FSelectedEmployees_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            User selectedUser = (User)e.ClickedItem;
-            selectedEmployees.Remove(selectedUser);
-            maintenanceEmployees.Add(selectedUser);
-        }
 
         private void FProductOfInterest_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -236,5 +233,60 @@ namespace Barroc_Intens.Maintenance
         {
             StartDateError.Text = FVisitStartTime.Time.ToString();
         }
+
+        private void FVisitStart_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            FVisitEnd.SelectedDateChanged -= FVisitEnd_SelectedDateChanged;
+            FVisitEnd.Date = FVisitStart.Date;
+            FVisitEnd.SelectedDateChanged += FVisitEnd_SelectedDateChanged;
+        }
+
+        private void FVisitStartTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
+        {
+            FVisitEndTime.SelectedTimeChanged -= FVisitEndTime_SelectedTimeChanged;
+            FVisitEndTime.Time = FVisitStartTime.Time.Add(new TimeSpan(0,30,0));
+            FVisitEndTime.SelectedTimeChanged += FVisitEndTime_SelectedTimeChanged;
+
+        }
+
+        private void FVisitEnd_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            FVisitStart.SelectedDateChanged-= FVisitStart_SelectedDateChanged;
+            FVisitStart.Date = FVisitEnd.Date;
+            FVisitStart.SelectedDateChanged += FVisitStart_SelectedDateChanged;
+        }
+
+        private void FVisitEndTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
+        {
+            FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
+            FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0,30,0));
+            FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+        }
+
+        // Remove employee from ComboBox source and display elsewhere in UI
+        //private void FEmployee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    // Check if there's a valid selected item before proceeding
+        //    if (FEmployee.SelectedItem is User selectedEmployee)
+        //    {
+        //        // Remove the selected employee from maintenanceEmployees
+        //        maintenanceEmployees.Remove(selectedEmployee);
+
+        //        // Add the selected employee to selectedEmployees
+        //        selectedEmployees.Add(selectedEmployee);
+
+        //        // Clear the selection to avoid re-triggering the selection change
+        //        FEmployee.SelectedItem = null;
+        //    }
+
+        //}
+
+        // Removes employee from selectedEmployees and move it back to ComboBox
+        //private void FSelectedEmployees_ItemClick(object sender, ItemClickEventArgs e)
+        //{
+        //    User selectedUser = (User)e.ClickedItem;
+        //    selectedEmployees.Remove(selectedUser);
+        //    maintenanceEmployees.Add(selectedUser);
+        //}
     }
 }

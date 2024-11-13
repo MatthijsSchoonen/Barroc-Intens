@@ -19,17 +19,17 @@
             <!-- Start Date of Visit -->
             <StackPanel Padding="5" >
                 <TextBlock Text="The start date of Visit" />
-                <DatePicker x:Name="FVisitStart" />
-                <TimePicker x:Name="FVisitStartTime" />
+                <DatePicker x:Name="FVisitStart" SelectedDateChanged="FVisitStart_SelectedDateChanged"  />
+                <TimePicker x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
                 <TextBlock Foreground="Red" x:Name="StartDateError" />
-                <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" />
+               <!-- <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" Content="Print value in ErrorBox"  />-->
             </StackPanel>
              
             <!-- End of Visit -->
             <StackPanel Padding="5">
                 <TextBlock Text="End of Visit" />
-                <DatePicker x:Name="FVisitEnd" />
-                <TimePicker x:Name="FVisitEndTime" />
+                <DatePicker x:Name="FVisitEnd" SelectedDateChanged="FVisitEnd_SelectedDateChanged" />
+                <TimePicker x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
                 <TextBlock Foreground="Red" x:Name="EndDateError"/>
             </StackPanel>
             
@@ -86,7 +86,7 @@
             </StackPanel>
             
             <!-- Selected employees -->
-            <GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
+            <!--<GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:User">
                         <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
@@ -94,12 +94,13 @@
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
-            </GridView>
+            </GridView>-->
             
             <!-- Employee selector -->
             <StackPanel Padding="5" >
                 <TextBlock Text="Employee Selector" />
-                <ComboBox x:Name="FEmployee" SelectionChanged="FEmployee_SelectionChanged" DisplayMemberPath="Name" />
+                <ComboBox x:Name="FEmployee" DisplayMemberPath="Name" />
+                <!--  SelectionChanged="FEmployee_SelectionChanged" -->
                 <TextBlock x:Name="EmployeeError" Foreground="Red" />
             </StackPanel>
 
