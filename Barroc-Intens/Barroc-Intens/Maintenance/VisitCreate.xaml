@@ -13,20 +13,23 @@
     <StackPanel Padding="5">
         <TextBlock FontSize="24" FontWeight="Bold" Text="Create Customer visit" />
         <TextBlock FontSize="18" FontStyle="Italic" Text="Maintenance"/>
-
+        <TextBlock x:Name="DebugTb" Foreground="Red" />
         <!-- Inputs -->
         <StackPanel Margin="15">
-            <!-- Date of Visit -->
+            <!-- Start Date of Visit -->
             <StackPanel Padding="5" >
                 <TextBlock Text="The start date of Visit" />
                 <DatePicker x:Name="FVisitStart" />
+                <TimePicker x:Name="FVisitStartTime" />
                 <TextBlock Foreground="Red" x:Name="StartDateError" />
+                <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" />
             </StackPanel>
              
             <!-- End of Visit -->
             <StackPanel Padding="5">
                 <TextBlock Text="End of Visit" />
                 <DatePicker x:Name="FVisitEnd" />
+                <TimePicker x:Name="FVisitEndTime" />
                 <TextBlock Foreground="Red" x:Name="EndDateError"/>
             </StackPanel>
             

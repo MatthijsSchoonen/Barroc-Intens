@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Barroc_Intens.Data;
 using System.Collections.ObjectModel;
 using Barroc_Intens.Dashboards;
+using System.Diagnostics;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -25,45 +26,60 @@ namespace Barroc_Intens.Maintenance
     /// </summary>
     public sealed partial class VisitCreate : Page
     {
-        private ObservableCollection<User> maintenanceEmployees = [];
-        private ObservableCollection<User> selectedEmployees = [];
-        private ObservableCollection<Company> companies = [];
-        private ObservableCollection<Product> products = [];
-        private ObservableCollection<Product> compartments = [];
-        private ObservableCollection<Product> selectedCompartments = [];
-        private User loggedInUser = new();
+        private ObservableCollection<User> maintenanceEmployees = new ObservableCollection<User>();
+        private ObservableCollection<User> selectedEmployees = new ObservableCollection<User>();
+        private ObservableCollection<Company> companies = new ObservableCollection<Company>();
+        private ObservableCollection<Product> products = new ObservableCollection<Product>();
+        private ObservableCollection<Product> compartments = new ObservableCollection<Product>();
+        private ObservableCollection<Product> selectedCompartments = new ObservableCollection<Product>();
+
+        private User loggedInUser;
         private Product productOfInterest;
-        public VisitCreate(User loggedInUser)
+
+        public VisitCreate()
         {
             this.InitializeComponent();
-            this.loggedInUser = loggedInUser;
-            // Retrieve items and add them to ObservableCollection
-            using (AppDbContext dbContext = new AppDbContext()) {
-                // Only retrieve maintenance employees, but all companies
-                List<User> retrievedUsers = dbContext.Users.Where(u => u.DepartmentId == 3).ToList();
-                List<Company> retrievedCompanies = dbContext.Companies.ToList();
-                List<Product> retrievedProducts = dbContext.Products.ToList();
-                // Did not find a way to properly set elements in ObservableCollections, so use foreach loops.
-                foreach (User user in retrievedUsers)
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is User user)
+            {
+                loggedInUser = user;
+                DebugTb.Text = loggedInUser.Name;
+
+                using (AppDbContext dbContext = new AppDbContext())
                 {
-                    maintenanceEmployees.Add(user);
+                    List<User> retrievedUsers = dbContext.Users.Where(u => u.DepartmentId == 3).ToList();
+                    List<Company> retrievedCompanies = dbContext.Companies.ToList();
+                    List<Product> retrievedProducts = dbContext.Products.ToList();
+
+                    foreach (User employee in retrievedUsers)
+                    {
+                        maintenanceEmployees.Add(employee);
+                    }
+                    foreach (Company company in retrievedCompanies)
+                    {
+                        companies.Add(company);
+                    }
+                    foreach (Product product in retrievedProducts)
+                    {
+                        products.Add(product);
+                        compartments.Add(product);
+                    }
                 }
-                foreach (Company company in retrievedCompanies)
-                {
-                    companies.Add(company);
-                }
-                foreach (Product p in retrievedProducts)
-                {
-                    products.Add(p);
-                    compartments.Add(p);
-                }
+
+                FEmployee.ItemsSource = maintenanceEmployees;
+                FCustomer.ItemsSource = companies;
+                FSelectedEmployees.ItemsSource = selectedEmployees;
+                FCompartments.ItemsSource = compartments;
+                FProductOfInterest.ItemsSource = products;
+                FSelectedCompartments.ItemsSource = selectedCompartments;
             }
-            // Set ObservableCollections as Itemsources for UI elements.
-            FEmployee.ItemsSource = maintenanceEmployees;
-            FCustomer.ItemsSource = companies;
-            FSelectedEmployees.ItemsSource = selectedEmployees;
-            FCompartments.ItemsSource = this.compartments;
-            FProductOfInterest.ItemsSource = products;
+            else
+            {
+                Debug.WriteLine("Invalid navigation parameter.");
+            }
         }
 
         // Validation and store into DB
@@ -72,17 +88,34 @@ namespace Barroc_Intens.Maintenance
             // Check if start does not exceed end
             DateTimeOffset startDate = FVisitStart.Date;
             DateTimeOffset endDate = FVisitEnd.Date;
+            Company customerCompany = FCustomer.SelectedItem as Company;
+            TimeSpan startTime = FVisitStartTime.Time;
+            TimeSpan endTime = FVisitEndTime.Time;
+            startDate += startTime;
+            endDate += endTime;
             string description = FDescription.Text;
+            int status = FStatus.SelectedIndex;
+
             if (FCustomer.SelectedItem == null) {
                 CustomerError.Text = "Please select a customer.";
             }
-            Company customerCompany = FCustomer.SelectedItem as Company;
             if(FStatus.SelectedIndex == -1)
             {
                 StatusError.Text = "Please select a status.";
                 return;
             }
-            int status = FStatus.SelectedIndex;
+
+
+            if (startDate < DateTimeOffset.MinValue)
+            {
+                StartDateError.Text = "Please enter a start date and time";
+                return;
+            }
+            if (endDate < DateTimeOffset.MinValue)
+            {
+                EndDateError.Text = "Please enter a end date and time";
+                return;
+            }
             if (startDate > endDate) {
                 StartDateError.Text = "Start date cannot exceed end date, please check the input fields";
                 return;
@@ -183,6 +216,10 @@ namespace Barroc_Intens.Maintenance
                 // Clear the selection to avoid re-triggering the selection change
                 FCompartments.SelectedItem = null;
             }
+            else
+            {
+                Debug.WriteLine("VisitCreate: No compartment detected in SelectionChanged: "+ FCompartments.SelectedItem);
+            }
         }
         private void FSelectedCompartments_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -195,6 +232,9 @@ namespace Barroc_Intens.Maintenance
 
         }
 
-
+        private void TimeTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartDateError.Text = FVisitStartTime.Time.ToString();
+        }
     }
 }

@@ -51,7 +51,8 @@
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice" />
                     <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder" />
-                <NavigationViewItem Foreground="#f4cd1b" Content="Customer visit" Tag="VisitCreate" />
+                    <NavigationViewItem Foreground="#f4cd1b" Content="Customer visit" Tag="VisitCreate" />
+                    <TextBlock x:Name="DebugTb" Foreground="Red" />
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />
         </NavigationView>

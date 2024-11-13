@@ -17,6 +17,7 @@ using Barroc_Intens.Dashboards;
 using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -117,7 +118,10 @@ namespace Barroc_Intens
             }
             if( completeTerm == "VisitCreate")
             {
-                contentFrame.Navigate(typeof(VisitCreate),this.loggedInUser);
+                //Debug.WriteLine("Logged in user's name: "+loggedInUser.Name);
+                //Debug.WriteLine("ContentFrame: "+ contentFrame);
+                //Debug.WriteLine("Result of TypeOf VisitCreate: " + typeof(VisitCreate));
+                contentFrame.Navigate(typeof(VisitCreate), this.loggedInUser);
                 return;
             }
             if(completeTerm == "logout")
