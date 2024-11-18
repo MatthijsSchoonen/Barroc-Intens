@@ -46,7 +46,6 @@ namespace Barroc_Intens.Maintenance
             if (e.Parameter is User user)
             {
                 loggedInUser = user;
-                DebugTb.Text = loggedInUser.Name;
 
                 using (AppDbContext dbContext = new AppDbContext())
                 {
@@ -85,6 +84,7 @@ namespace Barroc_Intens.Maintenance
         // Validation and store into DB
         private void FOnSubmit_Click(object sender, RoutedEventArgs e)
         {
+           
             // Check if start does not exceed end
             DateTimeOffset startDate = FVisitStart.Date;
             DateTimeOffset endDate = FVisitEnd.Date;
@@ -95,58 +95,60 @@ namespace Barroc_Intens.Maintenance
             endDate += endTime;
             string description = FDescription.Text;
             int status = FStatus.SelectedIndex;
+            bool isValid = true;
 
+            Debug.WriteLine(startTime + " |" + TimeSpan.Zero);
             if (FCustomer.SelectedItem == null) {
                 CustomerError.Text = "Please select a customer.";
             }
             if(FStatus.SelectedIndex == -1)
             {
                 StatusError.Text = "Please select a status.";
-                return;
+                isValid = false;
             }
 
 
-            if (startDate < DateTimeOffset.MinValue)
+            if(!FVisitStart.SelectedDate.HasValue || FVisitStart.SelectedDate == DateTimeOffset.MinValue || startTime <= TimeSpan.Zero)
             {
                 StartDateError.Text = "Please enter a start date and time";
-                return;
+                isValid = false;
             }
-            if (endDate < DateTimeOffset.MinValue)
+            if (!FVisitEnd.SelectedDate.HasValue || FVisitEnd.SelectedDate == DateTimeOffset.MinValue || endTime <= TimeSpan.Zero)
             {
                 EndDateError.Text = "Please enter a end date and time";
-                return;
+                isValid = false;
             }
             if (startDate > endDate) {
                 StartDateError.Text = "Start date cannot exceed end date, please check the input fields";
-                return;
+                isValid = false;
             }
             if (endDate < startDate) {
                 EndDateError.Text = "End date cannot take place before the start";
-                return;
+                isValid = false;
             }
 
             if(this.productOfInterest == null)
             {
                 ProductOfInterestError.Text = "Please select a product of interest (like a product where something broke or requires maintenance)";
-                return;
+                isValid = false;
             }
             
             if(selectedCompartments.Count < 1)
             {
                 CompartmentsError.Text = "Please select one or more parts";
-                return;
+                isValid = false;
             }
 
             if(description.Length < 1)
             {
                 DescriptionError.Text = "Please enter a description (provide more information about the visit, possibly some important notes)";
-                return;
+                isValid = false;
             }
 
-            if (status < 3 && status > 0)
+            if (status < 3 || status > 0)
             {
                 StatusError.Text = "Select a valid status.";
-                return;
+                isValid = false;
             }
 
             //if (selectedEmployees.Count < 1) {
@@ -156,6 +158,13 @@ namespace Barroc_Intens.Maintenance
             if (FEmployee.SelectedItem == null)
             {
                 EmployeeError.Text = "Please select a user";
+                isValid = false;
+            }
+
+            if(!isValid)
+            {
+                FormErrorBox.Text = "One or more fields are not filled in properly. Please make sure everything is correct.";
+                return;
             }
             User attachedUser = FEmployee.SelectedItem as User;
 
