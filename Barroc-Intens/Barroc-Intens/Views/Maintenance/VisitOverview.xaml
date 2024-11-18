@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Views.Maintenance.VisitOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Views.Maintenance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <TextBlock FontSize="30" FontWeight="Bold" Text="Maintenance Visit Overview" />
+        <TextBlock FontStyle="Italic" FontSize="15">
+            <Run Text="Logged in as: "/><Run x:Name="LoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
+        </TextBlock>
+    </StackPanel>
+</Page>
