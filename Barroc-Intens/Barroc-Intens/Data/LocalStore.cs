@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intens.Data
 {
-    internal class LocalStore
+    internal static class LocalStore
     {
-        private User LoggedInUser { get; set; }
+        private static User LoggedInUser { get; set; }
 
-        internal void SetLoggedInUser(User user)
+        internal static void SetLoggedInUser(User user)
         {
-            this.LoggedInUser = user;
+            LoggedInUser = user;
         }
-        internal User GetLoggedInUser()
+        internal static User GetLoggedInUser()
         {
-            return this.LoggedInUser;
+            return LoggedInUser;
         }
     }
 }
