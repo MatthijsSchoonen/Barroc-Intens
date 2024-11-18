@@ -25,6 +25,7 @@
 		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
@@ -118,8 +119,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Maintenance\" />
 	  <Folder Include="Views\Customer\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Maintenance\VisitOverview.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

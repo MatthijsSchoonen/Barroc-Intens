@@ -1,3 +1,4 @@
+using Barroc_Intens.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,9 +24,11 @@ namespace Barroc_Intens.Views.Maintenance
     /// </summary>
     public sealed partial class VisitOverview : Page
     {
+        User LoggedInUser = LocalStore.GetLoggedInUser();
         public VisitOverview()
         {
             this.InitializeComponent();
+            RnLoggedInUser.Text = LoggedInUser.Name.ToString();
         }
     }
 }

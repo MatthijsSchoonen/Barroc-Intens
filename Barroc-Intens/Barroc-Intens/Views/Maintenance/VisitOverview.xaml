@@ -9,10 +9,13 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel>
+    <StackPanel Padding="10" >
+        <!-- Header with page information  -->
         <TextBlock FontSize="30" FontWeight="Bold" Text="Maintenance Visit Overview" />
         <TextBlock FontStyle="Italic" FontSize="15">
-            <Run Text="Logged in as: "/><Run x:Name="LoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
+            <Run Text="Logged in as: "/><Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
         </TextBlock>
+        
+        
     </StackPanel>
 </Page>
