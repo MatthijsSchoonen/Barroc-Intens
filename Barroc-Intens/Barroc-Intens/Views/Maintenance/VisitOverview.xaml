@@ -6,6 +6,7 @@
     xmlns:local="using:Barroc_Intens.Views.Maintenance"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="Barroc_Intens.Data"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -15,7 +16,15 @@
         <TextBlock FontStyle="Italic" FontSize="15">
             <Run Text="Logged in as: "/><Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
         </TextBlock>
-        
-        
+
+        <!-- <GridView x:Name="GvWeekOverview" >
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="DateTime" >
+                    <StackPanel Background="#9a9a9a" Padding="9" Margin="2" CornerRadius="10" Width="200"  >
+                        <TextBlock x:Bind=""
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>-->
     </StackPanel>
 </Page>
