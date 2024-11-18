@@ -27,24 +27,35 @@ namespace Barroc_Intens.Views.Maintenance
     public sealed partial class VisitOverview : Page
     {
         User LoggedInUser = LocalStore.GetLoggedInUser();
-        List<DateTime> DaysOfTheWeek = new();
         ObservableCollection<MaintenanceDaySchedule> MaintenanceDaySchedules = new ObservableCollection<MaintenanceDaySchedule>();
         ObservableCollection<MaintenanceAppointment> Visits = new ObservableCollection<MaintenanceAppointment>();
 
         public VisitOverview()
         {
             this.InitializeComponent();
-            RnLoggedInUser.Text = LoggedInUser.Name.ToString();
-            DaysOfTheWeek = CalculateDaysOfTWeek();
-            using (AppDbContext dbContext = new AppDbContext())
-            {
-                Visits = (ObservableCollection<MaintenanceAppointment>)dbContext.MaintenanceAppointments.Where(m => m.User.Id == LoggedInUser.Id);
-            }
-            //GvWeekOverview.ItemsSource = DaysOfTheWeek;
-
-
+            PreparePage();
         }
 
+        private void PreparePage()
+        {
+            RnLoggedInUser.Text = LoggedInUser.Name.ToString();
+            SetVisits();
+            MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek());
+            GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
+        }
+        private void SetVisits()
+        {
+            using (AppDbContext dbContext = new AppDbContext())
+            {
+
+                // Gathers all Visits and put them in an ObservbleCollection
+                List<MaintenanceAppointment> visits = dbContext.MaintenanceAppointments.Where(m => m.User.Id == LoggedInUser.Id).ToList();
+                foreach (MaintenanceAppointment visit in visits)
+                {
+                    Visits.Add(visit);
+                }
+            }
+        }
         private List<DateTime> CalculateDaysOfTWeek()
         {
             DateTime currentDate = DateTime.Now;
@@ -68,20 +79,34 @@ namespace Barroc_Intens.Views.Maintenance
             {
                 daysOfTheWeek.Add(startOfWeek.AddDays(i));
             }
-            foreach (DateTime day in daysOfTheWeek) {
-                MaintenanceDaySchedule daySchedle = new();
-                daySchedle.Year = day.Year;
-                daySchedle.Month = day.Month;
-                daySchedle.DayOfTheWeek = day.DayOfWeek;
-                daySchedle.Appointments = (ObservableCollection<MaintenanceAppointment>)Visits.Where(v => v.StartTime.Day == day.Day);
-                MaintenanceDaySchedules.Add(daySchedle);
 
-            }
             return daysOfTheWeek;
             //foreach (DateTime day in daysOfTheWeek)
             //{
             //    Debug.WriteLine($"{day.ToString("dddd")}: {day.ToString("dd MMMM yyyy")}");
             //}
+        }
+
+        private ObservableCollection<MaintenanceDaySchedule> CreateDaySchedules(List<DateTime> daysOfTheWeek)
+        {
+            ObservableCollection<MaintenanceDaySchedule> daySchedules = new();
+            foreach (DateTime day in daysOfTheWeek)
+            {
+                List<MaintenanceAppointment> visitsOfTheDay = Visits.Where(v => v.StartTime.Day == day.Day).ToList();
+                MaintenanceDaySchedule daySchedle = new();
+                daySchedle.Year = day.Year;
+                daySchedle.Month = day.Month;
+                daySchedle.DayOfTheWeek = day.DayOfWeek;
+                daySchedle.DayOfTheMonth = day.Day;
+                
+                foreach(MaintenanceAppointment visit in visitsOfTheDay)
+                {
+                    daySchedle.Appointments.Add(visit);
+                }
+                daySchedules.Add(daySchedle);
+
+            }
+            return daySchedules;
         }
     }
 }
