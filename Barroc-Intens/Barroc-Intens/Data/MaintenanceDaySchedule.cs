@@ -9,9 +9,9 @@ namespace Barroc_Intens.Data
 {
     internal class MaintenanceDaySchedule
     {
-        internal string DayOfTheWeek {  get; set; }
-        internal string Month { get; set; }
-        internal string Year { get; set; }
+        internal DayOfWeek DayOfTheWeek {  get; set; }
+        internal int Month { get; set; }
+        internal int Year { get; set; }
         internal ObservableCollection<MaintenanceAppointment> Appointments { get; set; }
     }
 }

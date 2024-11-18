@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -27,13 +28,19 @@ namespace Barroc_Intens.Views.Maintenance
     {
         User LoggedInUser = LocalStore.GetLoggedInUser();
         List<DateTime> DaysOfTheWeek = new();
+        ObservableCollection<MaintenanceDaySchedule> MaintenanceDaySchedules = new ObservableCollection<MaintenanceDaySchedule>();
+        ObservableCollection<MaintenanceAppointment> Visits = new ObservableCollection<MaintenanceAppointment>();
 
         public VisitOverview()
         {
             this.InitializeComponent();
             RnLoggedInUser.Text = LoggedInUser.Name.ToString();
             DaysOfTheWeek = CalculateDaysOfTWeek();
-            GvWeekOverview.ItemsSource = DaysOfTheWeek;
+            using (AppDbContext dbContext = new AppDbContext())
+            {
+                Visits = (ObservableCollection<MaintenanceAppointment>)dbContext.MaintenanceAppointments.Where(m => m.User.Id == LoggedInUser.Id);
+            }
+            //GvWeekOverview.ItemsSource = DaysOfTheWeek;
 
 
         }
@@ -60,6 +67,15 @@ namespace Barroc_Intens.Views.Maintenance
             for (int i = 0; i < 7; i++)
             {
                 daysOfTheWeek.Add(startOfWeek.AddDays(i));
+            }
+            foreach (DateTime day in daysOfTheWeek) {
+                MaintenanceDaySchedule daySchedle = new();
+                daySchedle.Year = day.Year;
+                daySchedle.Month = day.Month;
+                daySchedle.DayOfTheWeek = day.DayOfWeek;
+                daySchedle.Appointments = (ObservableCollection<MaintenanceAppointment>)Visits.Where(v => v.StartTime.Day == day.Day);
+                MaintenanceDaySchedules.Add(daySchedle);
+
             }
             return daysOfTheWeek;
             //foreach (DateTime day in daysOfTheWeek)
