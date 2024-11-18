@@ -45,18 +45,12 @@
                 <!-- End styling navMenu -->
             </NavigationView.Resources>
             <NavigationView.MenuItems>
-                    <NavigationViewItem x:Name="LogoutLinks" Foreground="#f4cd1b" Icon="OtherUser" Content="Log out" Tag="logout" Visibility="Collapsed"/>
-                    <NavigationViewItem x:Name="LoginLinks" Foreground="#f4cd1b" Icon="OtherUser" Content="Log In" Tag="login"/>
-                
-                    <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard"/>
-                
-                    <NavigationViewItem x:Name="PurchaseLinks" Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" Visibility="Collapsed"/>
-                
-                    <NavigationViewItem x:Name="SalesLinks" Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" Visibility="Collapsed"/>
-                
-                    <NavigationViewItem x:Name="FinanceLinks" Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice" Visibility="Collapsed"/>
-                
-                    <NavigationViewItem x:Name="MaintenanceLinks" Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder" Visibility="Collapsed"/>
+                <NavigationViewItem Foreground="#f4cd1b" Icon="OtherUser" Content="Log out" Tag="logout"/>
+                <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="DashBoard" x:Name="NavItemBackToDashboard" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice" />
+                    <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder" />
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />
         </NavigationView>
