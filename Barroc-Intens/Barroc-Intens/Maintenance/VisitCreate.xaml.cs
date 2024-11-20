@@ -146,7 +146,7 @@ namespace Barroc_Intens.Maintenance
                 isValid = false;
             }
 
-            if (status < 3 || status > 0)
+            if (status > 3 || status < 0)
             {
                 StatusError.Text = "Select a valid status.";
                 isValid = false;
