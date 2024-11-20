@@ -38,12 +38,30 @@
                             <Run Text="{x:Bind MonthInText}" />
                             <Run Text="{x:Bind Year}" />
                         </TextBlock>
-                        
                         <!-- Listview with appointments -->
                         <ListView ItemsSource="{x:Bind Appointments}">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="data:MaintenanceAppointment">
-                                    <TextBlock Text="{x:Bind Description}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2" />
+                                            <ColumnDefinition Width="1" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock Text="{x:Bind StartTime }" />
+                                            <TextBlock Text="{x:Bind Company.Address}" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1">
+                                            <TextBlock>
+                                                <Run Text="{x:Bind Title}" />
+                                                <Run Text=" - " />
+                                                <Run Text="{x:Bind Company.Name}"/>
+                                            </TextBlock>
+                                            <TextBlock Text="{x:Bind Description}" />
+
+                                        </StackPanel>
+                                    </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
