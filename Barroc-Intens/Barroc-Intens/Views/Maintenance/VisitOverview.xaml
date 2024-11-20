@@ -18,7 +18,7 @@
         </TextBlock>
 
         <!-- Week overview -->
-        <GridView x:Name="GvWeekOverview" ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <GridView x:Name="GvWeekOverview" ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsItemClickEnabled="False" >
             
             <!-- To make sure the items align horizontally -->
             <GridView.ItemsPanel>
@@ -42,26 +42,25 @@
                         <ListView ItemsSource="{x:Bind Appointments}">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="data:MaintenanceAppointment">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2" />
-                                            <ColumnDefinition Width="1" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <TextBlock Text="{x:Bind StartTime }" />
-                                            <TextBlock Text="{x:Bind Company.Address}" />
-                                        </StackPanel>
+                                    <StackPanel HorizontalAlignment="Stretch" Height="Auto" >
 
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock>
-                                                <Run Text="{x:Bind Title}" />
-                                                <Run Text=" - " />
-                                                <Run Text="{x:Bind Company.Name}"/>
-                                            </TextBlock>
-                                            <TextBlock Text="{x:Bind Description}" />
+                                        <TextBlock>
+                                            <Run Text="{x:Bind StartTimeOnly}" />
+                                            <Run Text=" - " />
+                                            <Run Text="{x:Bind EndTimeOnly}" />
+                                        </TextBlock>
 
-                                        </StackPanel>
-                                    </Grid>
+                                        <TextBlock>
+                                            
+                                            <Run FontWeight="Bold" Text="{x:Bind Title}" />
+                                            <Run Text="{x:Bind Company.Name}" />
+                                            <Run Text="{x:Bind Company.Address}" />
+                                            <Run Text="{x:Bind Company.Zipcode}" />
+                                            <Run Text=" " />
+                                            <Run Text="{x:Bind Company.City}" />
+                                            <Run Text="{x:Bind TruncatedDescription}" TextWrapping="WrapWholeWords" />
+                                        </TextBlock>
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

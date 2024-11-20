@@ -33,6 +33,10 @@ namespace Barroc_Intens.Views.Maintenance
             foreach (var schedule in MaintenanceDaySchedules)
             {
                 Debug.WriteLine($"Day: {schedule.DayOfTheWeek}, Appointments: {schedule.Appointments.Count}");
+                foreach(MaintenanceAppointment app in schedule.Appointments)
+                {
+                    Debug.WriteLine(app.Title);                   
+                }
             }
             GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
         }

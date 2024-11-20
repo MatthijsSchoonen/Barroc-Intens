@@ -24,5 +24,10 @@ namespace Barroc_Intens.Data
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Title { get; set; }
+
+        // New properties for formatted time strings
+        public string StartTimeOnly => StartTime.ToString("HH:mm"); 
+        public string EndTimeOnly => EndTime.ToString("HH:mm");
+        public string TruncatedDescription => Description.Length > 100 ? Description.Substring(0, 100) + "..." : Description;
     }
 }
