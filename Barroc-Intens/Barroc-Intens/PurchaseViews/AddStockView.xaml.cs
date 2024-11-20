@@ -81,7 +81,7 @@ namespace Barroc_Intens.PurchaseViews
                     selectedCategory = (ProductsCategory)productCategoryInput.SelectedItem;
                 }
 
-                
+                // add query
                 db.Products.Add(new Product
                 {
                     Name = nameInput.Text,
@@ -91,8 +91,9 @@ namespace Barroc_Intens.PurchaseViews
                     Stock = int.Parse(stockInput.Text),
                     ProductsCategoryId = selectedCategory.Id
                 });
-
+                //save to database
                 db.SaveChanges();
+                //reset input
                 nameInput.Text = string.Empty;
                 descInput.Text = string.Empty;
                 brandInput.Text = string.Empty;

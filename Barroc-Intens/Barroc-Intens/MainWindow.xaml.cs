@@ -97,7 +97,7 @@ namespace Barroc_Intens
             }
             if (completeTerm == "Invoice")
             {
-                contentFrame.Navigate(typeof(Invoice));
+                contentFrame.Navigate(typeof(InvoicePage));
                 return;
             }
             if (completeTerm == "WorkOrder")
