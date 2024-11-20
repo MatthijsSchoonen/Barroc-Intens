@@ -31,9 +31,9 @@
 		<None Remove="WorkOrder.xaml" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Compile Include="Data\AppDbContextExample.cs.example" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
