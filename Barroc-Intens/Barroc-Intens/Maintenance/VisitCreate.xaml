@@ -60,6 +60,11 @@
                         <TextBlock x:Name="CompartmentsError" Foreground="Red" />
                     </StackPanel>
 
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Title" />
+                        <TextBox x:Name="FTitle" HorizontalAlignment="Left" />
+                        <TextBlock x:Name="TitleError" Foreground="Red" />
+                    </StackPanel>
 
                     <!-- Description -->
                     <StackPanel Padding="5">

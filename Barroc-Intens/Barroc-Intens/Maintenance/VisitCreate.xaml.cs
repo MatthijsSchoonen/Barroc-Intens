@@ -91,6 +91,7 @@ namespace Barroc_Intens.Maintenance
             Company customerCompany = FCustomer.SelectedItem as Company;
             TimeSpan startTime = FVisitStartTime.Time;
             TimeSpan endTime = FVisitEndTime.Time;
+            string title = FTitle.Text;
             startDate += startTime;
             endDate += endTime;
             string description = FDescription.Text;
@@ -161,6 +162,12 @@ namespace Barroc_Intens.Maintenance
                 isValid = false;
             }
 
+            if(title.Length < 1)
+            {
+                TitleError.Text = "Please enter a description";
+                isValid = false;
+            }
+
             if(!isValid)
             {
                 FormErrorBox.Text = "One or more fields are not filled in properly. Please make sure everything is correct.";
@@ -192,6 +199,7 @@ namespace Barroc_Intens.Maintenance
                 newApp.StartTime = startDate.UtcDateTime;
                 newApp.EndTime = endDate.UtcDateTime;
                 newApp.Products = selectedCompartments;
+                newApp.Title = title;
                 dbContext.MaintenanceAppointments.Add(newApp);
                 //newApp.User = attachedUser;
                 //newApp.Products = selectedCompartments.ToArray();
