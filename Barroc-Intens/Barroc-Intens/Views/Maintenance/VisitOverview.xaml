@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Barroc_Intens.Views.Maintenance.VisitOverview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,25 +9,47 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Padding="10" >
+    <StackPanel Padding="10">
         <!-- Header with page information  -->
         <TextBlock FontSize="30" FontWeight="Bold" Text="Maintenance Visit Overview" />
         <TextBlock FontStyle="Italic" FontSize="15">
-            <Run Text="Logged in as: "/><Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
+            <Run Text="Logged in as: "/>
+            <Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
         </TextBlock>
 
-        <!--<GridView x:Name="GvWeekOverview" >
+        <!-- Week overview -->
+        <GridView x:Name="GvWeekOverview" ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            
+            <!-- To make sure the items align horizontally -->
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            
+            <!-- The itemtemplate -->
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="data:MaintenanceDaySchedule" >
-                    <StackPanel Background="#9a9a9a" Padding="9" Margin="2" CornerRadius="10" Width="200"  >
-                        <TextBlock FontSize="Bold">
-                            <Run Text="{x:Bind DayOfTheWeek}" />
+                <DataTemplate x:DataType="data:MaintenanceDaySchedule">
+                    <StackPanel BorderBrush="Black" BorderThickness="2" Padding="9" Margin="2" CornerRadius="10" Width="200" Height="475" >
+                        <!-- Weekday information-->
+                        <TextBlock FontWeight="Bold" Text="{x:Bind DayOfTheWeek}" />
+                        <TextBlock>
                             <Run Text="{x:Bind DayOfTheMonth}" />
-                            
+                            <Run Text="{x:Bind MonthInText}" />
+                            <Run Text="{x:Bind Year}" />
                         </TextBlock>
+                        
+                        <!-- Listview with appointments -->
+                        <ListView ItemsSource="{x:Bind Appointments}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="data:MaintenanceAppointment">
+                                    <TextBlock Text="{x:Bind Description}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
-        </GridView>-->
+        </GridView>
     </StackPanel>
 </Page>
