@@ -97,5 +97,13 @@ namespace Barroc_Intens.Views.Maintenance
             }
             return daySchedules;
         }
+
+        private void LvAppointments_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            MaintenanceAppointment selectedItem = e.ClickedItem as MaintenanceAppointment;
+            if (selectedItem != null) {
+                Frame.Navigate(typeof(VisitDetails));
+            }
+        }
     }
 }
