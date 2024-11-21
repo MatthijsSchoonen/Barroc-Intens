@@ -51,15 +51,14 @@
                                         </TextBlock>
 
                                         <TextBlock>
-                                            
                                             <Run FontWeight="Bold" Text="{x:Bind Title}" />
                                             <Run Text="{x:Bind Company.Name}" />
                                             <Run Text="{x:Bind Company.Address}" />
                                             <Run Text="{x:Bind Company.Zipcode}" />
                                             <Run Text=" " />
                                             <Run Text="{x:Bind Company.City}" />
-                                            <Run Text="{x:Bind TruncatedDescription}" TextWrapping="WrapWholeWords" />
                                         </TextBlock>
+                                        <TextBlock TextWrapping="Wrap" Text="{x:Bind TruncatedDescription}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

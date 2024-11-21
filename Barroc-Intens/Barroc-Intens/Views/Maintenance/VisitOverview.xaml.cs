@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -30,12 +31,13 @@ namespace Barroc_Intens.Views.Maintenance
             SetVisits();
             MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek());
             Debug.WriteLine($"MaintenanceDaySchedules count: {MaintenanceDaySchedules.Count}");
-            foreach (var schedule in MaintenanceDaySchedules)
+            foreach (MaintenanceDaySchedule schedule in MaintenanceDaySchedules)
             {
                 Debug.WriteLine($"Day: {schedule.DayOfTheWeek}, Appointments: {schedule.Appointments.Count}");
                 foreach(MaintenanceAppointment app in schedule.Appointments)
                 {
-                    Debug.WriteLine(app.Title);                   
+                    Debug.WriteLine(app.Title);
+                    Debug.WriteLine(app.Company.Address);
                 }
             }
             GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
@@ -45,8 +47,8 @@ namespace Barroc_Intens.Views.Maintenance
         {
             using (AppDbContext dbContext = new AppDbContext())
             {
-                var visits = dbContext.MaintenanceAppointments.Where(m => m.User.Id == LoggedInUser.Id).ToList();
-                foreach (var visit in visits)
+                List<MaintenanceAppointment> visits = dbContext.MaintenanceAppointments.Where(m => m.User.Id == LoggedInUser.Id).Include(m => m.Company).ToList();
+                foreach (MaintenanceAppointment visit in visits)
                 {
                     Visits.Add(visit);
                 }
@@ -63,7 +65,7 @@ namespace Barroc_Intens.Views.Maintenance
                 startOfWeek = startOfWeek.AddDays(-7);
             }
 
-            var daysOfTheWeek = new List<DateTime>();
+            List<DateTime> daysOfTheWeek = new List<DateTime>();
             for (int i = 0; i < 7; i++)
             {
                 daysOfTheWeek.Add(startOfWeek.AddDays(i));
