@@ -42,7 +42,7 @@
                         <ListView ItemsSource="{x:Bind Appointments}">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="data:MaintenanceAppointment">
-                                    <StackPanel HorizontalAlignment="Stretch" Height="Auto" >
+                                    <StackPanel HorizontalAlignment="Stretch" Height="Auto" Padding="2" BorderBrush="Black"  BorderThickness="1" CornerRadius="7">
 
                                         <TextBlock>
                                             <Run Text="{x:Bind StartTimeOnly}" />
@@ -50,15 +50,16 @@
                                             <Run Text="{x:Bind EndTimeOnly}" />
                                         </TextBlock>
 
+                                        <TextBlock FontWeight="Bold" Text="{x:Bind Title}" />
+                                        <TextBlock Text="{x:Bind Company.Name}" />
+                                        <TextBlock Text="{x:Bind Company.Address}" />
                                         <TextBlock>
-                                            <Run FontWeight="Bold" Text="{x:Bind Title}" />
-                                            <Run Text="{x:Bind Company.Name}" />
-                                            <Run Text="{x:Bind Company.Address}" />
                                             <Run Text="{x:Bind Company.Zipcode}" />
                                             <Run Text=" " />
                                             <Run Text="{x:Bind Company.City}" />
                                         </TextBlock>
-                                        <TextBlock TextWrapping="Wrap" Text="{x:Bind TruncatedDescription}" />
+ 
+                                        <!--<TextBlock TextWrapping="Wrap" Text="{x:Bind TruncatedDescription}" />-->
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
