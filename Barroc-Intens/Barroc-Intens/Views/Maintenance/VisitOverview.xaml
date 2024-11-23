@@ -39,7 +39,7 @@
                             <Run Text="{x:Bind Year}" />
                         </TextBlock>
                         <!-- Listview with appointments -->
-                        <ListView ItemsSource="{x:Bind Appointments}" x:Name="LvAppointments" ItemClick="LvAppointments_ItemClick" >
+                        <ListView ItemsSource="{x:Bind Appointments}" x:Name="LvAppointments" ItemClick="LvAppointments_ItemClick" IsItemClickEnabled="True" >
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="data:MaintenanceAppointment">
                                     <StackPanel HorizontalAlignment="Stretch" Height="Auto" Padding="2" BorderBrush="Black"  BorderThickness="1" CornerRadius="7">

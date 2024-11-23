@@ -101,9 +101,8 @@ namespace Barroc_Intens.Views.Maintenance
         private void LvAppointments_ItemClick(object sender, ItemClickEventArgs e)
         {
             MaintenanceAppointment selectedItem = e.ClickedItem as MaintenanceAppointment;
-            if (selectedItem != null) {
-                Frame.Navigate(typeof(VisitDetails));
-            }
+            Debug.WriteLine($"Selecteditem: {selectedItem} | Frame: {Frame}");
+            Frame.Navigate(typeof(VisitDetails),selectedItem);
         }
     }
 }
