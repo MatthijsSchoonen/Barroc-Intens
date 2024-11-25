@@ -4,9 +4,9 @@ using System.Globalization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using Barroc_Intens.Data;
-using System.Linq;
 
 namespace Barroc_Intens
 {
@@ -18,135 +18,138 @@ namespace Barroc_Intens
         public InvoicePage()
         {
             this.InitializeComponent();
-            LoadCompaniesAsync();
-            SelectedProducts = new ObservableCollection<string>();  // Initialize the collection
-            ProductListBox.ItemsSource = SelectedProducts;  // Bind the ListBox to the ObservableCollection
+            InitializeData();
         }
 
-        private async Task LoadCompaniesAsync()
+        // Initialize data and set up bindings
+        private async void InitializeData()
         {
-            using (AppDbContext context = new AppDbContext())
-            {
-                var companies = await context.Companies.ToListAsync();
-                CompanyComboBox.ItemsSource = companies;
-                CompanyComboBox.DisplayMemberPath = "Name";
-                CompanyComboBox.SelectedValuePath = "Id";
-            }
-            using (AppDbContext context = new AppDbContext())
-            {
-                var products = await context.Products.ToListAsync();
-                ProductComboBox.ItemsSource = products;
-                ProductComboBox.DisplayMemberPath = "Name";
-                ProductComboBox.SelectedValuePath = "Id";
-            }
+            SelectedProducts = new ObservableCollection<string>();
+            ProductListBox.ItemsSource = SelectedProducts; // Bind ListBox to ObservableCollection
+            await LoadCompaniesAndProductsAsync();
         }
 
+        // Load companies and products asynchronously
+        private async Task LoadCompaniesAndProductsAsync()
+        {
+            using var context = new AppDbContext();
+
+            // Load companies
+            var companies = await context.Companies.ToListAsync();
+            CompanyComboBox.ItemsSource = companies;
+            CompanyComboBox.DisplayMemberPath = "Name";
+            CompanyComboBox.SelectedValuePath = "Id";
+
+            // Load products
+            var products = await context.Products.ToListAsync();
+            ProductComboBox.ItemsSource = products;
+            ProductComboBox.DisplayMemberPath = "Name";
+            ProductComboBox.SelectedValuePath = "Id";
+        }
+
+        // Add selected product to the list
         private void AddProduct_Click(object sender, RoutedEventArgs e)
         {
-
-            var selectedProduct = ProductComboBox.SelectedItem as Product;
-            if (selectedProduct != null && !SelectedProducts.Contains(selectedProduct.Name))
+            if (ProductComboBox.SelectedItem is Product selectedProduct &&
+                !SelectedProducts.Contains(selectedProduct.Name))
             {
                 SelectedProducts.Add(selectedProduct.Name);
             }
         }
 
+        // Remove selected product from the list
         private void RemoveProduct_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var product = button?.DataContext as string;
-
-            if (product != null)
+            if (sender is Button button && button.DataContext is string product)
             {
                 SelectedProducts.Remove(product);
             }
         }
 
+        // Generate invoice
         private void GenereerFactuur_Click(object sender, RoutedEventArgs e)
         {
-            // Step 1: Validate user inputs
-            if (!ValidateInputs())
+            if (!ValidateInputs()) return; // Step 1: Validate user inputs
+
+            using var db = new AppDbContext();
+
+            if (!TryCalculateInvoice(out decimal aansluitkosten, out decimal btwPercentage,
+                                      out decimal btwBedrag, out decimal totaal))
             {
+                ShowError("Invalid values for connection costs or VAT percentage.");
                 return;
             }
 
-            using (AppDbContext db = new AppDbContext())
+            var selectedCompany = CompanyComboBox.SelectedItem as Company;
+            int companyId = selectedCompany?.Id ?? 0;
+
+            // Step 2: Create invoice record
+            var customInvoice = new CustomInvoice
             {
-                string klantNaam = txtNaam.Text;
-                string klantAdres = txtAdres.Text;
+                Date = DateTime.Now,
+                PaidAt = DateTime.Now,
+                CompanyId = companyId
+            };
 
-                if (decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal aansluitkosten) &&
-                    decimal.TryParse(txtBtwPercentage.Text, out decimal btwPercentage))
+            db.CustomInvoices.Add(customInvoice);
+            db.SaveChanges();
+
+            // Step 3: Add selected products to invoice
+            AddProductsToInvoice(db, customInvoice.Id);
+
+            db.SaveChanges();
+
+            // Step 4: Display results and reset the form
+            lblResult.Text = $"Aansluitkosten: €{aansluitkosten:F2}\n" +
+                             $"BTW ({btwPercentage}%): €{btwBedrag:F2}\n" +
+                             $"Totaal: €{totaal:F2}";
+            ResetForm();
+        }
+
+        // Try to calculate invoice totals
+        private bool TryCalculateInvoice(out decimal aansluitkosten, out decimal btwPercentage,
+                                         out decimal btwBedrag, out decimal totaal)
+        {
+            aansluitkosten = btwPercentage = btwBedrag = totaal = 0;
+
+            if (decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out aansluitkosten) &&
+                decimal.TryParse(txtBtwPercentage.Text, out btwPercentage))
+            {
+                btwBedrag = (aansluitkosten * btwPercentage) / 100;
+                totaal = aansluitkosten + btwBedrag;
+                return true;
+            }
+
+            return false;
+        }
+
+        // Add selected products to the invoice
+        private void AddProductsToInvoice(AppDbContext db, int invoiceId)
+        {
+            foreach (var productName in SelectedProducts)
+            {
+                var product = db.Products.FirstOrDefault(p => p.Name == productName);
+                if (product != null)
                 {
-                    decimal btwBedrag = (aansluitkosten * btwPercentage) / 100;
-                    decimal totaal = aansluitkosten + btwBedrag;
-
-                    lblResult.Text = $"Factuur voor: {klantNaam}\n" +
-                                     $"Adres: {klantAdres}\n\n" +
-                                     $"Aansluitkosten: €{aansluitkosten:F2}\n" +
-                                     $"BTW ({btwPercentage}%): €{btwBedrag:F2}\n" +
-                                     $"Totaal: €{totaal:F2}";
-                }
-                else
-                {
-                    ShowError("Invalid values for connection costs or VAT percentage.");
-                    return;
-                }
-
-                var selectedCompany = CompanyComboBox.SelectedItem as Company;
-                int companyId = selectedCompany?.Id ?? 0;
-
-                // Create a new invoice record
-                var customInvoice = new CustomInvoice
-                {
-                    Date = DateTime.Now, // Use current time or pick a date
-                    PaidAt = DateTime.Now, // Similarly, use the paid date
-                    CompanyId = companyId
-                };
-
-                db.CustomInvoices.Add(customInvoice);
-                db.SaveChanges();
-
-                // Add each selected product to the invoice
-                foreach (var productName in SelectedProducts)
-                {
-                    var product = db.Products.FirstOrDefault(p => p.Name == productName);
-                    if (product != null)
+                    db.CustomInvoiceProducts.Add(new CustomInvoiceProduct
                     {
-                        db.CustomInvoiceProducts.Add(new CustomInvoiceProduct
-                        {
-                            ProductId = product.Id,
-                            CustomInvoiceId = customInvoice.Id
-                        });
-                    }
+                        ProductId = product.Id,
+                        CustomInvoiceId = invoiceId
+                    });
                 }
-
-                db.SaveChanges();
-
-                // Clear the input fields and reset selections
-                ResetForm();
             }
         }
 
-        // Validation method to check all required fields
+        // Validate user inputs
         private bool ValidateInputs()
         {
-            // Validate Customer Information
-            if (string.IsNullOrWhiteSpace(txtNaam.Text) || string.IsNullOrWhiteSpace(txtAdres.Text))
-            {
-                ShowError("Please fill in the customer name and address.");
-                return false;
-            }
-
-            // Validate Connection Costs and VAT
-            if (!decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal aansluitkosten) ||
-                !decimal.TryParse(txtBtwPercentage.Text, out decimal btwPercentage))
+            if (!decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out _) ||
+                !decimal.TryParse(txtBtwPercentage.Text, out _))
             {
                 ShowError("Please enter valid numbers for connection costs and VAT.");
                 return false;
             }
 
-            // Ensure at least one product is selected
             if (SelectedProducts.Count == 0)
             {
                 ShowError("Please add at least one product.");
@@ -159,14 +162,12 @@ namespace Barroc_Intens
                 return false;
             }
 
-            // Ensure the end date is not before the start date
             if (endDatePicker.SelectedDate.Value < startDatePicker.SelectedDate.Value)
             {
                 ShowError("The end date cannot be before the start date.");
                 return false;
             }
 
-            // Ensure a company is selected
             if (CompanyComboBox.SelectedIndex == -1)
             {
                 ShowError("Please select a company.");
@@ -176,7 +177,7 @@ namespace Barroc_Intens
             return true;
         }
 
-        // Show error message on the result label
+        // Show error messages
         private void ShowError(string message)
         {
             lblResult.Text = $"Error: {message}";
@@ -185,8 +186,6 @@ namespace Barroc_Intens
         // Reset form fields after invoice generation
         private void ResetForm()
         {
-            txtNaam.Text = string.Empty;
-            txtAdres.Text = string.Empty;
             txtAansluitkosten.Text = string.Empty;
             txtBtwPercentage.Text = "21";
             CompanyComboBox.SelectedIndex = -1;
