@@ -22,9 +22,9 @@
 		<None Remove="Dashboards\HeadPurchase.xaml" />
 		<None Remove="Dashboards\Maintenance.xaml" />
 		<None Remove="Dashboards\Purchase.xaml" />
-		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Sales\NewCustomerPage.xaml" />
 		<None Remove="Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
@@ -58,6 +58,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Page Update="Sales\NewCustomerPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Page Update="WorkOrder.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
@@ -82,7 +88,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Dashboards\Sales.xaml">
+	  <Page Update="Dashboards\SalesDash.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

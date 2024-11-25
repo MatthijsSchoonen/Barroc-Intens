@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Sales.NewCustomerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Sales"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel Padding="20" Spacing="10">
+        <TextBlock Text="New Customer" FontSize="24" FontWeight="Bold" />
+        <TextBlock x:Name="ErrorMessage" Foreground="Red"/>
+        <ScrollViewer Margin="0 10 0 0" Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="left">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Margin="0,25,0,25">
+                    <TextBox FontFamily="Roboto" Margin="0,5" x:Name="nameInput"
+                             Header="Naam:" PlaceholderText="Naam" 
+                             Width="300" HorizontalAlignment="Left"/>
+
+                    <TextBox FontFamily="Roboto" Margin="0,5" x:Name="emailInput"
+                             Header="Email:" PlaceholderText="Email"
+                             Width="300" HorizontalAlignment="Left"/>
+
+                    <ComboBox FontFamily="Roboto" Margin="0,5" x:Name="companyComboBox" Header="Bedrijf:"
+                              PlaceholderText="Bedrijf" Width="300" HorizontalAlignment="Left"/>
+
+                    <Button x:Name="AddCustomerButton" FontFamily="Roboto" Margin="0, 10" Content="Maak klant aan" Click="AddCustomerButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+    </StackPanel>
+</Page>
