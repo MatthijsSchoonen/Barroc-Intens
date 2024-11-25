@@ -122,14 +122,14 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(MailPage));
                 return;
             }
-            if (completeTerm == "logout")
+         
             if( completeTerm == "VisitCreate")
             {
                 //Debug.WriteLine("Logged in user's name: "+loggedInUser.Name);
                 //Debug.WriteLine("ContentFrame: "+ contentFrame);
                 //Debug.WriteLine("Result of TypeOf VisitCreate: " + typeof(VisitCreate));
                 contentFrame.Navigate(typeof(VisitCreate), this.loggedInUser);
-                return;
+                return; 
             }
             if(completeTerm == "logout")
             {
@@ -140,8 +140,8 @@ namespace Barroc_Intens
                 ShowLoginPage();
                 return;
             }
-
-            NotFound notFoundPage = new();
+          
+                NotFound notFoundPage = new();
             contentFrame.Content = notFoundPage;
             return;
         }
