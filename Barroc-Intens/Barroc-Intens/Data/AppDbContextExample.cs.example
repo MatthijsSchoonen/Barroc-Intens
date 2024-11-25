@@ -300,10 +300,11 @@
 //                new MaintenanceAppointment
 //                {
 //                    Id = 1,
+//                    Title = "Waterslang",
 //                    Description = "Water slang kwijt",
-//                    DateAdded = new DateTime(2024, 01, 01, 9, 15, 0),
-//                    StartTime = new DateTime(2024, 01, 01, 10, 0, 0),
-//                    EndTime = new DateTime(2024, 08, 01, 01, 23, 0),
+//                    DateAdded = new DateTime(2024, 11, 18, 9, 15, 0),
+//                    StartTime = new DateTime(2024, 11, 18, 10, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 18, 11, 0, 0),
 //                    CompanyId = 1,
 //                    ProductId = 1,
 //                    Status = 1,
@@ -311,10 +312,11 @@
 //                new MaintenanceAppointment
 //                {
 //                    Id = 2,
+//                    Title = "Machine stuk",
 //                    Description = "Gebroken koffie machine",
-//                    DateAdded = new DateTime(2024, 01, 01, 9, 15, 0),
-//                    StartTime = new DateTime(2024, 01, 01, 10, 0, 0),
-//                    EndTime = new DateTime(2024, 08, 01, 01, 23, 0),
+//                    DateAdded = new DateTime(2024, 11, 18, 9, 15, 0),
+//                    StartTime = new DateTime(2024, 11, 18, 14, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 18, 15, 30, 0),
 //                    CompanyId = 1,
 //                    ProductId = 1,
 //                    Status = 1,
@@ -323,10 +325,11 @@
 //                new MaintenanceAppointment
 //                {
 //                    Id = 3,
+//                    Title = "Machine schoonmaken",
 //                    Description = "Koffie machien schoon maken",
-//                    DateAdded = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 19, 10, 30, 0),
+//                    StartTime = new DateTime(2024, 11, 19, 11, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 19, 12, 0, 0),
 //                    CompanyId = 1,
 //                    ProductId = 1,
 //                    Status = 1,
@@ -335,75 +338,82 @@
 //                new MaintenanceAppointment
 //                {
 //                    Id = 4,
+//                    Title = "Knop stuk",
 //                    Description = "Knop werkt niet",
-//                    DateAdded = new DateTime(2023, 05, 04, 9, 34, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 20, 8, 45, 0),
+//                    StartTime = new DateTime(2024, 11, 20, 9, 30, 0),
+//                    EndTime = new DateTime(2024, 11, 20, 10, 0, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 13
 //                },
 //                new MaintenanceAppointment
 //                {
 //                    Id = 5,
+//                    Title = "MelkContainer",
 //                    Description = "Melk container lekt",
-//                    DateAdded = new DateTime(2023, 07, 09, 13, 2, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 21, 13, 2, 0),
+//                    StartTime = new DateTime(2024, 11, 21, 14, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 21, 15, 0, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 14
 //                },
 //                new MaintenanceAppointment
 //                {
 //                    Id = 6,
+//                    Title = "Schoonmaak stuk",
 //                    Description = "Schoonmaak machine werkt niet",
-//                    DateAdded = new DateTime(2023, 08, 02, 11, 22, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 22, 11, 22, 0),
+//                    StartTime = new DateTime(2024, 11, 22, 13, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 22, 14, 0, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 15
 //                },
 //                new MaintenanceAppointment
 //                {
 //                    Id = 7,
+//                    Title = "Cleaning broke again",
 //                    Description = "Cleaning machine not working again",
-//                    DateAdded = new DateTime(2023, 08, 02, 11, 22, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 23, 11, 22, 0),
+//                    StartTime = new DateTime(2024, 11, 23, 13, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 23, 14, 30, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 14
 //                },
 //                new MaintenanceAppointment
 //                {
 //                    Id = 8,
+//                    Title = "Cleaning broke again",
 //                    Description = "Cleaning machine not working again",
-//                    DateAdded = new DateTime(2023, 08, 02, 11, 22, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 24, 11, 22, 0),
+//                    StartTime = new DateTime(2024, 11, 24, 10, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 24, 11, 30, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 12
 //                },
 //                new MaintenanceAppointment
 //                {
 //                    Id = 9,
+//                    Title = "Cleaning broke again",
 //                    Description = "Cleaning machine not working again",
-//                    DateAdded = new DateTime(2023, 08, 02, 11, 22, 0),
-//                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
-//                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
+//                    DateAdded = new DateTime(2024, 11, 24, 11, 22, 0),
+//                    StartTime = new DateTime(2024, 11, 24, 14, 0, 0),
+//                    EndTime = new DateTime(2024, 11, 24, 15, 30, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
 //                    ProductId = 1,
-//                    UserId = null
+//                    UserId = 13
 //                }
+
 //            );
 
 //            modelBuilder.Entity<Department>().HasData(

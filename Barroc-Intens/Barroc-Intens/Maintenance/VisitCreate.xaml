@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Maintenance.VisitCreate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Maintenance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Barroc_Intens.Data"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible" IsVerticalScrollChainingEnabled="True" >
+
+        <StackPanel Padding="5">
+            <StackPanel>
+                <TextBlock FontSize="24" FontWeight="Bold" Text="Create Customer visit" />
+                <TextBlock FontSize="18" FontStyle="Italic" Text="Maintenance"/>
+                <!-- Inputs -->
+                <StackPanel Margin="15">
+                    <TextBlock x:Name="FormErrorBox" Foreground="Red" FontSize="12" />
+                    <!-- Start Date of Visit -->
+                    <StackPanel Padding="5" >
+                        <TextBlock Text="The start date of Visit" />
+                        <DatePicker x:Name="FVisitStart" SelectedDateChanged="FVisitStart_SelectedDateChanged"  />
+                        <TimePicker x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
+                        <TextBlock Foreground="Red" x:Name="StartDateError" />
+                        <!-- <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" Content="Print value in ErrorBox"  />-->
+                    </StackPanel>
+
+                    <!-- End of Visit -->
+                    <StackPanel Padding="5">
+                        <TextBlock Text="End of Visit" />
+                        <DatePicker x:Name="FVisitEnd" SelectedDateChanged="FVisitEnd_SelectedDateChanged" />
+                        <TimePicker x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
+                        <TextBlock Foreground="Red" x:Name="EndDateError"/>
+                    </StackPanel>
+
+                    <!-- Product of interest selector -->
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Product of interest"/>
+                        <ComboBox x:Name="FProductOfInterest" DisplayMemberPath="Name" SelectionChanged="FProductOfInterest_SelectionChanged" />
+                        <TextBlock Foreground="Red" x:Name="ProductOfInterestError" />
+                    </StackPanel>
+
+                    <!-- Selected compartments -->
+                    <GridView x:Name="FSelectedCompartments" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedCompartments_ItemClick" >
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Product">
+                                <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
+                                    <TextBlock Text="{x:Bind Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+
+                    <!-- Compartment selector-->
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Components" />
+                        <ComboBox x:Name="FCompartments" DisplayMemberPath="Name" SelectionChanged="FCompartments_SelectionChanged" />
+                        <TextBlock x:Name="CompartmentsError" Foreground="Red" />
+                    </StackPanel>
+
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Title" />
+                        <TextBox x:Name="FTitle" HorizontalAlignment="Left" />
+                        <TextBlock x:Name="TitleError" Foreground="Red" />
+                    </StackPanel>
+
+                    <!-- Description -->
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Description" />
+                        <TextBox x:Name="FDescription" AcceptsReturn="True" Width="450" HorizontalAlignment="Left" Height="120" />
+                        <TextBlock x:Name="DescriptionError" Foreground="Red" />
+                    </StackPanel>
+
+                    <!-- Status -->
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Ticket Status" />
+                        <ComboBox x:Name="FStatus">
+                            <ComboBoxItem Content="To do" Tag="0" />
+                            <ComboBoxItem Content="In Progress" Tag="1" />
+                            <ComboBoxItem Content="Done" Tag="2" />
+                        </ComboBox>
+                        <TextBlock x:Name="StatusError" Foreground="Red" />
+                    </StackPanel>
+
+
+
+                    <!-- Customer selector -->
+                    <StackPanel Padding="5" >
+                        <TextBlock Text="Involved Customer" />
+                        <ComboBox x:Name="FCustomer" DisplayMemberPath="Name" SelectionChanged="FCustomer_SelectionChanged" />
+                        <TextBlock x:Name="CustomerError" Foreground="Red" />
+                    </StackPanel>
+
+                    <!-- Selected employees -->
+                    <!--<GridView x:Name="FSelectedEmployees" Padding="5"  IsItemClickEnabled="True" ItemClick="FSelectedEmployees_ItemClick" >
+              <GridView.ItemTemplate>
+                  <DataTemplate x:DataType="models:User">
+                      <StackPanel Background="#d8d8d8" Padding="2" Margin="3" >
+                          <TextBlock Text="{x:Bind Name}"/>
+                      </StackPanel>
+                  </DataTemplate>
+              </GridView.ItemTemplate>
+          </GridView>-->
+
+                    <!-- Employee selector -->
+                    <StackPanel Padding="5" >
+                        <TextBlock Text="Employee Selector" />
+                        <ComboBox x:Name="FEmployee" DisplayMemberPath="Name" />
+                        <!--  SelectionChanged="FEmployee_SelectionChanged" -->
+                        <TextBlock x:Name="EmployeeError" Foreground="Red" />
+                    </StackPanel>
+
+                    <StackPanel Padding="5">
+                        <TextBlock Text="Submit" />
+                        <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+    </StackPanel>
+    </ScrollViewer>
+
+
+</Page>
