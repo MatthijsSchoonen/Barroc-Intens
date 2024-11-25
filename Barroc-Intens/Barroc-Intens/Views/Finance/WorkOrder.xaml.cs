@@ -12,20 +12,30 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Barroc_Intens.Data;
+using Microsoft.EntityFrameworkCore;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Barroc_Intens
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class WorkOrder : Page
+    public partial class WorkOrder : Page
     {
         public WorkOrder()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            LoadWorkOrders();
+        }
+
+        private void LoadWorkOrders()
+        {
+            using (var context = new AppDbContext())
+            {
+                var workOrders = context.MaintenanceAppointments.Include(w => w.Company).ToList();
+
+                WorkOrdersListView.ItemsSource = workOrders;
+            }
         }
     }
 }

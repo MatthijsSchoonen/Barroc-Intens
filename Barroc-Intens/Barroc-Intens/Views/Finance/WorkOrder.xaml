@@ -8,32 +8,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
     <Grid>
-        <!-- Header -->
-        <StackPanel Orientation="Vertical" Padding="10">
-            <TextBlock Text="Maintenance Werkbonnen Overzicht" 
-                       FontSize="24" 
-                       VerticalAlignment="Center" 
-                       Margin="0,0,20,0"/>
-            <TextBox Width="300" 
-                        HorizontalAlignment="Left"
-                       PlaceholderText="Zoek: Werkbonnummer, Machine-ID, Datum"
-                     />
-            <Button Content="Zoek" Width="75" Margin="0,0,10,0"/>
-            <ComboBox Width="120" Margin="0,0,10,0" 
-                       PlaceholderText="Filter: Status">
-                <ComboBoxItem Content="Nieuw"/>
-                <ComboBoxItem Content="In Behandeling"/>
-                <ComboBoxItem Content="Afgerond"/>
-            </ComboBox>
-            <Button Content="Filter" Width="75"/>
-            <ComboBox Width="120" Margin="0,0,10,0" 
-                       PlaceholderText="Sorteer op">
-                <ComboBoxItem Content="Datum"/>
-                <ComboBoxItem Content="Prioriteit"/>
-                <ComboBoxItem Content="Materialen"/>
-            </ComboBox>
-        </StackPanel>
+        <!-- ListView to display work orders -->
+        <ListView x:Name="WorkOrdersListView" Margin="10">
+            <ListView.ItemTemplate>
+                <!-- Template for each item (work order) -->
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="5" BorderBrush="Gray" BorderThickness="1">
+                        <TextBlock Text="{Binding Id}" FontWeight="Bold" FontSize="14" />
+                        <TextBlock Text="{Binding Description}" FontStyle="Italic" Margin="0,5" />
+                        <TextBlock Text="{Binding Status}" Margin="0,5" />
+                        <TextBlock Text="{Binding StartTime}" Margin="0,5" />
+                        <TextBlock Text="{Binding EndTime}" Margin="0,5" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
