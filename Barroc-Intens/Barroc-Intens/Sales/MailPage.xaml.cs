@@ -11,6 +11,7 @@ using System.IO;
 using MimeKit;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using Microsoft.EntityFrameworkCore;
 
 namespace Barroc_Intens.Sales
 {
@@ -29,6 +30,7 @@ namespace Barroc_Intens.Sales
             LoadCompanies();
         }
 
+        // --- Company Loading Section ---
         private void LoadCompanies()
         {
             // Fetch companies from the database
@@ -40,57 +42,44 @@ namespace Barroc_Intens.Sales
             CompaniesComboBox.SelectedValuePath = "Id";  // Use company ID as the value
         }
 
+        // --- Contract Selection Section ---
         private void OnSelectButtonClick(object sender, RoutedEventArgs e)
         {
-            // Get the selected company
             var selectedCompany = CompaniesComboBox.SelectedItem as Company;
+
             if (selectedCompany != null)
             {
-                // Fetch contracts and include ContractProducts and Products
-                var contracts = _dbContext.Contracts
-                                          .Where(c => c.CompanyId == selectedCompany.Id)
-                                          .Select(c => new
-                                          {
-                                              c.Id,
-                                              c.StartDate,
-                                              c.EndDate,
-                                              ContractProducts = c.ContractProducts.Select(cp => new
-                                              {
-                                                  cp.Product.Name
-                                              }).ToList()
-                                          })
-                                          .ToList();
+                try
+                {
+                    // Fetch contracts and include related ContractProducts and Products
+                    var contracts = _dbContext.Contracts
+                        .Where(c => c.CompanyId == selectedCompany.Id)
+                        .Include(c => c.ContractProducts) // Load related data
+                        .ThenInclude(cp => cp.Product)
+                        .ToList();
 
-                // Bind contracts to the ListView
-                ContractsListView.ItemsSource = contracts;
+                    // Bind to ListView
+                    ContractsListView.ItemsSource = contracts;
+                }
+                catch (Exception ex)
+                {
+                    ShowErrorDialog("Error", $"An error occurred: {ex.Message}");
+                }
             }
             else
             {
-                // Handle no selection
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Error",
-                    Content = "Please select a company before proceeding.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-                _ = dialog.ShowAsync();
+                ShowErrorDialog("Error", "Please select a company before proceeding.");
             }
         }
+
+        // --- Email Sending Section ---
         private async void OnSendMailClick(object sender, RoutedEventArgs e)
         {
             var emailAddress = EmailTextBox.Text;
 
             if (string.IsNullOrWhiteSpace(emailAddress))
             {
-                ContentDialog dialog = new ContentDialog
-                {
-                    Title = "Error",
-                    Content = "Please enter a valid email address.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-                await dialog.ShowAsync();
+                await ShowDialog("Error", "Please enter a valid email address.");
                 return;
             }
 
@@ -107,25 +96,11 @@ namespace Barroc_Intens.Sales
                 File.Delete(pdfFilePath);
 
                 // Show success dialog
-                ContentDialog successDialog = new ContentDialog
-                {
-                    Title = "Email Sent",
-                    Content = "The email with the contract details has been sent successfully.",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-                await successDialog.ShowAsync();
+                await ShowDialog("Email Sent", "The email with the contract details has been sent successfully.");
             }
             catch (Exception ex)
             {
-                ContentDialog errorDialog = new ContentDialog
-                {
-                    Title = "Error",
-                    Content = $"Failed to send email. Error: {ex.Message}",
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-                await errorDialog.ShowAsync();
+                await ShowDialog("Error", $"Failed to send email. Error: {ex.Message}");
             }
         }
 
@@ -152,7 +127,7 @@ namespace Barroc_Intens.Sales
                 using (var client = new SmtpClient())
                 {
                     await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
-                    await client.AuthenticateAsync("officialbarrocintens@gmail.com", "ymlf npoq mhoo wiiq"); 
+                    await client.AuthenticateAsync("officialbarrocintens@gmail.com", "ymlf npoq mhoo wiiq");
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
                 }
@@ -162,45 +137,76 @@ namespace Barroc_Intens.Sales
             catch (Exception ex)
             {
                 Console.WriteLine($"Error sending email: {ex.Message}");
+                throw;
             }
         }
 
+        // --- PDF Generation Section ---
         private void GenerateContractPdf(string filePath)
         {
-            using (var writer = new PdfWriter(filePath))
-            using (var pdf = new PdfDocument(writer))
-            using (var document = new Document(pdf))
+            if (File.Exists(filePath))
             {
-                // Add a title
-                document.Add(new Paragraph("Contract Details")
-                    .SetFontSize(18));
+                File.Delete(filePath); // Ensure no existing file conflicts
+            }
 
-                // Get the selected contract from the ListView
-                var selectedContract = ContractsListView.SelectedItem;
-                if (selectedContract == null)
+            try
+            {
+                using (var writer = new PdfWriter(filePath))
+                using (var pdf = new PdfDocument(writer))
+                using (var document = new Document(pdf))
                 {
-                    throw new InvalidOperationException("No contract selected.");
-                }
+                    // Add a title
+                    document.Add(new Paragraph("Contract Details").SetFontSize(18));
 
-                dynamic contract = selectedContract; // Use dynamic for anonymous type
+                    // Get the selected contract
+                    var selectedContract = ContractsListView.SelectedItem;
+                    if (selectedContract == null)
+                    {
+                        throw new InvalidOperationException("No contract selected.");
+                    }
 
-                // Add contract details to the PDF
-                document.Add(new Paragraph($"Contract ID: {contract.Id}")
-                    .SetFontSize(14));
-                document.Add(new Paragraph($"Start Date: {contract.StartDate}"));
-                document.Add(new Paragraph($"End Date: {contract.EndDate}"));
-                document.Add(new Paragraph("Products:"));
+                    dynamic contract = selectedContract; // Anonymous type
+                    document.Add(new Paragraph($"Contract ID: {contract.Id}").SetFontSize(14));
+                    document.Add(new Paragraph($"Start Date: {contract.StartDate}"));
+                    document.Add(new Paragraph($"End Date: {contract.EndDate}"));
+                    document.Add(new Paragraph("Products:"));
 
-                // Add products associated with the contract
-                foreach (var product in contract.ContractProducts)
-                {
-                    document.Add(new Paragraph($"- {product.Name}"));
+                    foreach (var product in contract.ContractProducts)
+                    {
+                        document.Add(new Paragraph($"- {product.Product.Name}")); // Access Product.Name correctly
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error generating PDF: {ex.Message}");
+                throw;
+            }
+        }
+
+        // --- Helper Methods ---
+        private async Task ShowDialog(string title, string content)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
+        }
+
+        private void ShowErrorDialog(string title, string content)
+        {
+            ContentDialog errorDialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            _ = errorDialog.ShowAsync();
         }
     }
-
-
-
 }
-
