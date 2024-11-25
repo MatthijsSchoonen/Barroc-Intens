@@ -16,6 +16,9 @@ using Windows.Foundation.Collections;
 using Barroc_Intens.Dashboards;
 using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
+using Barroc_Intens.Maintenance;
+using Windows.ApplicationModel.Appointments;
+using System.Reflection.Metadata.Ecma335;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,6 +62,7 @@ namespace Barroc_Intens
             loggedInUser = user;
             NavItemBackToDashboard.Tag = $"Barroc_Intens.Dashboards.{loggedInUser.Department.Type}";
             SwitchPage(user.Department.Type, "Barroc_Intens.Dashboards");
+            ShowAllMaintenanceAppointments(this);
         }
 
         // Gets executed once the selection is changed in the navmenu. 
@@ -137,6 +141,16 @@ namespace Barroc_Intens
         public void ShowNoteView()
         {
             contentFrame.Navigate(typeof(NotePage));
+        }
+
+        public void ShowNewWorkOrderPage(MaintenanceAppointment appointment)
+        {
+                contentFrame.Navigate(typeof(NewWorkOrderPage), appointment);
+        }
+
+        public void ShowAllMaintenanceAppointments(MainWindow mainWindow)
+        {
+            contentFrame.Navigate(typeof(AllMaintenanceAppointmentPage), mainWindow);
         }
     }
 }
