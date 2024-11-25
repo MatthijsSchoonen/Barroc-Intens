@@ -25,6 +25,7 @@
 		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Sales\MailPage.xaml" />
 		<None Remove="Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
@@ -45,8 +46,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="itext7" Version="9.0.0" />
+		<PackageReference Include="itext7.bouncy-castle-adapter" Version="9.0.0" />
+		<PackageReference Include="MailKit" Version="4.8.0" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
+		<PackageReference Include="MimeKit" Version="4.8.0" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
 		<PackageReference Include="System.Text.Json" Version="9.0.0-rc.2.24473.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
@@ -55,6 +60,12 @@
 
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Sales\MailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

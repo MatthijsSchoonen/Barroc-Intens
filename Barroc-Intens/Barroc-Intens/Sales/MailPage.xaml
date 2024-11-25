@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Sales.MailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Sales"
+    xmlns:localData="using:Barroc_Intens.Data"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0"  HorizontalAlignment="Center" Margin="0 100">
+            <ComboBox x:Name="CompaniesComboBox" Width="300" PlaceholderText="Select a company" />
+            <Button HorizontalAlignment="Center"  Content="Select" Width="100" Click="OnSelectButtonClick" />
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <ListView x:Name="ContractsListView"
+          SelectionMode="Single"
+          Width="800"
+          Height="300">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="localData:Contract">
+                        <StackPanel>
+                            <TextBlock Text="Contract ID:" FontWeight="Bold" />
+                            <TextBlock Text="{x:Bind Id}" />
+                            <TextBlock Text="Start Date:" />
+                            <TextBlock Text="{x:Bind StartDate}" />
+                            <TextBlock Text="End Date:" />
+                            <TextBlock Text="{x:Bind EndDate}" />
+                            <TextBlock Text="Products:" FontWeight="Bold" />
+                            <ItemsControl ItemsSource="{x:Bind ContractProducts}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="localData:ContractProduct">
+                                        <TextBlock Text="{x:Bind Product.Name}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+            <TextBox TextAlignment="Center" x:Name="EmailTextBox" Width="300" PlaceholderText="Enter email address" />
+            <Button HorizontalAlignment="Center" Content="Send Mail" Width="100" Click="OnSendMailClick" />
+        </StackPanel>
+    </Grid>
+</Page>
