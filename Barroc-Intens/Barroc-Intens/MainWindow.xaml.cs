@@ -62,7 +62,7 @@ namespace Barroc_Intens
             loggedInUser = user;
             NavItemBackToDashboard.Tag = $"Barroc_Intens.Dashboards.{loggedInUser.Department.Type}";
             SwitchPage(user.Department.Type, "Barroc_Intens.Dashboards");
-            ShowAllMaintenanceAppointments(this);
+            ShowAllMaintenanceAppointments();
         }
 
         // Gets executed once the selection is changed in the navmenu. 
@@ -143,14 +143,10 @@ namespace Barroc_Intens
             contentFrame.Navigate(typeof(NotePage));
         }
 
-        public void ShowNewWorkOrderPage(MaintenanceAppointment appointment)
-        {
-                contentFrame.Navigate(typeof(NewWorkOrderPage), appointment);
-        }
 
-        public void ShowAllMaintenanceAppointments(MainWindow mainWindow)
+        public void ShowAllMaintenanceAppointments()
         {
-            contentFrame.Navigate(typeof(AllMaintenanceAppointmentPage), mainWindow);
+            contentFrame.Navigate(typeof(AllMaintenanceAppointmentPage));
         }
     }
 }

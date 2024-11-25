@@ -26,7 +26,7 @@
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
 		<None Remove="Maintenance\AllMaintenanceAppointmentPage.xaml" />
-		<None Remove="Maintenance\NewWorkOrderPage.xaml" />
+		<None Remove="Maintenance\NewWorkOrderWindow.xaml" />
 		<None Remove="Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
@@ -57,6 +57,12 @@
 
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Maintenance\NewWorkOrderWindow.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -145,12 +151,6 @@
 
 	<ItemGroup>
 	   <Page Update="Sales\Invoice.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Maintenance\NewWorkOrderPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Page
-    x:Class="Barroc_Intens.Maintenance.NewWorkOrderPage"
+<Window
+    x:Class="Barroc_Intens.Maintenance.NewWorkOrderWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Barroc_Intens.Maintenance"
@@ -8,33 +8,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Title="NewWorkOrderWindow">
 
     <StackPanel Padding="20"
-                Spacing="10">
+            Spacing="10">
         <TextBlock Text="Werkbon invullen"
-                   FontSize="24"
-                   FontWeight="Bold"/>
+               FontSize="24"
+               FontWeight="Bold"/>
         <TextBlock x:Name="ErrorMessage" Foreground="Red"/>
 
         <TextBox Header="Onderhoudsmonteur:"
-                 x:Name="nameMechanicInput"
-                 IsEnabled="False"/>
+             x:Name="nameMechanicInput"
+             IsEnabled="False"/>
         <TextBox Header="Bedrijf:"
-                 x:Name="nameCompanyInput"
-                 IsEnabled="True"/>
+             x:Name="nameCompanyInput"
+             IsEnabled="True"/>
         <TextBox Header="Omschrijving:"
-                 x:Name="descriptionInput"/>
+             x:Name="descriptionInput"/>
         <StackPanel Spacing="10" Width="450" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Spacing="50">
                 <TextBlock Text="Beschikbare producten:" />
                 <TextBlock Text="Gebruikte producten:" />
             </StackPanel>
             <ScrollViewer HorizontalScrollMode="Enabled"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollMode="Disabled"
-                          VerticalScrollBarVisibility="Disabled"
-                          Height="160">
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Disabled"
+                      VerticalScrollBarVisibility="Disabled"
+                      Height="160">
                 <StackPanel Orientation="Horizontal">
                     <ListView x:Name="addProductListView">
                         <ListView.ItemTemplate>
@@ -69,4 +69,4 @@
         </StackPanel>
         <Button Content="Submit" x:Name="submitWorkOrderButton" Click="SubmitWorkOrderButton_Click"/>
     </StackPanel>
-</Page>
+</Window>

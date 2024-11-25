@@ -30,24 +30,13 @@ namespace Barroc_Intens.Maintenance
             this.InitializeComponent();
             AppDbContext db = new AppDbContext();
             maintenanceAppointmentListView.ItemsSource = db.MaintenanceAppointments.ToList();
-            
-            
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            MainWindow mainWindow = e.Parameter as MainWindow;
-            //base.OnNavigatedTo(e);
-            if (mainWindow != null)
-            {
-                this.mainWindow = mainWindow;
-            }
         }
 
         private void maintenanceAppointmentListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             MaintenanceAppointment maintenanceAppointment = (MaintenanceAppointment)e.ClickedItem;
-            Frame.Navigate(typeof(MaintenanceAppointment), maintenanceAppointment);
+            NewWorkOrderWindow newWorkOrderWindow = new NewWorkOrderWindow(maintenanceAppointment);
+            newWorkOrderWindow.Activate();
         }
     }
 }
