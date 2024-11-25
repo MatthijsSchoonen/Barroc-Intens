@@ -9,7 +9,18 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Padding="5">
-        <TextBlock FontSize="24" FontWeight="Bold" Text="Head Maintenance Dashboard" />
-    </StackPanel>
+    <ListView x:Name="MaintenanceList" Margin="10">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Vertical" Padding="10">
+                    <TextBlock Text="{Binding Description}" FontWeight="Bold" FontSize="18" />
+                    <TextBlock Text="{Binding Company.Name}" FontStyle="Italic" FontSize="14" />
+                    <TextBlock Text="{Binding User.Name}" FontSize="14" />
+                    <TextBlock Text="{Binding StartTime}" />
+                    <TextBlock Text="{Binding EndTime}" />
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
 </Page>

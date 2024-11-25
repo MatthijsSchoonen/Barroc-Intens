@@ -12,6 +12,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Barroc_Intens.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,6 +29,18 @@ namespace Barroc_Intens.Dashboards
         public HeadMaintenance()
         {
             this.InitializeComponent();
+            LoadMaintenanceList();
+        }
+
+        private void LoadMaintenanceList()
+        {
+            using (var context = new AppDbContext())
+            {
+                var workOrders = context.MaintenanceAppointments.Include(w => w.Company).ToList();
+
+                MaintenanceList.ItemsSource = workOrders;
+            }
         }
     }
+
 }
