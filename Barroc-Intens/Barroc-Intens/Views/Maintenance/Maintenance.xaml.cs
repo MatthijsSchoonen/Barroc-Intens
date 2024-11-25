@@ -1,3 +1,4 @@
+using Barroc_Intens.Views.Maintenance;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +27,11 @@ namespace Barroc_Intens.Dashboards
         public Maintenance()
         {
             this.InitializeComponent();
+        }
+
+        private void BtnVisitOverviewNav_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(VisitOverview));
         }
     }
 }

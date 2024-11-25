@@ -1,0 +1,79 @@
+<Page
+    x:Class="Barroc_Intens.Views.Maintenance.VisitDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Views.Maintenance"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="20" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel x:Name="NotAvailableNotif" Spacing="15" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" >
+            <TextBlock TextAlignment="Center"> 
+                <Run Text="No appointment is slected or available" FontWeight="Bold" FontSize="25" /> <LineBreak />
+                <Run Text="Please try again later" />
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Spacing="15" x:Name="DetailsPanel" >
+            <!-- Title -->
+            <TextBlock FontSize="24" FontWeight="Bold" Text="{x:Bind SelectedAppointment.Title, Mode=OneWay}" />
+
+            <!-- Maintenance Details -->
+            <StackPanel>
+                <TextBlock FontWeight="SemiBold" Text="Appointment Details:" Margin="0,10,0,5" />
+                <TextBlock>
+                    <Run Text="Start Time: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.StartTimeOnly, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="End Time: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.EndTimeOnly, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="Description: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Description, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Status: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Status, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Company Details -->
+            <StackPanel>
+                <TextBlock FontWeight="SemiBold" Text="Company Details:" Margin="0,10,0,5" />
+                <TextBlock>
+                    <Run Text="Name: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.Name, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Phone: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.Phone, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Address: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.Address, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Zipcode: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.Zipcode, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="City: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.City, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Contact Name: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.ContactName, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock>
+                    <Run Text="Contact Email: " FontWeight="Bold" />
+                    <Run Text="{x:Bind SelectedAppointment.Company.ContactMail, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Back Button -->
+            <Button Content="Back to Overview" Click="BtnOverviewNav_Click" HorizontalAlignment="Left" />
+        </StackPanel>
+    </Grid>
+</Page>

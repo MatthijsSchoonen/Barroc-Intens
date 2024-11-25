@@ -56,6 +56,7 @@ namespace Barroc_Intens
                 {
                     // Password verified. Give user (with company info) along with event handler & return
                     User.LoggedInUser = user;
+                    LocalStore.SetLoggedInUser(user);
                     LoginSuccessful?.Invoke(this, user);
                     return;
                 }

@@ -19,13 +19,16 @@
 		<None Remove="BlankPage1.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Views\Maintenance\VisitDetails.xaml" />
+		<None Remove="Views\Maintenance\VisitOverview.xaml" />
+		<None Remove="Views\Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Compile Include="Data\AppDbContextExample.cs.example" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
@@ -70,6 +73,28 @@
 		<Page Update="SignIn.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Dashboards\Customer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\Customer\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Maintenance\VisitDetails.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Maintenance\VisitOverview.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
