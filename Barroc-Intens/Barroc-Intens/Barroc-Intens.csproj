@@ -16,18 +16,8 @@
 
 	<ItemGroup>
 		<None Remove="BlankPage1.xaml" />
-		<None Remove="Dashboards\Customer.xaml" />
-		<None Remove="Dashboards\Finance.xaml" />
-		<None Remove="Dashboards\HeadMaintenance.xaml" />
-		<None Remove="Dashboards\HeadPurchase.xaml" />
-		<None Remove="Dashboards\Maintenance.xaml" />
-		<None Remove="Dashboards\Purchase.xaml" />
-		<None Remove="Dashboards\Sales.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
-		<None Remove="Sales\MailPage.xaml" />
-		<None Remove="Maintenance\VisitCreate.xaml" />
-		<None Remove="Sales\NotePage.xaml" />
 		<None Remove="Invoice.xaml" />
 		<None Remove="WorkOrder.xaml" />
 	</ItemGroup>
@@ -64,49 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Page Update="Sales\MailPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Page Update="WorkOrder.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\HeadPurchase.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\HeadMaintenance.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\Purchase.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\Sales.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\Maintenance.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\Finance.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>
@@ -115,48 +63,12 @@
 		<Page Update="NotFound.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-		<Page Update="PurchaseViews\AddStockView.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Page Update="PurchaseViews\StockEditView.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Page Update="PurchaseViews\StockView.xaml">
-		  <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		  <Generator>MSBuild:Compile</Generator>
-		</Page>
 	</ItemGroup>
 
 	<ItemGroup>
 		<Page Update="SignIn.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Dashboards\Customer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Sales\NotePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	   <Page Update="Sales\Invoice.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Page Update="Maintenance\VisitCreate.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

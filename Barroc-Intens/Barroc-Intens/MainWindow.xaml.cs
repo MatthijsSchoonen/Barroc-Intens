@@ -40,7 +40,51 @@ namespace Barroc_Intens
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             ShowLoginPage();
+            LoadNav();
         }
+
+        private void LoadNav()
+        {
+            // Reset visibility for all links
+            PurchaseLinks.Visibility = Visibility.Collapsed;
+            MaintenanceLinks.Visibility = Visibility.Collapsed;
+            SalesLinks.Visibility = Visibility.Collapsed;
+            FinanceLinks.Visibility = Visibility.Collapsed;
+            SalesMailLink.Visibility = Visibility.Collapsed;
+            FinanceWorkOrderLinks.Visibility = Visibility.Collapsed;
+
+            if (loggedInUser == null)
+            {
+                // Show login and hide logout if no user is logged in
+                LoginLinks.Visibility = Visibility.Visible;
+                LogoutLinks.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            // Hide login and show logout when a user is logged in
+            LoginLinks.Visibility = Visibility.Collapsed;
+            LogoutLinks.Visibility = Visibility.Visible;
+
+            // Show specific navigation items based on department type
+            switch (loggedInUser.Department.Type)
+            {
+                case "Purchase":
+                    PurchaseLinks.Visibility = Visibility.Visible;
+                    break;
+                case "Maintenance":
+                    MaintenanceLinks.Visibility = Visibility.Visible;
+                    break;
+                case "Sales":
+                    SalesLinks.Visibility = Visibility.Visible;
+                    SalesMailLink.Visibility =Visibility.Visible;
+                    break;
+                case "Finance":
+                    FinanceLinks.Visibility = Visibility.Visible;
+                    FinanceWorkOrderLinks.Visibility= Visibility.Visible;
+                    break;
+            }
+        }
+
 
         private void ShowLoginPage()
         {
@@ -79,7 +123,7 @@ namespace Barroc_Intens
         // Navigation between pages.
         private void SwitchPage(string pageName="NotFound", string nameSpace = "Barroc_Intens",string completeTerm = "None")
         {
-            
+            LoadNav();
             Type pageType;
             if (completeTerm != "None") {
                 pageType = Type.GetType(completeTerm);
