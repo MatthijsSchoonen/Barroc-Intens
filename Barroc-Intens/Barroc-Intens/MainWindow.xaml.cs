@@ -52,6 +52,7 @@ namespace Barroc_Intens
             FinanceLinks.Visibility = Visibility.Collapsed;
             SalesMailLink.Visibility = Visibility.Collapsed;
             FinanceWorkOrderLinks.Visibility = Visibility.Collapsed;
+            NewCustomerLink.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
@@ -76,7 +77,8 @@ namespace Barroc_Intens
                     break;
                 case "Sales":
                     SalesLinks.Visibility = Visibility.Visible;
-                    SalesMailLink.Visibility =Visibility.Visible;
+                    SalesMailLink.Visibility = Visibility.Visible;
+                    NewCustomerLink.Visibility = Visibility.Visible;
                     break;
                 case "Finance":
                     FinanceLinks.Visibility = Visibility.Visible;
@@ -125,6 +127,8 @@ namespace Barroc_Intens
         {
             LoadNav();
             Type pageType;
+
+           
             if (completeTerm != "None") {
                 pageType = Type.GetType(completeTerm);
             }
@@ -139,6 +143,17 @@ namespace Barroc_Intens
                 contentFrame.Navigate(pageType);
                 return;
             }
+            if(completeTerm == "Barroc_Intens.Dashboards.Sales"  || pageName == "Sales")
+            {
+                contentFrame.Navigate(typeof(SalesDash));
+                return;
+            }
+            if (completeTerm == "NewCustomer")
+            {
+                contentFrame.Navigate(typeof(NewCustomerPage));
+                return;
+            }
+
             if(completeTerm == "StockView")
             {
                 ShowStockView();
