@@ -9,13 +9,15 @@ namespace Barroc_Intens.Data
     public class Invoice
     {
         public int Id { get; set; }
-        public DateOnly Date { get; set; }
-        public DateOnly? PaidAt { get; set; }
+        public DateOnly Date { get; set; } // Existing
+        public DateOnly? PaidAt { get; set; } // Existing
         public int ContractId { get; set; }
         public Contract Contract { get; set; }
 
-        public int VAT { get; set; }
-
-        public decimal ConnectionCost { get; set; } 
+        public decimal ConnectionCost { get; set; } // Add if missing
+        public int VAT { get; set; } // Add if missing
+        public DateOnly StartDate { get; set; } // Add Start Date
+        public DateOnly EndDate { get; set; } // Add End Date
     }
+
 }
