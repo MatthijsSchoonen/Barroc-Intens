@@ -11,7 +11,7 @@ namespace Barroc_Intens.Data
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate{ get; set; }
+        public DateTime EndDate { get; set; }
         public int CompanyId {  get; set; }
         public decimal ConnectionCost { get; set; } 
         public int VAT { get; set; } 
