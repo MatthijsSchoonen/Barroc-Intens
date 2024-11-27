@@ -22,8 +22,9 @@
 
         <StackPanel Grid.Row="0"  HorizontalAlignment="Center" Margin="0 100">
             <ComboBox x:Name="CompaniesComboBox" Width="300" PlaceholderText="Select a company" />
-            <Button HorizontalAlignment="Center"  Content="Select" Width="100" Click="OnSelectButtonClick" />
+       
         </StackPanel>
+        <Button HorizontalAlignment="Center"  Content="Select" Width="300" Margin="0 100 10 0" Click="OnSelectButtonClick" />
         <StackPanel Grid.Row="1">
             <ListView x:Name="ContractsListView"
           SelectionMode="Single"
