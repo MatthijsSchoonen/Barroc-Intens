@@ -11,28 +11,32 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Margin="30">
             <StackPanel Spacing="20">
-     
-
                 <!-- Invoice Information -->
                 <StackPanel>
                     <TextBlock Text="Invoice Information" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" />
+
+                    <!-- Connection Costs -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
-                        <TextBlock Text="Connection costs (€):" Width="150" VerticalAlignment="Center" />
-                        <TextBox x:Name="txtAansluitkosten" Width="150" />
+                        <TextBlock Text="Connection Costs (€):" Width="150" VerticalAlignment="Center" />
+                        <TextBox x:Name="txtAansluitkosten" Width="150" PlaceholderText="Enter costs" />
                     </StackPanel>
+
+                    <!-- VAT -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10" Margin="0,10,0,0">
                         <TextBlock Text="VAT (%):" Width="150" VerticalAlignment="Center" />
-                        <TextBox x:Name="txtBtwPercentage" Width="100" Text="21" />
+                        <TextBox x:Name="txtBtwPercentage" Width="100" Text="21" PlaceholderText="Enter VAT" />
                     </StackPanel>
                 </StackPanel>
 
                 <!-- Product Selection -->
                 <StackPanel>
                     <TextBlock Text="Select Products" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" />
+
+                    <!-- Product Dropdown -->
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <ComboBox x:Name="ProductComboBox" 
                                   Header="Select Product" 
-                                  PlaceholderText="Kies een product" 
+                                  PlaceholderText="Choose a product" 
                                   Width="300" />
                         <Button Content="Add Product" 
                                 Width="100" 
@@ -40,7 +44,7 @@
                                 Click="AddProduct_Click" />
                     </StackPanel>
 
-                    <!-- ListBox to show selected products -->
+                    <!-- Selected Products List -->
                     <ListBox x:Name="ProductListBox" Width="300" Height="200" Margin="0,10,0,0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -54,16 +58,21 @@
                 </StackPanel>
 
                 <!-- Date Selection -->
-                <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,10,0,0">
-                    <DatePicker x:Name="startDatePicker" Header="Start date" />
-                    <DatePicker x:Name="endDatePicker" Header="End date" />
+                <StackPanel>
+                    <TextBlock Text="Select Dates" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="20">
+                        <DatePicker x:Name="startDatePicker" Header="Start Date" />
+                        <DatePicker x:Name="endDatePicker" Header="End Date" />
+                    </StackPanel>
                 </StackPanel>
 
                 <!-- Company Selection -->
                 <StackPanel>
+                    <TextBlock Text="Select Company" FontWeight="Bold" FontSize="18" Margin="0,0,0,10" />
                     <ComboBox x:Name="CompanyComboBox" 
                               Header="Select Company" 
-                              PlaceholderText="Kies een bedrijf" 
+                              PlaceholderText="Choose a company" 
                               Width="300" />
                 </StackPanel>
 
@@ -76,7 +85,9 @@
                     <TextBlock x:Name="lblResult" 
                                FontWeight="Bold" 
                                VerticalAlignment="Center" 
-                               Margin="10,0,0,0" />
+                               Margin="10,0,0,0" 
+                               TextWrapping="Wrap" 
+                               Width="400" />
                 </StackPanel>
             </StackPanel>
         </Grid>

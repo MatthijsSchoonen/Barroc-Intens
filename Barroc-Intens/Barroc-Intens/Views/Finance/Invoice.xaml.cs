@@ -69,12 +69,12 @@ namespace Barroc_Intens
         // Generate invoice
         private void GenereerFactuur_Click(object sender, RoutedEventArgs e)
         {
-            if (!ValidateInputs()) return; // Step 1: Validate user inputs
+            if (!ValidateInputs()) return; // Validate inputs first
 
             using var db = new AppDbContext();
 
-            if (!TryCalculateInvoice(out decimal aansluitkosten, out decimal btwPercentage,
-                                      out decimal btwBedrag, out decimal totaal))
+            if (!TryCalculateInvoice(out decimal connectionCost, out int vatPercentage,
+                                      out decimal vatAmount, out decimal total))
             {
                 ShowError("Invalid values for connection costs or VAT percentage.");
                 return;
@@ -83,45 +83,50 @@ namespace Barroc_Intens
             var selectedCompany = CompanyComboBox.SelectedItem as Company;
             int companyId = selectedCompany?.Id ?? 0;
 
-            // Step 2: Create invoice record
+            // Create a new CustomInvoice
             var customInvoice = new CustomInvoice
             {
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
-                CompanyId = companyId
+                CompanyId = companyId,
+                ConnectionCost = connectionCost,
+                VAT = vatPercentage,
             };
 
             db.CustomInvoices.Add(customInvoice);
             db.SaveChanges();
 
-            // Step 3: Add selected products to invoice
+            // Add selected products to the invoice
             AddProductsToInvoice(db, customInvoice.Id);
 
             db.SaveChanges();
 
-            // Step 4: Display results and reset the form
-            lblResult.Text = $"Aansluitkosten: €{aansluitkosten:F2}\n" +
-                             $"BTW ({btwPercentage}%): €{btwBedrag:F2}\n" +
-                             $"Totaal: €{totaal:F2}";
+            // Display results and reset the form
+            lblResult.Text = $"Aansluitkosten: ï¿½{connectionCost:F2}\n" +
+                             $"BTW ({vatPercentage}%): ï¿½{vatAmount:F2}\n" +
+                             $"Totaal: ï¿½{total:F2}";
             ResetForm();
         }
 
-        // Try to calculate invoice totals
-        private bool TryCalculateInvoice(out decimal aansluitkosten, out decimal btwPercentage,
-                                         out decimal btwBedrag, out decimal totaal)
-        {
-            aansluitkosten = btwPercentage = btwBedrag = totaal = 0;
 
-            if (decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out aansluitkosten) &&
-                decimal.TryParse(txtBtwPercentage.Text, out btwPercentage))
+        // Try to calculate invoice totals
+        private bool TryCalculateInvoice(out decimal connectionCost, out int vatPercentage,
+                                   out decimal vatAmount, out decimal total)
+        {
+            connectionCost = vatAmount = total = 0;
+            vatPercentage = 0;
+
+            if (decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out connectionCost) &&
+                int.TryParse(txtBtwPercentage.Text, out vatPercentage))
             {
-                btwBedrag = (aansluitkosten * btwPercentage) / 100;
-                totaal = aansluitkosten + btwBedrag;
+                vatAmount = (connectionCost * vatPercentage) / 100;
+                total = connectionCost + vatAmount;
                 return true;
             }
 
             return false;
         }
+
 
         // Add selected products to the invoice
         private void AddProductsToInvoice(AppDbContext db, int invoiceId)
@@ -141,41 +146,38 @@ namespace Barroc_Intens
         }
 
         // Validate user inputs
-        private bool ValidateInputs()
-        {
-            if (!decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out _) ||
-                !decimal.TryParse(txtBtwPercentage.Text, out _))
-            {
-                ShowError("Please enter valid numbers for connection costs and VAT.");
-                return false;
-            }
+   private bool ValidateInputs()
+{
+    // Validate Connection Costs and VAT
+    if (!decimal.TryParse(txtAansluitkosten.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out _) ||
+        !int.TryParse(txtBtwPercentage.Text, out _))
+    {
+        ShowError("Please enter valid numbers for connection costs and VAT.");
+        return false;
+    }
 
-            if (SelectedProducts.Count == 0)
-            {
-                ShowError("Please add at least one product.");
-                return false;
-            }
+    // Ensure a company is selected
+    if (CompanyComboBox.SelectedIndex == -1)
+    {
+        ShowError("Please select a company.");
+        return false;
+    }
 
-            if (!startDatePicker.SelectedDate.HasValue || !endDatePicker.SelectedDate.HasValue)
-            {
-                ShowError("Please select both start and end dates.");
-                return false;
-            }
+    // Ensure dates are selected and valid
+    if (!startDatePicker.SelectedDate.HasValue || !endDatePicker.SelectedDate.HasValue)
+    {
+        ShowError("Please select both start and end dates.");
+        return false;
+    }
 
-            if (endDatePicker.SelectedDate.Value < startDatePicker.SelectedDate.Value)
-            {
-                ShowError("The end date cannot be before the start date.");
-                return false;
-            }
+    if (endDatePicker.SelectedDate.Value < startDatePicker.SelectedDate.Value)
+    {
+        ShowError("The end date cannot be before the start date.");
+        return false;
+    }
 
-            if (CompanyComboBox.SelectedIndex == -1)
-            {
-                ShowError("Please select a company.");
-                return false;
-            }
-
-            return true;
-        }
+    return true;
+}
 
         // Show error messages
         private void ShowError(string message)
