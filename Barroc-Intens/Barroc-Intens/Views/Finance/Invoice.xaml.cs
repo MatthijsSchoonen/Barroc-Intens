@@ -86,8 +86,8 @@ namespace Barroc_Intens
             // Step 2: Create invoice record
             var customInvoice = new CustomInvoice
             {
-                Date = DateTime.Now,
-                PaidAt = DateTime.Now,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
                 CompanyId = companyId
             };
 
