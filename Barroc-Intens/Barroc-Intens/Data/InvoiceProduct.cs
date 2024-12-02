@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intens.Data
 {
-    public class ContractProduct
+    public class InvoiceProduct
     {
         public int Id { get; set; }
         public int Amount { get; set; }
-        public int ContractId { get; set; }
         public int ProductId { get; set; }
-        public Contract Contract { get; set; }
         public Product Product { get; set; }
     }
 }
