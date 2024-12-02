@@ -17,6 +17,7 @@ using Barroc_Intens.Data;
 using System.Collections.ObjectModel;
 using Barroc_Intens.Dashboards;
 using System.Diagnostics;
+using Barroc_Intens.Views.Maintenance;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -283,6 +284,11 @@ namespace Barroc_Intens.Maintenance
             FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
             FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0, 30, 0));
             FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+        }
+
+        private void NavToOverview_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(VisitOverview));
         }
 
         // Remove employee from ComboBox source and display elsewhere in UI

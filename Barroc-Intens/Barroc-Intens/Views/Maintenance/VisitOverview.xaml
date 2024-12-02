@@ -16,7 +16,7 @@
             <Run Text="Logged in as: "/>
             <Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
         </TextBlock>
-
+        <Button x:Name="NavToCreate" Content="Create appointment" FontSize="15" Click="NavToCreate_Click"/>
         <!--  Week info-->
         <StackPanel>
             <TextBlock>

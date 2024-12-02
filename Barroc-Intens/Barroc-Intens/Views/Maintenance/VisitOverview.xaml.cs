@@ -8,6 +8,7 @@ using System.Linq;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Barroc_Intens.Maintenance;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -131,6 +132,11 @@ namespace Barroc_Intens.Views.Maintenance
             MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek(ScheduleStart));
             GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
             WeekNum.Text = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(MaintenanceDaySchedules[0].DateTimeObject, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
+        }
+
+        private void NavToCreate_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(VisitCreate));
         }
     }
 }

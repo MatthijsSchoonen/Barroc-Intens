@@ -112,9 +112,15 @@
                         <TextBlock x:Name="EmployeeError" Foreground="Red" />
                     </StackPanel>
 
-                    <StackPanel Padding="5">
-                        <TextBlock Text="Submit" />
-                        <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                    <StackPanel Padding="5" Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock Text="Submit" />
+                            <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Cancel" />
+                            <Button Content="Cancel" x:Name="NavToOverview" Click="NavToOverview_Click" />
+                        </StackPanel>                            
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
