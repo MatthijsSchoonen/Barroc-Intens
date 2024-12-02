@@ -14,9 +14,9 @@
 //    {
 //        public DbSet<Company> Companies { get; set; }
 //        public DbSet<Contract> Contracts { get; set; }
-//        public DbSet<ContractProduct> ContractProducts { get; set; }
-//        public DbSet<CustomInvoice> CustomInvoices { get; set; }
-//        public DbSet<CustomInvoiceProduct> CustomInvoiceProducts { get; set; }
+//        public DbSet<InvoiceProduct> InvoiceProducts { get; set; }
+//        public DbSet<Role> Roles { get; set; }
+//        public DbSet<Brand> Brands { get; set; }
 //        public DbSet<Department> Departments { get; set; }
 //        public DbSet<Invoice> Invoices { get; set; }
 //        public DbSet<MaintenanceAppointment> MaintenanceAppointments { get; set; }
@@ -45,17 +45,9 @@
 //            modelBuilder.Entity<Contract>()
 //                .HasMany(c => c.Products)
 //                .WithMany(p => p.Contracts)
-//                .UsingEntity<ContractProduct>();
+//                .UsingEntity<InvoiceProduct>();
 
-//            modelBuilder.Entity<CustomInvoice>()
-//                .HasMany(c => c.Products)
-//                .WithMany(p => p.CustomInvoices)
-//                .UsingEntity<CustomInvoiceProduct>();
 
-//            modelBuilder.Entity<MaintenanceAppointment>()
-//                .HasMany(m => m.Products)
-//                .WithMany(p => p.MaintenanceAppointments)
-//                .UsingEntity<MaintenanceAppointmentProduct>();
 
 //            modelBuilder.Entity<User>().HasData(
 
@@ -305,7 +297,6 @@
 //                    StartTime = new DateTime(2024, 01, 01, 10, 0, 0),
 //                    EndTime = new DateTime(2024, 08, 01, 01, 23, 0),
 //                    CompanyId = 1,
-//                    ProductId = 1,
 //                    Status = 1,
 //                },
 //                new MaintenanceAppointment
@@ -316,7 +307,6 @@
 //                    StartTime = new DateTime(2024, 01, 01, 10, 0, 0),
 //                    EndTime = new DateTime(2024, 08, 01, 01, 23, 0),
 //                    CompanyId = 1,
-//                    ProductId = 1,
 //                    Status = 1,
 //                    UserId = 12
 //                },
@@ -328,7 +318,6 @@
 //                    StartTime = new DateTime(2023, 08, 02, 13, 23, 0),
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
-//                    ProductId = 1,
 //                    Status = 1,
 //                    UserId = 12
 //                },
@@ -341,7 +330,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
-//                    ProductId = 1,
 //                    UserId = null
 //                },
 //                new MaintenanceAppointment
@@ -353,7 +341,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
-//                    ProductId = 1,
 //                    UserId = null
 //                },
 //                new MaintenanceAppointment
@@ -365,7 +352,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 1,
-//                    ProductId = 1,
 //                    UserId = null
 //                },
 //                new MaintenanceAppointment
@@ -377,7 +363,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
-//                    ProductId = 1,
 //                    UserId = null
 //                },
 //                new MaintenanceAppointment
@@ -389,7 +374,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
-//                    ProductId = 1,
 //                    UserId = null
 //                },
 //                new MaintenanceAppointment
@@ -401,7 +385,6 @@
 //                    EndTime = new DateTime(2023, 12, 09, 03, 05, 0),
 //                    CompanyId = 1,
 //                    Status = 99,
-//                    ProductId = 1,
 //                    UserId = null
 //                }
 //            );
@@ -460,19 +443,19 @@
 //                {
 //                    Id = 1,
 //                    Name = "Automaten",
-//                    IsEmployeeOnly = 1,
+//                    IsEmployeeOnly = false,
 //                },
 //                new ProductsCategory
 //                {
 //                    Id = 2,
 //                    Name = "Koffiebonen",
-//                    IsEmployeeOnly = 1,
+//                    IsEmployeeOnly = false,
 //                },
 //                new ProductsCategory
 //                {
 //                    Id = 3,
 //                    Name = "Onderdelen",
-//                    IsEmployeeOnly = 1,
+//                    IsEmployeeOnly = false,
 //                }
 //            );
 
@@ -520,6 +503,16 @@
 //                    ProductId = 17,
 //                }
 //            );
+//            modelBuilder.Entity<Brand>().HasData(
+//                new Brand
+//                {
+//                    Id = 1,
+//                    Name = "Barroc",
+//                }
+//                );
+
+
+
 
 //            modelBuilder.Entity<Product>().HasData(
 //                new Product
@@ -527,7 +520,7 @@
 //                    Id = 1,
 //                    Name = "Barroc Intens Italian Light",
 //                    Description = "Een Koffie machine",
-//                    Brand = "Barroc",
+//                    BrandId = 1,
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -537,7 +530,7 @@
 //                    Id = 2,
 //                    Name = "Barroc Intens Italian",
 //                    Description = "Een Koffie machine",
-//                    Brand = "Barroc",
+//                    BrandId = 1,
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -547,7 +540,7 @@
 //                    Id = 3,
 //                    Name = "Barroc Intens Italian Deluxe",
 //                    Description = "Een Koffie machine",
-//                    Brand = "Barroc",
+//                    BrandId = 1,
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -557,7 +550,7 @@
 //                    Id = 4,
 //                    Name = "Barroc Intens Italian Deluxe Special",
 //                    Description = "Een Koffie machine",
-//                    Brand = "Barroc",
+//                    BrandId = 1,
 //                    Price = 499,
 //                    Stock = 50,
 //                    ProductsCategoryId = 1
@@ -727,44 +720,27 @@
 //                }
 //            );
 
-//            modelBuilder.Entity<ContractProduct>().HasData(
-//                new ContractProduct
+//            modelBuilder.Entity<InvoiceProduct>().HasData(
+//                new InvoiceProduct
 //                {
 //                    Id = 1,
-//                    ContractId = 1,
 //                    ProductId = 1,
 //                    Amount = 5,
 //                }
 //            );
 
-//            modelBuilder.Entity<CustomInvoice>().HasData(
-//               new CustomInvoice
-//               {
-//                   Id = 1,
-//                   StartDate = DateTime.Now,
-//                   EndDate = DateTime.Now,
-//                   CompanyId = 1,
-//               }
-//           );
 
-//            modelBuilder.Entity<CustomInvoiceProduct>().HasData(
-//                new CustomInvoiceProduct
-//                {
-//                    Id = 1,
-//                    ProductId = 1,
-//                    CustomInvoiceId = 1,
-//                    Amount = 50,
-//                    PricePerProduct = 5,
-//                }
-//            );
+
+
 
 //            modelBuilder.Entity<Invoice>().HasData(
 //                new Invoice
 //                {
 //                    Id = 1,
-//                    Date = DateOnly.FromDateTime(DateTime.UtcNow),
-//                    PaidAt = DateOnly.FromDateTime(DateTime.UtcNow),
+//                    StartDate = DateTime.UtcNow,
+//                    EndDate = DateTime.UtcNow,
 //                    ContractId = 1,
+//                    VAT = 21,
 //                }
 //            );
 //        }
