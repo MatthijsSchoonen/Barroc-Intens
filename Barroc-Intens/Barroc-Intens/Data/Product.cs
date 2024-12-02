@@ -10,6 +10,7 @@ namespace Barroc_Intens.Data
     public class Product
     {
         public int Id { get; set; }
+        public int? ProductsCategoryId { get; set; }
         public ProductsCategory ProductsCategory { get; set; }
         public int? BrandId { get; set; }
         public string Name { get; set; }
