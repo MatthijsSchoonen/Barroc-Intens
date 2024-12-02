@@ -88,7 +88,7 @@ namespace Barroc_Intens.PurchaseViews
                 {
                     Name = nameInput.Text,
                     Description = descInput.Text,
-                    Brand = brand,
+                    BrandId = 1,
                     Price = decimal.Parse(priceInput.Text),
                     Stock = int.Parse(stockInput.Text),
                     ProductsCategoryId = selectedCategory.Id

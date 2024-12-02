@@ -64,18 +64,18 @@ namespace Barroc_Intens.PurchaseViews
 
             // Clear and repopulate FilteredProducts based on the filter criteria
             FilteredProducts.Clear();
-            foreach (var product in Products)
-            {
-                bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
-                                    (product.Brand != null && product.Brand.ToLower().Contains(brandFilter));
-                bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
-                                          (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
+            //foreach (var product in Products)
+            //{
+            //    bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
+            //                        (product.Brand != null && product.Brand.ToLower().Contains(brandFilter));
+            //    bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
+            //                              (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
 
-                if (matchesBrand && matchesDescription)
-                {
-                    FilteredProducts.Add(product);
-                }
-            }
+            //    if (matchesBrand && matchesDescription)
+            //    {
+            //        FilteredProducts.Add(product);
+            //    }
+            //}
         }
 
         private void AddProductFormButton_Click(object sender, RoutedEventArgs e)

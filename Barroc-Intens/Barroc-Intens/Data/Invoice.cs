@@ -16,8 +16,8 @@ namespace Barroc_Intens.Data
 
         public decimal ConnectionCost { get; set; } // Add if missing
         public int VAT { get; set; } // Add if missing
-        public DateOnly StartDate { get; set; } // Add Start Date
-        public DateOnly EndDate { get; set; } // Add End Date
+        public DateTime StartDate { get; set; } // Add Start Date
+        public DateTime EndDate { get; set; } // Add End Date
     }
 
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Barroc_Intens.Data;
+using Windows.Globalization;
 
 namespace Barroc_Intens
 {
@@ -14,7 +15,7 @@ namespace Barroc_Intens
     {
         // ObservableCollection to track selected products
         public ObservableCollection<string> SelectedProducts { get; set; }
-
+        public int amount;
         public InvoicePage()
         {
             this.InitializeComponent();
@@ -84,7 +85,7 @@ namespace Barroc_Intens
             int companyId = selectedCompany?.Id ?? 0;
 
             // Create a new CustomInvoice
-            var customInvoice = new CustomInvoice
+            var customInvoice = new Invoice
             {
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now,
@@ -93,11 +94,11 @@ namespace Barroc_Intens
                 VAT = vatPercentage,
             };
 
-            db.CustomInvoices.Add(customInvoice);
+            db.Invoices.Add(customInvoice);
             db.SaveChanges();
 
             // Add selected products to the invoice
-            AddProductsToInvoice(db, customInvoice.Id);
+            AddProductsToInvoice(db);
 
             db.SaveChanges();
 
@@ -129,17 +130,24 @@ namespace Barroc_Intens
 
 
         // Add selected products to the invoice
-        private void AddProductsToInvoice(AppDbContext db, int invoiceId)
+        private void AddProductsToInvoice(AppDbContext db)
         {
+            if(!int.TryParse(AmountText.Text, out amount))
+            {
+                ShowError("Please enter valid numbers");
+                return;
+            }
+            
+              
             foreach (var productName in SelectedProducts)
             {
                 var product = db.Products.FirstOrDefault(p => p.Name == productName);
                 if (product != null)
                 {
-                    db.CustomInvoiceProducts.Add(new CustomInvoiceProduct
+                    db.InvoiceProducts.Add(new InvoiceProduct
                     {
                         ProductId = product.Id,
-                        CustomInvoiceId = invoiceId
+                        Amount = amount,
                     });
                 }
             }

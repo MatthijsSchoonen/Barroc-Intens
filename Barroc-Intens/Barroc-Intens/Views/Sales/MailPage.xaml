@@ -42,7 +42,7 @@
                             <TextBlock Text="Products:" FontWeight="Bold" />
                             <ItemsControl ItemsSource="{x:Bind ContractProducts}">
                                 <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="localData:ContractProduct">
+                                    <DataTemplate x:DataType="localData:InvoiceProduct">
                                         <TextBlock Text="{x:Bind Product.Name}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

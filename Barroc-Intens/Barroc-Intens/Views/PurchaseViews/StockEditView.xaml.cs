@@ -36,7 +36,7 @@ namespace Barroc_Intens.PurchaseViews
             Product product = db.Products.First(p => p.Id == productId);
             nameInput.Text = product.Name;
             descInput.Text = product.Description;
-            brandInput.Text = product.Brand;
+            brandInput.Text = "1";
             priceInput.Text = product.Price.ToString();
             stockInput.Text = product.Stock.ToString();
             productCategoryInput.ItemsSource = db.ProductsCategories;
@@ -96,7 +96,7 @@ namespace Barroc_Intens.PurchaseViews
             var product = db.Products.First(p => p.Id == currentProductId);
             product.Name = nameInput.Text;
             product.Description = descInput.Text;
-            product.Brand = brandInput.Text;
+            product.BrandId = 1;
             product.ProductsCategory = (ProductsCategory)productCategoryInput.SelectedItem;
             db.SaveChanges();
             this.Close();
