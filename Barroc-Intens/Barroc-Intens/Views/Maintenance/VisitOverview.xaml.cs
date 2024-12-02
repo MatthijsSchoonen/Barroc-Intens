@@ -136,7 +136,7 @@ namespace Barroc_Intens.Views.Maintenance
 
         private void NavToCreate_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(VisitCreate));
+            Frame.Navigate(typeof(VisitCreate),User.LoggedInUser);
         }
     }
 }

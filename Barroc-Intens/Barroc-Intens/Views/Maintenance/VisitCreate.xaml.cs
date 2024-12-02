@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using Barroc_Intens.Dashboards;
 using System.Diagnostics;
 using Barroc_Intens.Views.Maintenance;
+using iText.Kernel.Pdf.Canvas.Parser.ClipperLib;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -84,7 +85,7 @@ namespace Barroc_Intens.Maintenance
         }
 
         // Validation and store into DB
-        private void FOnSubmit_Click(object sender, RoutedEventArgs e)
+        private async void FOnSubmit_Click(object sender, RoutedEventArgs e)
         {
 
             // Check if start does not exceed end
@@ -211,7 +212,15 @@ namespace Barroc_Intens.Maintenance
                 //newApp.Products = selectedCompartments.ToArray();
                 Debug.WriteLine(newApp.ToString());
                 dbContext.SaveChanges();
-
+                ContentDialog confirmationDialog = new ContentDialog()
+                {
+                    Title = "Succesfully added",
+                    Content = "The appointment is succesfully stored into the database. You will be redirected to the overview page.",
+                    CloseButtonText = "Ok",
+                    XamlRoot = this.Content.XamlRoot
+                };
+                await confirmationDialog.ShowAsync();
+                Frame.Navigate(typeof(VisitOverview));
             }
         }
 
@@ -259,31 +268,41 @@ namespace Barroc_Intens.Maintenance
 
         private void FVisitStart_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            FVisitEnd.SelectedDateChanged -= FVisitEnd_SelectedDateChanged;
-            FVisitEnd.Date = FVisitStart.Date;
-            FVisitEnd.SelectedDateChanged += FVisitEnd_SelectedDateChanged;
+            if(!FVisitEnd.SelectedDate.HasValue)
+            {
+                FVisitEnd.SelectedDateChanged -= FVisitEnd_SelectedDateChanged;
+                FVisitEnd.Date = FVisitStart.Date;
+                FVisitEnd.SelectedDateChanged += FVisitEnd_SelectedDateChanged;
+            }
         }
 
         private void FVisitStartTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            FVisitEndTime.SelectedTimeChanged -= FVisitEndTime_SelectedTimeChanged;
-            FVisitEndTime.Time = FVisitStartTime.Time.Add(new TimeSpan(0, 30, 0));
-            FVisitEndTime.SelectedTimeChanged += FVisitEndTime_SelectedTimeChanged;
-
+            if(!FVisitEndTime.SelectedTime.HasValue)
+            {
+                FVisitEndTime.SelectedTimeChanged -= FVisitEndTime_SelectedTimeChanged;
+                FVisitEndTime.Time = FVisitStartTime.Time.Add(new TimeSpan(0, 30, 0));
+                FVisitEndTime.SelectedTimeChanged += FVisitEndTime_SelectedTimeChanged;
+            }
         }
 
         private void FVisitEnd_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            FVisitStart.SelectedDateChanged -= FVisitStart_SelectedDateChanged;
-            FVisitStart.Date = FVisitEnd.Date;
-            FVisitStart.SelectedDateChanged += FVisitStart_SelectedDateChanged;
+            if (!FVisitStart.SelectedDate.HasValue) {
+                FVisitStart.SelectedDateChanged -= FVisitStart_SelectedDateChanged;
+                FVisitStart.Date = FVisitEnd.Date;
+                FVisitStart.SelectedDateChanged += FVisitStart_SelectedDateChanged;
+            }
+
         }
 
         private void FVisitEndTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
-            FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0, 30, 0));
-            FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+            if (!FVisitStartTime.SelectedTime.HasValue) {
+                FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
+                FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0, 30, 0));
+                FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+            }
         }
 
         private void NavToOverview_Click(object sender, RoutedEventArgs e)
