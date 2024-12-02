@@ -26,8 +26,8 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="DecreaseWeek" Content="&lt;" FontSize="20" Click="DecreaseWeek_Click" />
-            <Button x:Name="IncreaseWeek" Content="&gt;" FontSize="20" Click="IncreaseWeek_Click" />
+            <Button x:Name="DecreaseWeek" Content="&lt;" FontSize="20" Click="DecreaseWeek_Click" HorizontalAlignment="Left" />
+            <Button x:Name="IncreaseWeek" Content="&gt;" FontSize="20" Click="IncreaseWeek_Click" HorizontalAlignment="Right" />
         </StackPanel>        
         
         <!-- Week overview -->

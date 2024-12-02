@@ -19,6 +19,7 @@ namespace Barroc_Intens.Views.Maintenance
         private User LoggedInUser = LocalStore.GetLoggedInUser();
         private ObservableCollection<MaintenanceDaySchedule> MaintenanceDaySchedules = new ObservableCollection<MaintenanceDaySchedule>();
         private ObservableCollection<MaintenanceAppointment> Visits = new ObservableCollection<MaintenanceAppointment>();
+        private DateTime ScheduleStart;
 
         public VisitOverview()
         {
@@ -30,24 +31,27 @@ namespace Barroc_Intens.Views.Maintenance
         {
             RnLoggedInUser.Text = LoggedInUser.Name.ToString();
             SetVisits();
-            MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek());
-            Debug.WriteLine($"MaintenanceDaySchedules count: {MaintenanceDaySchedules.Count}");
-            foreach (MaintenanceDaySchedule schedule in MaintenanceDaySchedules)
-            {
-                Debug.WriteLine($"Day: {schedule.DayOfTheWeek}, Appointments: {schedule.Appointments.Count}");
-                foreach(MaintenanceAppointment app in schedule.Appointments)
-                {
-                    Debug.WriteLine(app.Title);
-                    Debug.WriteLine(app.Company.Address);
-                }
-            }
+            ScheduleStart = DateTime.Now;
+            MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek(ScheduleStart));
             GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
-            WeekNum.Text = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(MaintenanceDaySchedules[0].DateTimeObject, CalendarWeekRule.FirstFourDayWeek,DayOfWeek.Monday).ToString();
 
+            // Retrieve weekNumber of first item in MaintenanceDaySchedules and set it to WeekNum run.
+            WeekNum.Text = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(MaintenanceDaySchedules[0].DateTimeObject, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
 
-            DateTime date = DateTime.Now; // or any other date
-            Calendar calendar = CultureInfo.CurrentCulture.Calendar;
-            int weekNumber = calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            //Debug.WriteLine($"MaintenanceDaySchedules count: {MaintenanceDaySchedules.Count}");
+            //foreach (MaintenanceDaySchedule schedule in MaintenanceDaySchedules)
+            //{
+            //    Debug.WriteLine($"Day: {schedule.DayOfTheWeek}, Appointments: {schedule.Appointments.Count}");
+            //    foreach(MaintenanceAppointment app in schedule.Appointments)
+            //    {
+            //        Debug.WriteLine(app.Title);
+            //        Debug.WriteLine(app.Company.Address);
+            //    }
+            //}
+            // // WeekNum retrieve example
+            //DateTime date = DateTime.Now; // or any other date
+            //Calendar calendar = CultureInfo.CurrentCulture.Calendar;
+            //int weekNumber = calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
         private void SetVisits()
@@ -62,9 +66,9 @@ namespace Barroc_Intens.Views.Maintenance
             }
         }
 
-        private List<DateTime> CalculateDaysOfTWeek()
+        private List<DateTime> CalculateDaysOfTWeek(DateTime currentDate)
         {
-            DateTime currentDate = DateTime.Now;
+            
             DayOfWeek weekStart = DayOfWeek.Monday;
             DateTime startOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek + (int)weekStart);
             if (currentDate.DayOfWeek < weekStart)
@@ -110,6 +114,23 @@ namespace Barroc_Intens.Views.Maintenance
             MaintenanceAppointment selectedItem = e.ClickedItem as MaintenanceAppointment;
             Debug.WriteLine($"Selecteditem: {selectedItem} | Frame: {Frame}");
             Frame.Navigate(typeof(VisitDetails),selectedItem);
+        }
+
+        private void DecreaseWeek_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleStart = ScheduleStart.AddDays(-7);
+            MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek(ScheduleStart));
+            GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
+            WeekNum.Text = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(MaintenanceDaySchedules[0].DateTimeObject, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
+
+        }
+
+        private void IncreaseWeek_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleStart = ScheduleStart.AddDays(+7);
+            MaintenanceDaySchedules = CreateDaySchedules(CalculateDaysOfTWeek(ScheduleStart));
+            GvWeekOverview.ItemsSource = MaintenanceDaySchedules;
+            WeekNum.Text = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(MaintenanceDaySchedules[0].DateTimeObject, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday).ToString();
         }
     }
 }
