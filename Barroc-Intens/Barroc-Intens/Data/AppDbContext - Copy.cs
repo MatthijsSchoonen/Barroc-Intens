@@ -100,7 +100,7 @@
 //                    Name = "MaintenanceAdmin",
 //                    Email = "AdminMaint@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
-//                    DepartmentId = 6,
+//                    DepartmentId = 3,
 //                },
 //                new User
 //                {
@@ -184,7 +184,7 @@
 //                    Name = "PurchaseAdmin",
 //                    Email = "AdminPurch@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
-//                    DepartmentId = 7,
+//                    DepartmentId = 5,
 //                },
 //                new User
 //                {
