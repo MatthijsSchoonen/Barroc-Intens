@@ -54,8 +54,9 @@
 
                 <!-- Purchase Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="StockView" Tag="StockView" x:Name="PurchaseLinks" Visibility="Collapsed"/>
+                <NavigationViewItem Foreground="#f4cd1b" Icon="Save" Content="Purchases" Tag="Purchases" x:Name="PurchasesLinks" Visibility="Collapsed" />
 
-                 <!-- Sales Links -->
+                <!-- Sales Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" x:Name="SalesLinks" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Mail" Tag="Mail" x:Name="SalesMailLink" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="NewCustomer" Tag="NewCustomer" x:Name="NewCustomerLink" Visibility="Collapsed" />

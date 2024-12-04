@@ -57,7 +57,7 @@
                       IsItemClickEnabled="True"
                       ItemClick="StockSearchingView_ItemClick"
                       HorizontalAlignment="Stretch"
-                      ItemsSource="{x:Bind Products, Mode=OneWay}">
+                      ItemsSource="{x:Bind FilteredProducts, Mode=OneWay}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="localData:Product">

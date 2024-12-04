@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Views.PurchaseViews.PurchasesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Views.PurchaseViews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel Padding="10">
+        <TextBlock FontSize="24" FontWeight="Bold" Text="Purchases View" />
+        <Button x:Name="MakePurchaseToggle" Content="Make Purchase" Click="MakePurchaseToggle_Click" />
+
+        <StackPanel x:Name="CreatePurchase" Visibility="Collapsed" >
+            <TextBlock Text="Select Products" />
+            <StackPanel BorderBrush="Black" BorderThickness="2">
+                <TextBlock FontSize="18" FontWeight="Bold" x:Name="ProductTitle" />
+                <TextBlock FontSize="12" x:Name="ProductDescription" />
+
+                <StackPanel x:Name="AmountPanel" Orientation="Horizontal" >
+                    <TextBlock Text="Select amount" />
+                    <TextBox x:Name="FProdAmount" />
+                    <Button x:Name="AddProduct" Content="Add Product" Click="" />
+                </StackPanel>
+            </StackPanel>
+            <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged"  />
+
+        </StackPanel>
+    </StackPanel>
+</Page>
