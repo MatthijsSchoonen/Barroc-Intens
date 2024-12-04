@@ -13,19 +13,19 @@
         <TextBlock FontSize="24" FontWeight="Bold" Text="Purchases View" />
         <Button x:Name="MakePurchaseToggle" Content="Make Purchase" Click="MakePurchaseToggle_Click" />
 
-        <StackPanel x:Name="CreatePurchase" Visibility="Collapsed" >
+        <StackPanel x:Name="CreatePurchase"  Visibility="Collapsed" >
             <TextBlock Text="Select Products" />
-            <StackPanel BorderBrush="Black" BorderThickness="2">
+            <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="InfoPanel" Visibility="Collapsed" >
                 <TextBlock FontSize="18" FontWeight="Bold" x:Name="ProductTitle" />
                 <TextBlock FontSize="12" x:Name="ProductDescription" />
 
-                <StackPanel x:Name="AmountPanel" Orientation="Horizontal" >
-                    <TextBlock Text="Select amount" />
-                    <TextBox x:Name="FProdAmount" />
-                    <Button x:Name="AddProduct" Content="Add Product" Click="" />
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Enter amount" />
+                    <NumberBox x:Name="FProdAmount" />
+                    <Button x:Name="AddProduct" Content="Add Product" Click="OnAddProductClick" />
                 </StackPanel>
             </StackPanel>
-            <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged"  />
+            <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged" />
 
         </StackPanel>
     </StackPanel>
