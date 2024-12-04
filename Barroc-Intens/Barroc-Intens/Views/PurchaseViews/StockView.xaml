@@ -25,13 +25,13 @@
             <TextBox x:Name="BrandFilterTextBox"
                  PlaceholderText="Filter by Brand"
                  Width="200"
-                     Height="20"
+                 Height="20"
                  Margin="0 0 10 0"
                  TextChanged="FilterTextBox_TextChanged"/>
             <TextBox x:Name="DescriptionFilterTextBox"
                  PlaceholderText="Filter by Description"
                  Width="200"
-                     Height="20"
+                 Height="20"
                  TextChanged="FilterTextBox_TextChanged"/>
         </StackPanel>
 
@@ -57,7 +57,7 @@
                       IsItemClickEnabled="True"
                       ItemClick="StockSearchingView_ItemClick"
                       HorizontalAlignment="Stretch"
-                      ItemsSource="{x:Bind FilteredProducts, Mode=OneWay}">
+                      ItemsSource="{x:Bind Products, Mode=OneWay}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="localData:Product">
