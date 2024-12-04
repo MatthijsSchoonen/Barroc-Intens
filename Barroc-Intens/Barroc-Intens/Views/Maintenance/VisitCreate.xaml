@@ -22,7 +22,7 @@
                     <StackPanel Padding="5" >
                         <TextBlock Text="The start date of Visit" />
                         <DatePicker x:Name="FVisitStart" SelectedDateChanged="FVisitStart_SelectedDateChanged"  />
-                        <TimePicker x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
+                        <TimePicker ClockIdentifier="24HourClock" x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
                         <TextBlock Foreground="Red" x:Name="StartDateError" />
                         <!-- <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" Content="Print value in ErrorBox"  />-->
                     </StackPanel>
@@ -31,7 +31,7 @@
                     <StackPanel Padding="5">
                         <TextBlock Text="End of Visit" />
                         <DatePicker x:Name="FVisitEnd" SelectedDateChanged="FVisitEnd_SelectedDateChanged" />
-                        <TimePicker x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
+                        <TimePicker ClockIdentifier="24HourClock" x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
                         <TextBlock Foreground="Red" x:Name="EndDateError"/>
                     </StackPanel>
 
