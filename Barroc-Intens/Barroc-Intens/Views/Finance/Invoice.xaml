@@ -21,6 +21,11 @@
                         <TextBox x:Name="txtAansluitkosten" Width="150" PlaceholderText="Enter costs" />
                     </StackPanel>
 
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10" Margin="0,10,0,0">
+                        <TextBlock Text="Amount:" Width="150" VerticalAlignment="Center" />
+                        <TextBox x:Name="AmountText" Width="100" Text="21" PlaceholderText="Amount" />
+                    </StackPanel>
                     <!-- VAT -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10" Margin="0,10,0,0">
                         <TextBlock Text="VAT (%):" Width="150" VerticalAlignment="Center" />

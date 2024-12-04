@@ -10,10 +10,7 @@ namespace Barroc_Intens.Data
     public class MaintenanceAppointment
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
-        public ICollection<Product> Products { get; set; }
-        public ICollection<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
+
         public int? UserId { get; set; } = null;
         public User User { get; set; }
         public int CompanyId { get; set; }
@@ -24,6 +21,8 @@ namespace Barroc_Intens.Data
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Title { get; set; }
+
+        public ICollection<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
 
         // New properties for formatted time strings
         public string StartTimeOnly => StartTime.ToString("HH:mm"); 

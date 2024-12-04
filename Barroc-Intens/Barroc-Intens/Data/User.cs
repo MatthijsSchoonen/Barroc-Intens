@@ -16,6 +16,7 @@ namespace Barroc_Intens.Data
         public string Password { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
+        public Role Role { get; set; }
         public ICollection<Company> Companies { get; set; }
         public ICollection<Note> Notes { get; set; }
 

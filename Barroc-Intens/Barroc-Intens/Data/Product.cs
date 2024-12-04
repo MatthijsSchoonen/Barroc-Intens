@@ -9,27 +9,25 @@ namespace Barroc_Intens.Data
 {
     public class Product
     {
-        private decimal _price;
         public int Id { get; set; }
+        public int? ProductsCategoryId { get; set; }
+        public ProductsCategory ProductsCategory { get; set; }
+        public int? BrandId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string? Brand { get; set; }
-        public decimal Price
-        {
-            get => Math.Round(_price, 2);
-            set => _price = Math.Round(value, 2);
-        }
+      
+
+        public decimal? Price { get; set; }
         public int Stock {  get; set; }
 
-        [InverseProperty(nameof(MaintenanceAppointment.Product))]
+
+    
         public ICollection<MaintenanceAppointment> ProductMaintenanceAppointments { get; set; }
         public ICollection<MaintenanceAppointment> MaintenanceAppointments { get; set; }
         public ICollection<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
-        public ICollection<CustomInvoice> CustomInvoices { get; set; }
-        public ICollection<CustomInvoiceProduct> CustomInvoiceProducts { get; set; }
         public ICollection<Contract> Contracts { get; set; }
-        public ICollection<ContractProduct> ContractProducts { get; set; }
-        public int ProductsCategoryId { get; set; }
-        public ProductsCategory ProductsCategory { get; set; }
+        public ICollection<Brand> Brands { get; set; }
+        public ICollection<InvoiceProduct> ContractProducts { get; set; }
+     
     }
 }

@@ -96,7 +96,6 @@ namespace Barroc_Intens.Sales
             {
                 Content = content,
                 Date = date,
-                Email = User.LoggedInUser.Email,
                 CompanyId = companyId, 
                 UserId = User.LoggedInUser.Id
             };

@@ -66,7 +66,6 @@
                                 <TextBlock Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
                                 <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}" Width="100"/>
                                 <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}" Width="100"/>
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Brand}" Width="100"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

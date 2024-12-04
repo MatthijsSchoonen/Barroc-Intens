@@ -197,7 +197,6 @@ namespace Barroc_Intens.Maintenance
                     dbContext.Attach(product);
                 }
 
-                newApp.Product = this.productOfInterest;
                 newApp.User = attachedUser;
                 newApp.Company = customerCompany;
                 newApp.Description = description;
@@ -205,7 +204,6 @@ namespace Barroc_Intens.Maintenance
                 newApp.DateAdded = DateTime.Now;
                 newApp.StartTime = startDate.UtcDateTime;
                 newApp.EndTime = endDate.UtcDateTime;
-                newApp.Products = selectedCompartments;
                 newApp.Title = title;
                 dbContext.MaintenanceAppointments.Add(newApp);
                 //newApp.User = attachedUser;
