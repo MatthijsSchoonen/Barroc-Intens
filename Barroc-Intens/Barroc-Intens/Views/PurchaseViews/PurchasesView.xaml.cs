@@ -43,6 +43,7 @@ namespace Barroc_Intens.Views.PurchaseViews
             }
 
             FProductSelector.ItemsSource = Products;
+            PurchaseOverviewLv.ItemsSource = PurchaseOrder.Products;
         }
 
         private void MakePurchaseToggle_Click(object sender, RoutedEventArgs e)
@@ -75,6 +76,63 @@ namespace Barroc_Intens.Views.PurchaseViews
                 SelectedProduct.Stock = prodAmount;
             }
             PurchaseOrder.Products.Add(SelectedProduct);
+            Products.Remove(SelectedProduct);
+            CreatePurchase.Visibility = Visibility.Collapsed;
+            ProductTitle.Text = "";
+            ProductDescription.Text = "";
+            FProdAmount.Text = "";
+            CalculateTotal();
+            //PurchaseOverviewLv.ItemsSource = PurchaseOrder.Products;
+
+        }
+
+        private void PurchaseOverviewLv_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            // Get the clicked item from the event arguments
+            Product selectedProduct = e.ClickedItem as Product;
+
+            if (selectedProduct != null)
+            {
+                SelectedProduct = selectedProduct;
+                UpdateInfoPanel.Visibility = Visibility.Visible;
+
+                // Update the details in the info panel
+                UpdateProductTitle.Text = SelectedProduct.Name;
+                UpdateProductDescription.Text = SelectedProduct.Description;
+            }
+        }
+
+        private void UpdateProduct_Click(object sender, RoutedEventArgs e)
+        {
+            int amount = 0;
+            string input = FUpdateProdAmount.Value.ToString();
+            if (FUpdateProdAmount != null)
+            {
+                amount = int.Parse(input);
+            }
+            Product product = (Product)PurchaseOrder.Products.Where(p => p.Id == SelectedProduct.Id).FirstOrDefault();
+            product.Stock = amount;
+            UpdateInfoPanel.Visibility = Visibility.Collapsed;
+            UpdateProductTitle.Text = "";
+            UpdateProductDescription.Text = "";
+            FUpdateProdAmount.Text = "";
+            PurchaseOverviewLv.ItemsSource = null;
+            PurchaseOverviewLv.ItemsSource = PurchaseOrder.Products;
+            CalculateTotal();
+        }
+
+        private void CalculateTotal()
+        {
+            int productCount = 0;
+            decimal costs = 0;
+
+            foreach(Product product in PurchaseOrder.Products)
+            {
+                productCount += product.Stock;
+                costs += product.Price * product.Stock ?? 0 * product.Stock;
+            }
+            TotalProductCount.Text = productCount.ToString();
+            CostsTb.Text = Math.Round(costs,2).ToString();
         }
     }
 }

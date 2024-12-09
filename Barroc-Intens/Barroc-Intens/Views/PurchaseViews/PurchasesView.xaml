@@ -6,27 +6,90 @@
     xmlns:local="using:Barroc_Intens.Views.PurchaseViews"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Barroc_Intens.Data"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Padding="10">
-        <TextBlock FontSize="24" FontWeight="Bold" Text="Purchases View" />
-        <Button x:Name="MakePurchaseToggle" Content="Make Purchase" Click="MakePurchaseToggle_Click" />
+        <!-- Grid container for content -->
+        <Grid>
+            <!-- Column setup -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!-- Purchase Creation  -->
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <TextBlock FontSize="24" FontWeight="Bold" Text="Purchases View" />
+                <Button x:Name="MakePurchaseToggle" Content="Make Purchase" Click="MakePurchaseToggle_Click" />
 
-        <StackPanel x:Name="CreatePurchase"  Visibility="Collapsed" >
-            <TextBlock Text="Select Products" />
-            <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="InfoPanel" Visibility="Collapsed" >
-                <TextBlock FontSize="18" FontWeight="Bold" x:Name="ProductTitle" />
-                <TextBlock FontSize="12" x:Name="ProductDescription" />
+                <!--  Create Purchase Panel-->
+                <StackPanel x:Name="CreatePurchase"  Visibility="Collapsed" >
+                    <TextBlock Text="Select Products" />
+                    <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="InfoPanel" Visibility="Collapsed" >
+                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="ProductTitle" />
+                        <TextBlock FontSize="12" x:Name="ProductDescription" />
 
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="Enter amount" />
-                    <NumberBox x:Name="FProdAmount" />
-                    <Button x:Name="AddProduct" Content="Add Product" Click="OnAddProductClick" />
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Enter amount" />
+                            <NumberBox x:Name="FProdAmount" />
+                            <Button x:Name="AddProduct" Content="Add Product" Click="OnAddProductClick" />
+                        </StackPanel>
+                    </StackPanel>
+                    <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged" />
+                </StackPanel>
+                
+                <!-- Update form -->
+                <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="UpdateInfoPanel" Visibility="Collapsed" >
+                    <TextBlock FontSize="18" FontWeight="Bold" x:Name="UpdateProductTitle" />
+                    <TextBlock FontSize="12" x:Name="UpdateProductDescription" />
+
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Enter amount" />
+                        <NumberBox x:Name="FUpdateProdAmount" />
+                        <Button x:Name="UpdateProduct" Content="Update Product" Click="UpdateProduct_Click" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged" />
-
-        </StackPanel>
+            
+            <!-- Purchase overview -->
+            <StackPanel Grid.Column="1" Grid.Row="0" >
+                <StackPanel HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" CornerRadius="15" VerticalAlignment="Center" Padding="10">
+                    <TextBlock Text="Purchase Overview" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
+                    
+                    <!-- Order information -->
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total product count: " />
+                            <TextBlock x:Name="TotalProductCount" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total: " />
+                            <TextBlock x:Name="CostsTb" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Product Overview -->
+                    <ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Product">
+                                <StackPanel Padding="5" BorderBrush="Black" BorderThickness="2" CornerRadius="15" Margin="0,0,0,15" >
+                                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Left" FontWeight="SemiBold" />
+                                    <TextBlock Text="{x:Bind Stock }" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- Data Overview  -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                
+            </StackPanel>
+        </Grid>
     </StackPanel>
 </Page>
