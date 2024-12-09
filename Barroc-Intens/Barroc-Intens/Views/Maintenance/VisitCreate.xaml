@@ -17,6 +17,10 @@
                 <TextBlock FontSize="18" FontStyle="Italic" Text="Maintenance"/>
                 <!-- Inputs -->
                 <StackPanel Margin="15">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Cancel" />
+                        <Button Content="Cancel" x:Name="NavToOverview" Click="NavToOverview_Click" />
+                    </StackPanel>
                     <TextBlock x:Name="FormErrorBox" Foreground="Red" FontSize="12" />
                     <!-- Start Date of Visit -->
                     <StackPanel Padding="5" >
@@ -117,10 +121,6 @@
                             <TextBlock Text="Submit" />
                             <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
                         </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="Cancel" />
-                            <Button Content="Cancel" x:Name="NavToOverview" Click="NavToOverview_Click" />
-                        </StackPanel>                            
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
