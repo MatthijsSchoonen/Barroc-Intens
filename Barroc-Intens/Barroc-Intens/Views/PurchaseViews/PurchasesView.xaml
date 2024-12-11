@@ -53,6 +53,11 @@
                         <NumberBox x:Name="FUpdateProdAmount" />
                         <Button x:Name="UpdateProduct" Content="Update Product" Click="UpdateProduct_Click" />
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" x:Name="TicketStatusUpdatePanel" Visibility="Collapsed">
+                        <TextBlock Text="Order Status: " />
+                        <ComboBox x:Name="FStatusChange"/>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
             
@@ -73,7 +78,7 @@
                         </StackPanel>
                     </StackPanel>
                     <!-- Product Overview -->
-                    <ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                    <!--<ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:Product">
                                 <StackPanel Padding="5" BorderBrush="Black" BorderThickness="2" CornerRadius="15" Margin="0,0,0,15" >
@@ -82,13 +87,48 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                    </ListView>
+                    </ListView>-->
+
                 </StackPanel>
             </StackPanel>
-            
+
             <!-- Data Overview  -->
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="10">
+                <GridView x:Name="PurchaseOrderHistoryListView"  ItemsSource="{Binding PurchaseOrders}" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1" Margin="10" Padding="10" CornerRadius="8">
+                                <StackPanel>
+                                    <!-- Purchase Order Header -->
+                                    <TextBlock Text="{Binding OrderedAt}" FontWeight="Bold" FontSize="16" Margin="0,0,0,8" />
+                                    <TextBlock Text="Order Status: " FontWeight="Bold" />
+                                    <TextBlock Text="{Binding OrderStatus.Name}" Margin="0,0,0,8" />
+
+                                    <!-- Product Information -->
+                                    <TextBlock Text="Total Price: " FontWeight="Bold" />
+                                    <TextBlock Text="{Binding TotalPrice}" Margin="0,0,0,8" />
+
+                                    <TextBlock Text="Products: " FontWeight="Bold" />
+                                    <ItemsControl ItemsSource="{Binding Products}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                    <TextBlock Text="{Binding Description}" FontStyle="Italic" Foreground="Gray" />
+                                                    <TextBlock Text="{Binding Price}" />
+                                                    <TextBlock Text="{Binding Stock}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Product Count -->
+                                    <TextBlock Text="{Binding ProductCount}" FontWeight="Bold" Margin="0,10,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
             </StackPanel>
         </Grid>
     </StackPanel>

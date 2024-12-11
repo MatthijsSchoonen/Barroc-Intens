@@ -1,0 +1,30 @@
+﻿          <!-- Purchase overview -->
+            <StackPanel Grid.Column="1" Grid.Row="0" >
+                <StackPanel HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" CornerRadius="15" VerticalAlignment="Center" Padding="10">
+                    <TextBlock Text="Purchase Overview" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
+                    
+                    <!-- Order information -->
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total product count: " />
+                            <TextBlock x:Name="TotalProductCount" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total: " />
+                            <TextBlock x:Name="CostsTb" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Product Overview -->
+                    <!--<ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Product">
+                                <StackPanel Padding="5" BorderBrush="Black" BorderThickness="2" CornerRadius="15" Margin="0,0,0,15" >
+                                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Left" FontWeight="SemiBold" />
+                                    <TextBlock Text="{x:Bind Stock }" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+
+                </StackPanel>
+            </StackPanel>

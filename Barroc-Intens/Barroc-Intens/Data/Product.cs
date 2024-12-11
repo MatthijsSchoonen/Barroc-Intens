@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace Barroc_Intens.Data
         public ICollection<Brand> Brands { get; set; }
         public ICollection<InvoiceProduct> ContractProducts { get; set; }
 
-
+        public ObservableCollection<PurchaseOrder> PurchaseOrders { get; set; } = new ObservableCollection<PurchaseOrder>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 

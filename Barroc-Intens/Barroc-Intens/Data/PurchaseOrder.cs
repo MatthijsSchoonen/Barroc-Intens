@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intens.Data
 {
-    internal class PurchaseOrder
+    public class PurchaseOrder
     {
         public int Id { get; set; }
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public DateTime OrderedAt { get; set; }
-        public int TotalPrice { get; set; }
-        public int StatusId { get; set; }
-        public PurchaseOrderStatus Status { get; set; }
-
+        public decimal TotalPrice { get; set; }
+        public PurchaseOrderStatus OrderStatus { get; set; }
+        public int TotalProductAmount { get; set; }
     }
 }
