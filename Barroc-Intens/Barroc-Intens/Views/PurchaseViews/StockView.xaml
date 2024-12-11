@@ -35,41 +35,50 @@
                  TextChanged="FilterTextBox_TextChanged"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Margin="10" Padding="5" Grid.Row="1" >
-            <TextBlock Margin="0 0 20 0" Text="Name" Width="100"/>
-            <TextBlock Margin="0 0 20 0" Text="Description" Width="500"/>
-            <TextBlock Margin="0 0 20 0" Text="Price" Width="100"/>
-            <TextBlock Margin="0 0 20 0" Text="Stock" Width="100"/>
-            <TextBlock Margin="0 0 20 0" Text="Brand" Width="100"/>
-        </StackPanel>
-
+        
 
 
         <ScrollViewer HorizontalScrollMode="Enabled"
                   HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollMode="Disabled"
-                  VerticalScrollBarVisibility="Disabled"
+                  VerticalScrollMode="Enabled"
+                  
                   Grid.Row="3"
                       BorderBrush="Black" BorderThickness="2"
                       Margin="10">
-            <StackPanel Orientation="Horizontal">
-                <ListView x:Name="StockSearchingView"
+
+
+
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="20 0 20 0" Text="Name" Width="100"/>
+                    <TextBlock Margin="0 0 20 0" Text="Description" Width="500"/>
+                    <TextBlock Margin="0 0 20 0" Text="Price" Width="100"/>
+                    <TextBlock Margin="0 0 20 0" Text="Stock" Width="100"/>
+                    <TextBlock Margin="0 0 20 0" Text="Brand" Width="100"/>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <ListView x:Name="StockSearchingView"
                       IsItemClickEnabled="True"
                       ItemClick="StockSearchingView_ItemClick"
                       HorizontalAlignment="Stretch"
-                      ItemsSource="{x:Bind FilteredProducts, Mode=OneWay}">
+                      ItemsSource="{x:Bind FilteredProducts, Mode=OneWay}">         
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="localData:Product">
-                            <StackPanel Orientation="Horizontal" Padding="5">
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Name}" Width="100"/>
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}" Width="100"/>
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}" Width="100"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="localData:Product">
+                                <StackPanel Orientation="Horizontal" Padding="5">
+                                    <TextBlock TextWrapping="Wrap" Margin="0 0 20 0" Text="{x:Bind Name}" Width="100"/>
+                                    <TextBlock TextWrapping="Wrap" Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
+                                    <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}" Width="100"/>
+                                    <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}" Width="100"/>
+                                    
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+                
             </StackPanel>
         </ScrollViewer>
 
