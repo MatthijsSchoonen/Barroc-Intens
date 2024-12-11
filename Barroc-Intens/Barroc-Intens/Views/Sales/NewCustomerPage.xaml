@@ -23,8 +23,6 @@
                              Header="Email:" PlaceholderText="Email"
                              Width="300" HorizontalAlignment="Left"/>
 
-                    <ComboBox FontFamily="Roboto" Margin="0,5" x:Name="companyComboBox" Header="Bedrijf:"
-                              PlaceholderText="Bedrijf" Width="300" HorizontalAlignment="Left"/>
 
                     <Button x:Name="AddCustomerButton" FontFamily="Roboto" Margin="0, 10" Content="Maak klant aan" Click="AddCustomerButton_Click"/>
                 </StackPanel>
