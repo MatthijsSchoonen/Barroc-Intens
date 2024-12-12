@@ -75,6 +75,10 @@ namespace Barroc_Intens
                     PurchaseLinks.Visibility = Visibility.Visible;
                     PurchasesLinks.Visibility = Visibility.Visible;
                     break;
+                case "HeadPurchase":
+                    PurchaseLinks.Visibility = Visibility.Visible;
+                    PurchasesLinks.Visibility = Visibility.Visible;
+                    break;
                 case "Maintenance":
                     MaintenanceLinks.Visibility = Visibility.Visible;
                     break;

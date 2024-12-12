@@ -1,4 +1,5 @@
 using Barroc_Intens.Data;
+using Barroc_Intens.PurchaseViews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,8 +30,8 @@ namespace Barroc_Intens.Views.PurchaseViews
         // Class properties (Inputs for forms, variables for calculations)
         ObservableCollection<Product> Products = new ObservableCollection<Product>();
         ObservableCollection<PurchaseOrderStatus> PurchaseOrderStatuses = new ObservableCollection<PurchaseOrderStatus>();
-
-        PurchaseOrder PurchaseOrder = new();
+        ObservableCollection<PurchaseOrder> PurchaseOrders = new ObservableCollection<PurchaseOrder>();
+       // PurchaseOrder PurchaseOrder = new();
         Product SelectedProduct = new();
         int ProductCount = 0;
         decimal Costs = 0;
@@ -58,21 +59,24 @@ namespace Barroc_Intens.Views.PurchaseViews
             // Bind to UI
             FProductSelector.ItemsSource = Products;
             //PurchaseOverviewLv.ItemsSource = PurchaseOrder.Products;
-            PurchaseOrder.OrderedAt = DateTime.Now;
             // Load last otrders
             LoadPurchaseOrderHistory();
+            PurchaseOrderHistoryGridView.ItemsSource = PurchaseOrders;
+            FStatusChange.ItemsSource = PurchaseOrderStatuses;
         }
         private void LoadPurchaseOrderHistory()
         {
             using (var dbContext = new AppDbContext())
             {
-                var purchaseOrders = dbContext.PurchaseOrders
+                List<PurchaseOrder> purchaseOrders = dbContext.PurchaseOrders
                     .Include(po => po.OrderStatus)
                     .OrderByDescending(po => po.OrderedAt)
-                    .Take(10) // Limit to last 10 orders
                     .ToList();
 
-                PurchaseOrderHistoryListView.ItemsSource = purchaseOrders;
+                foreach(PurchaseOrder order in purchaseOrders)
+                {
+                    PurchaseOrders.Add(order);
+                }
             }
         }
         // Shows up form
@@ -96,8 +100,6 @@ namespace Barroc_Intens.Views.PurchaseViews
                 //PurchaseOrder.Products.Add(selectedProduct);
                 SelectedProduct = selectedProduct;
                 InfoPanel.Visibility = Visibility.Visible;
-
-
             }
         }
 
@@ -106,59 +108,56 @@ namespace Barroc_Intens.Views.PurchaseViews
             string fProdAmount = FProdAmount.Text;
             if (int.TryParse(fProdAmount, out int prodAmount))
             {
-                SelectedProduct.Stock = prodAmount;
+                //SelectedProduct.Stock = prodAmount;
             }
 
-            // Create a new Product instance for the purchase order
-            var newProduct = new Product
+            PurchaseOrder order = new()
             {
-                Name = SelectedProduct.Name,
-                Description = SelectedProduct.Description,
-                Price = SelectedProduct.Price,
-                Stock = SelectedProduct.Stock,
+                TotalProductAmount = prodAmount,
+                TotalPrice = (decimal)(prodAmount * SelectedProduct.Price),
+                OrderedAt = DateTime.Now,
+                Products = new ObservableCollection<Product>(), // Initialiseer de lijst om producten toe te voegen
             };
 
-            PurchaseOrder.Products.Add(newProduct);
-            Products.Remove(SelectedProduct);
+            using (AppDbContext appDbContext = new AppDbContext())
+            {
+                // Zorg ervoor dat het product wordt opgehaald vanuit de database
+                var existingProduct = appDbContext.Products.FirstOrDefault(p => p.Id == SelectedProduct.Id);
+
+                if (existingProduct != null)
+                {
+                    // Voeg het bestaande product toe aan de bestelling
+                    order.Products.Add(existingProduct);
+                }
+       
+
+                // Bepaal de OrderStatus
+                if (order.TotalProductAmount > 5000)
+                {
+                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 1);
+                }
+                else
+                {
+                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 3);
+                }
+
+                // Sla de bestelling op in de database
+                PurchaseOrders.Add(order);
+                appDbContext.PurchaseOrders.Add(order);
+                appDbContext.SaveChanges();
+            }
+
+            // Reset form en herbereken totaal
             CreatePurchase.Visibility = Visibility.Collapsed;
             ProductTitle.Text = "";
             ProductDescription.Text = "";
             FProdAmount.Text = "";
             CalculateTotal();
-
-            using (AppDbContext dbContext = new AppDbContext())
-            {
-                // Create a new PurchaseOrder instance for database insertion
-                PurchaseOrder purchaseOrderToSave = new PurchaseOrder
-                {
-                    OrderedAt = DateTime.Now,
-                    TotalProductAmount = PurchaseOrder.TotalProductAmount,
-                    TotalPrice = PurchaseOrder.TotalPrice,
-                    Products = PurchaseOrder.Products // Create a new list of products
-                };
-
-                PurchaseOrderStatus status;
-                if (purchaseOrderToSave.TotalProductAmount > 5000)
-                {
-                    status = dbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 1);
-                }
-                else
-                {
-                    status = dbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 3);
-                }
-
-                purchaseOrderToSave.OrderStatus = status;
-
-                dbContext.PurchaseOrders.Add(purchaseOrderToSave);
-                dbContext.SaveChanges();
-
-                // Reset the current PurchaseOrder
-                PurchaseOrder = new PurchaseOrder();
-                //PurchaseOverviewLv.ItemsSource = PurchaseOrder.Products;
-                LoadPurchaseOrderHistory();
-            }
-            CreatePurchase.Visibility = Visibility.Collapsed;
+            //LoadPurchaseOrderHistory();
         }
+
+
+
 
 
         private void PurchaseOverviewLv_ItemClick(object sender, ItemClickEventArgs e)
@@ -167,47 +166,134 @@ namespace Barroc_Intens.Views.PurchaseViews
               PurchaseOrder purchaceOrder = e.ClickedItem as PurchaseOrder;
             if (purchaceOrder != null)
             {
-                PurchaseOrder = purchaceOrder;
                 UpdateInfoPanel.Visibility = Visibility.Visible;
 
                 // Update the details in the info panel
                 UpdateProductTitle.Text = SelectedProduct.Name;
                 UpdateProductDescription.Text = SelectedProduct.Description;
-
+                FUpdateProdAmount.Text = purchaceOrder.TotalProductAmount.ToString();
+                WriteToStock.Tag = purchaceOrder.Id;
                 if(LocalStore.GetLoggedInUser().Department.Id == 7)
                 {
                     TicketStatusUpdatePanel.Visibility = Visibility.Visible;
                 }
+                if(purchaceOrder.OrderStatus.Id == 3)
+                {
+                    WriteToStock.Visibility = Visibility.Visible;
+                }
+                UpdateProduct.Tag = purchaceOrder.Id;
             }
         }
 
         private void UpdateProduct_Click(object sender, RoutedEventArgs e)
         {
-            PurchaseOrder purchaseOrder = sender as PurchaseOrder;
-            if (purchaseOrder != null) {
-                int amount = (int)FUpdateProdAmount.Value;
-                using (AppDbContext dbContext = new())
+            int id = (int)UpdateProduct.Tag;
+
+            using (AppDbContext dbContext = new())
+            {
+                // Haal de bestaande PurchaseOrder op, inclusief de gekoppelde producten
+                var order = dbContext.PurchaseOrders
+                                     .Include(po => po.Products)
+                                     .FirstOrDefault(po => po.Id == id);
+
+                if (order != null)
                 {
-                    dbContext.PurchaseOrders.Update(purchaseOrder);
+                    // Update de totale hoeveelheid en prijs
+                    order.TotalProductAmount = int.Parse(FUpdateProdAmount.Text);
+                    order.TotalPrice = (decimal)order.Products.Sum(p => p.Price * order.TotalProductAmount);
+
+                    // Update de status van de bestelling
+                    var selectedStatus = FStatusChange.SelectedItem as PurchaseOrderStatus;
+                    if (selectedStatus != null)
+                    {
+                        order.OrderStatus = selectedStatus;
+                    }
+                    else
+                    {
+                        order.OrderStatus = dbContext.PurchaseOrderStatuses.Where(o => o.Id == 1).FirstOrDefault() as PurchaseOrderStatus;
+                    }
+
+                    // Zorg dat de context alle wijzigingen bijhoudt
+                    dbContext.PurchaseOrders.Update(order);
                     dbContext.SaveChanges();
+
+                    // Werk de UI bij: update in plaats van een nieuw item toe te voegen
+                    var existingOrder = PurchaseOrders.FirstOrDefault(po => po.Id == id);
+                    if (existingOrder != null)
+                    {
+                        // Update de bestaande order in de lijst
+                        var index = PurchaseOrders.IndexOf(existingOrder);
+                        PurchaseOrders[index] = order; // Dit triggert de UI-update
+                    }
                 }
             }
 
-            LoadPurchaseOrderHistory();
+            // Sluit het info-paneel
             UpdateInfoPanel.Visibility = Visibility.Collapsed;
         }
 
-        private void CalculateTotal()
+        private void WriteToStock_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Product product in PurchaseOrder.Products)
+            int id = (int)WriteToStock.Tag; // Zorg dat dit de ID bevat van de juiste PurchaseOrder
+            using (AppDbContext appDbContext = new())
             {
-                ProductCount += product.Stock;
-                Costs += product.Price * product.Stock ?? 0 * product.Stock;
+                // Haal de PurchaseOrder op inclusief gekoppelde producten
+                PurchaseOrder order = appDbContext.PurchaseOrders
+                                                  .Include(po => po.Products) // Include producten
+                                                  .FirstOrDefault(po => po.Id == id);
+
+                if (order != null)
+                {
+                    foreach (Product orderProduct in order.Products)
+                    {
+                        // Controleer of het product al bestaat in de Products-tabel
+                        Product existingProduct = appDbContext.Products
+                                                             .FirstOrDefault(p => p.Name == orderProduct.Name);
+
+                        if (existingProduct != null)
+                        {
+                            // Update de voorraad van het bestaande product
+                            existingProduct.Stock += order.TotalProductAmount;
+                        }
+                        else
+                        {
+                            // Voeg een nieuw product toe aan de database
+                            var newProduct = new Product
+                            {
+                                Name = orderProduct.Name,
+                                Description = orderProduct.Description,
+                                Price = orderProduct.Price,
+                                Stock = orderProduct.Stock
+                            };
+                            appDbContext.Products.Add(newProduct);
+                        }
+                    }
+
+                    // Sla wijzigingen in de productvoorraad op
+                    appDbContext.SaveChanges();
+
+                    // Verwijder de afgehandelde PurchaseOrder
+                    appDbContext.PurchaseOrders.Remove(order);
+                    appDbContext.SaveChanges();
+                }
             }
-            TotalProductCount.Text = ProductCount.ToString();
-            CostsTb.Text = Math.Round(Costs, 2).ToString();
-            PurchaseOrder.TotalProductAmount = ProductCount;
-            PurchaseOrder.TotalPrice = Costs;
+
+            // Sluit het info paneel en toon een bevestigingsdialoog
+            UpdateInfoPanel.Visibility = Visibility.Collapsed;
+
+            ContentDialog confirmationDialog = new ContentDialog
+            {
+                Title = "Success!",
+                Content = "The order is successfully written to the Products and removed from the Purchase Orders.",
+                CloseButtonText = "Open Stock Overview",
+                XamlRoot = this.Content.XamlRoot
+            };
+            confirmationDialog.ShowAsync();
+            //LoadPurchaseOrderHistory();
+            // Navigeer naar de StockView-pagina
+            Frame.Navigate(typeof(StockView));
         }
+
+
     }
 }
