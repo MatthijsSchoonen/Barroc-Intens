@@ -108,7 +108,6 @@ namespace Barroc_Intens.Views.PurchaseViews
             string fProdAmount = FProdAmount.Text;
             if (int.TryParse(fProdAmount, out int prodAmount))
             {
-                //SelectedProduct.Stock = prodAmount;
             }
 
             PurchaseOrder order = new()
@@ -116,22 +115,18 @@ namespace Barroc_Intens.Views.PurchaseViews
                 TotalProductAmount = prodAmount,
                 TotalPrice = (decimal)(prodAmount * SelectedProduct.Price),
                 OrderedAt = DateTime.Now,
-                Products = new ObservableCollection<Product>(), // Initialiseer de lijst om producten toe te voegen
+                Products = new ObservableCollection<Product>(),
             };
 
             using (AppDbContext appDbContext = new AppDbContext())
             {
-                // Zorg ervoor dat het product wordt opgehaald vanuit de database
-                var existingProduct = appDbContext.Products.FirstOrDefault(p => p.Id == SelectedProduct.Id);
+                Product existingProduct = appDbContext.Products.FirstOrDefault(p => p.Id == SelectedProduct.Id);
 
                 if (existingProduct != null)
                 {
-                    // Voeg het bestaande product toe aan de bestelling
                     order.Products.Add(existingProduct);
                 }
-       
-
-                // Bepaal de OrderStatus
+                // Deterine Order status
                 if (order.TotalProductAmount > 5000)
                 {
                     order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 1);
@@ -141,29 +136,22 @@ namespace Barroc_Intens.Views.PurchaseViews
                     order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 3);
                 }
 
-                // Sla de bestelling op in de database
+                // Store order locally and in DB
                 PurchaseOrders.Add(order);
                 appDbContext.PurchaseOrders.Add(order);
                 appDbContext.SaveChanges();
             }
-
-            // Reset form en herbereken totaal
+            // Reset form fields
             CreatePurchase.Visibility = Visibility.Collapsed;
             ProductTitle.Text = "";
             ProductDescription.Text = "";
             FProdAmount.Text = "";
-            CalculateTotal();
-            //LoadPurchaseOrderHistory();
         }
-
-
-
-
 
         private void PurchaseOverviewLv_ItemClick(object sender, ItemClickEventArgs e)
         {
             // Get the clicked item from the event arguments
-              PurchaseOrder purchaceOrder = e.ClickedItem as PurchaseOrder;
+             PurchaseOrder purchaceOrder = e.ClickedItem as PurchaseOrder;
             if (purchaceOrder != null)
             {
                 UpdateInfoPanel.Visibility = Visibility.Visible;
@@ -191,19 +179,19 @@ namespace Barroc_Intens.Views.PurchaseViews
 
             using (AppDbContext dbContext = new())
             {
-                // Haal de bestaande PurchaseOrder op, inclusief de gekoppelde producten
-                var order = dbContext.PurchaseOrders
+                // Eagerly load selected PurchaseOrder
+                PurchaseOrder order = dbContext.PurchaseOrders
                                      .Include(po => po.Products)
                                      .FirstOrDefault(po => po.Id == id);
 
                 if (order != null)
                 {
-                    // Update de totale hoeveelheid en prijs
+                    // Update price and amount
                     order.TotalProductAmount = int.Parse(FUpdateProdAmount.Text);
                     order.TotalPrice = (decimal)order.Products.Sum(p => p.Price * order.TotalProductAmount);
 
-                    // Update de status van de bestelling
-                    var selectedStatus = FStatusChange.SelectedItem as PurchaseOrderStatus;
+                    // Update status if selected, set to status ID 1 otherwise.
+                    PurchaseOrderStatus selectedStatus = FStatusChange.SelectedItem as PurchaseOrderStatus;
                     if (selectedStatus != null)
                     {
                         order.OrderStatus = selectedStatus;
@@ -213,51 +201,50 @@ namespace Barroc_Intens.Views.PurchaseViews
                         order.OrderStatus = dbContext.PurchaseOrderStatuses.Where(o => o.Id == 1).FirstOrDefault() as PurchaseOrderStatus;
                     }
 
-                    // Zorg dat de context alle wijzigingen bijhoudt
+                    // DB update
                     dbContext.PurchaseOrders.Update(order);
                     dbContext.SaveChanges();
 
-                    // Werk de UI bij: update in plaats van een nieuw item toe te voegen
-                    var existingOrder = PurchaseOrders.FirstOrDefault(po => po.Id == id);
+                    // UI update
+                    PurchaseOrder existingOrder = PurchaseOrders.FirstOrDefault(po => po.Id == id);
                     if (existingOrder != null)
                     {
-                        // Update de bestaande order in de lijst
-                        var index = PurchaseOrders.IndexOf(existingOrder);
-                        PurchaseOrders[index] = order; // Dit triggert de UI-update
+                        // Find order in list and replace it with updated variant
+                        int index = PurchaseOrders.IndexOf(existingOrder);
+                        PurchaseOrders[index] = order; // triggers UI update
                     }
                 }
             }
-
-            // Sluit het info-paneel
             UpdateInfoPanel.Visibility = Visibility.Collapsed;
         }
 
         private void WriteToStock_Click(object sender, RoutedEventArgs e)
         {
-            int id = (int)WriteToStock.Tag; // Zorg dat dit de ID bevat van de juiste PurchaseOrder
+            // Id & PurchaseOrder retrieval
+            int id = (int)WriteToStock.Tag; 
             using (AppDbContext appDbContext = new())
             {
-                // Haal de PurchaseOrder op inclusief gekoppelde producten
+                // Eagerly load PurchaseOrder (also include product)
                 PurchaseOrder order = appDbContext.PurchaseOrders
-                                                  .Include(po => po.Products) // Include producten
+                                                  .Include(po => po.Products)
                                                   .FirstOrDefault(po => po.Id == id);
 
                 if (order != null)
                 {
                     foreach (Product orderProduct in order.Products)
                     {
-                        // Controleer of het product al bestaat in de Products-tabel
+                        // Checks if product exists in Products table
                         Product existingProduct = appDbContext.Products
                                                              .FirstOrDefault(p => p.Name == orderProduct.Name);
 
                         if (existingProduct != null)
                         {
-                            // Update de voorraad van het bestaande product
+                            // Add Order Value to Product Stock
                             existingProduct.Stock += order.TotalProductAmount;
                         }
                         else
                         {
-                            // Voeg een nieuw product toe aan de database
+                            // Add new product
                             var newProduct = new Product
                             {
                                 Name = orderProduct.Name,
@@ -269,18 +256,14 @@ namespace Barroc_Intens.Views.PurchaseViews
                         }
                     }
 
-                    // Sla wijzigingen in de productvoorraad op
-                    appDbContext.SaveChanges();
-
-                    // Verwijder de afgehandelde PurchaseOrder
+                    // Remove processed order & save db changes
                     appDbContext.PurchaseOrders.Remove(order);
                     appDbContext.SaveChanges();
                 }
             }
 
-            // Sluit het info paneel en toon een bevestigingsdialoog
+            // Confirmation
             UpdateInfoPanel.Visibility = Visibility.Collapsed;
-
             ContentDialog confirmationDialog = new ContentDialog
             {
                 Title = "Success!",
@@ -289,11 +272,7 @@ namespace Barroc_Intens.Views.PurchaseViews
                 XamlRoot = this.Content.XamlRoot
             };
             confirmationDialog.ShowAsync();
-            //LoadPurchaseOrderHistory();
-            // Navigeer naar de StockView-pagina
             Frame.Navigate(typeof(StockView));
         }
-
-
     }
 }

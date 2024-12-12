@@ -52,7 +52,7 @@
                         <TextBlock Text="Enter amount" />
                         <NumberBox x:Name="FUpdateProdAmount" />
                         <Button x:Name="UpdateProduct" Content="Update Product" Click="UpdateProduct_Click" />
-                        <Button x:Name="WriteToStock" Content="Write To Stock" Click="WriteToStock_Click" />
+                        <Button x:Name="WriteToStock" Content="Write To Stock" Visibility="Collapsed" Click="WriteToStock_Click" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" x:Name="TicketStatusUpdatePanel" Visibility="Collapsed">
@@ -63,11 +63,11 @@
             </StackPanel>
 
             <!-- Purchase overview -->
-            <StackPanel Grid.Column="1" Grid.Row="0" >
+            <!--<StackPanel Grid.Column="1" Grid.Row="0" >
                 <StackPanel HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" CornerRadius="15" VerticalAlignment="Center" Padding="10">
                     <TextBlock Text="Purchase Overview" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
 
-                    <!-- Order information -->
+                    --><!-- Order information --><!--
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Total product count: " />
@@ -78,20 +78,8 @@
                             <TextBlock x:Name="CostsTb" />
                         </StackPanel>
                     </StackPanel>
-                    <!-- Product Overview -->
-                    <!--<ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Product">
-                                <StackPanel Padding="5" BorderBrush="Black" BorderThickness="2" CornerRadius="15" Margin="0,0,0,15" >
-                                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Left" FontWeight="SemiBold" />
-                                    <TextBlock Text="{x:Bind Stock }" HorizontalAlignment="Right" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>-->
-
                 </StackPanel>
-            </StackPanel>
+            </StackPanel>-->
 
             <!-- Data Overview  -->
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="10">
