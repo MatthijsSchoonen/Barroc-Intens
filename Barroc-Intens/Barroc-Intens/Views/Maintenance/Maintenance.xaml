@@ -12,5 +12,6 @@
     <StackPanel Padding="5">
         <TextBlock FontSize="24" FontWeight="Bold" Text="Maintenance Dashboard" />
         <Button Content="VisitOverview" x:Name="BtnVisitOverviewNav" Click="BtnVisitOverviewNav_Click" />
+        <Button Content="WorkOrder" x:Name="BtnVisitWorkOrderNav" Click="BtnVisitWorkOrderNav_Click" />
     </StackPanel>
 </Page>

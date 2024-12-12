@@ -33,5 +33,10 @@ namespace Barroc_Intens.Dashboards
         {
             Frame.Navigate(typeof(VisitOverview));
         }
+
+        private void BtnVisitWorkOrderNav_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
