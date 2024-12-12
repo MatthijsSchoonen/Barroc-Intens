@@ -15,7 +15,14 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
+using System.Net.Mime;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using MimeKit;
+using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using System.Text;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -28,15 +35,7 @@ namespace Barroc_Intens.Sales
     {
         public NewCustomerPage()
         {
-            this.InitializeComponent();
-            AppDbContext db = new AppDbContext();
-            // Fetch companies from the database
-            var companies = db.Companies.ToList();
-
-            // Bind company names to the ComboBox
-            companyComboBox.ItemsSource = companies;
-            companyComboBox.DisplayMemberPath = "Name"; // Show company names
-            companyComboBox.SelectedValuePath = "Id";  // Use company ID as the value
+            this.InitializeComponent();                
         }
 
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
@@ -44,25 +43,78 @@ namespace Barroc_Intens.Sales
             if (nameInput.Text == "")
             {
                 ErrorMessage.Text = "Name is required";
+                return;
             }
             if (emailInput.Text == "")
             {
                 ErrorMessage.Text = "Email is required";
+                return;
             }
-            if (companyComboBox.SelectedItem == null)
-            {
-                ErrorMessage.Text = "Company is required";
-            }
-            AppDbContext db = new AppDbContext();
-            var currentCompany = companyComboBox.SelectedItem as Company;
-            db.Attach(currentCompany);
-            currentCompany.ContactMail = emailInput.Text;
-            currentCompany.ContactName = nameInput.Text;
-            nameInput.Text = null;
-            emailInput.Text = null;
-            companyComboBox.SelectedItem = null;
-            db.SaveChanges();
+           
+            //AppDbContext db = new AppDbContext();
+            //db.Users.Add(new User
+            //{
+            //    Name = nameInput.Text,
+            //    DepartmentId = 1,
+            //    RoleId = 1,
+            //    Email = emailInput.Text,
+
+            //});
+
+            //db.SaveChanges();
+            string randomString = RandomString();
             Frame.Navigate(typeof(SalesDash));
+        }
+
+        public string RandomString()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringBuilder = new StringBuilder(10);
+
+            for (int i = 0; i < 10; i++)
+            {
+                stringBuilder.Append(chars[random.Next(chars.Length)]);
+            }
+
+
+            return stringBuilder.ToString();
+        }
+
+        private async Task SendEmailAsync(string recipientEmail, string ResetCode)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Barroc Intens", "officialbarrocintens@gmail.com"));
+            message.To.Add(new MailboxAddress("", recipientEmail));
+            message.Subject = "password reset" + ResetCode ;
+
+            // Build email body
+            var bodyBuilder = new BodyBuilder
+            {
+                TextBody = "Please find attached the contract details."
+            };
+
+            // Attach PDF file
+
+            message.Body = bodyBuilder.ToMessageBody();
+
+            try
+            {
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                    await client.AuthenticateAsync("officialbarrocintens@gmail.com", "ymlf npoq mhoo wiiq");
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+
+                Console.WriteLine("Email sent successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending email: {ex.Message}");
+                throw;
+            }
         }
     }
 }
