@@ -202,8 +202,8 @@ namespace Barroc_Intens.Maintenance
                 newApp.Description = description;
                 newApp.Status = status;
                 newApp.DateAdded = DateTime.Now;
-                newApp.StartTime = startDate.UtcDateTime;
-                newApp.EndTime = endDate.UtcDateTime;
+                newApp.StartTime = startDate.DateTime;
+                newApp.EndTime = endDate.DateTime;
                 newApp.Title = title;
                 dbContext.MaintenanceAppointments.Add(newApp);
                 //newApp.User = attachedUser;
