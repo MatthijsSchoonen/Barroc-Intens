@@ -25,6 +25,7 @@
 //        public DbSet<Product> Products { get; set; }
 //        public DbSet<ProductsCategory> ProductsCategories { get; set; }
 //        public DbSet<User> Users { get; set; }
+//        public DbSet<PasswordReset> passwordResets { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions
@@ -47,6 +48,26 @@
 //                .WithMany(p => p.Contracts)
 //                .UsingEntity<InvoiceProduct>();
 
+//            modelBuilder.Entity<Role>().HasData(
+
+//                new Role
+//                {
+//                    Id = 1,
+//                    Name = "Customer"
+//                },
+//                new Role
+//                {
+//                    Id = 2,
+//                    Name = "Employee"
+//                },
+//                new Role
+//                {
+//                    Id = 3,
+//                    Name = "Admin"
+//                }
+
+
+//                );
 
 
 //            modelBuilder.Entity<User>().HasData(
@@ -59,6 +80,7 @@
 //                    Email = "AdminFin@gmail.com",
 //                    Password = SecureHasher.Hash("Finance"),
 //                    DepartmentId = 2,
+//                    RoleId = 3
 //                },
 //                new User
 //                {
@@ -67,6 +89,7 @@
 //                    Email = "Fin1@gmail.com",
 //                    Password = SecureHasher.Hash("Finance"),
 //                    DepartmentId = 2,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -75,6 +98,7 @@
 //                    Email = "Fin2@gmail.com",
 //                    Password = SecureHasher.Hash("Finance"),
 //                    DepartmentId = 2,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -83,6 +107,7 @@
 //                    Email = "Fin3@gmail.com",
 //                    Password = SecureHasher.Hash("Finance"),
 //                    DepartmentId = 2,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -91,6 +116,7 @@
 //                    Email = "Fin4@gmail.com",
 //                    Password = SecureHasher.Hash("Finance"),
 //                    DepartmentId = 2,
+//                    RoleId = 2
 //                },
 
 //                // Users for Department 3 (Maintenance)
@@ -101,6 +127,7 @@
 //                    Email = "AdminMaint@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
 //                    DepartmentId = 3,
+//                    RoleId = 3
 //                },
 //                new User
 //                {
@@ -109,6 +136,7 @@
 //                    Email = "Maint1@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
 //                    DepartmentId = 3,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -117,6 +145,7 @@
 //                    Email = "Maint2@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
 //                    DepartmentId = 3,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -125,6 +154,7 @@
 //                    Email = "Maint3@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
 //                    DepartmentId = 3,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -133,6 +163,7 @@
 //                    Email = "Maint4@gmail.com",
 //                    Password = SecureHasher.Hash("Maintenance"),
 //                    DepartmentId = 3,
+//                    RoleId = 2
 //                },
 
 //                // Users for Department 4 (Sales)
@@ -143,6 +174,7 @@
 //                    Email = "AdminSales@gmail.com",
 //                    Password = SecureHasher.Hash("Sales"),
 //                    DepartmentId = 4,
+//                    RoleId = 3
 //                },
 //                new User
 //                {
@@ -151,6 +183,7 @@
 //                    Email = "Sales1@gmail.com",
 //                    Password = SecureHasher.Hash("Sales"),
 //                    DepartmentId = 4,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -159,6 +192,7 @@
 //                    Email = "Sales2@gmail.com",
 //                    Password = SecureHasher.Hash("Sales"),
 //                    DepartmentId = 4,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -167,6 +201,7 @@
 //                    Email = "Sales3@gmail.com",
 //                    Password = SecureHasher.Hash("Sales"),
 //                    DepartmentId = 4,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -175,6 +210,7 @@
 //                    Email = "Sales4@gmail.com",
 //                    Password = SecureHasher.Hash("Sales"),
 //                    DepartmentId = 4,
+//                    RoleId = 2
 //                },
 
 //                // Users for Department 5 (Purchase)
@@ -185,6 +221,7 @@
 //                    Email = "AdminPurch@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
 //                    DepartmentId = 5,
+//                    RoleId = 3
 //                },
 //                new User
 //                {
@@ -193,6 +230,7 @@
 //                    Email = "Purch1@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
 //                    DepartmentId = 5,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -201,6 +239,7 @@
 //                    Email = "Purch2@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
 //                    DepartmentId = 5,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -209,6 +248,7 @@
 //                    Email = "Purch3@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
 //                    DepartmentId = 5,
+//                    RoleId = 2
 //                },
 //                new User
 //                {
@@ -217,7 +257,10 @@
 //                    Email = "Purch4@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
 //                    DepartmentId = 5,
+//                    RoleId = 2
 //                }
+
+
 //            );
 
 //            modelBuilder.Entity<Company>().HasData(
