@@ -36,7 +36,7 @@ namespace Barroc_Intens.Dashboards
 
         private void BtnVisitWorkOrderNav_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(WorkOrder));
+            Frame.Navigate(typeof(WorkOrderPage));
         }
     }
 }

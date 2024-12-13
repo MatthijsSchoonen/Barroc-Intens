@@ -18,6 +18,7 @@ using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
 using System.Diagnostics;
+using Barroc_Intens.Views.Maintenance;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -74,6 +75,7 @@ namespace Barroc_Intens
                     break;
                 case "Maintenance":
                     MaintenanceLinks.Visibility = Visibility.Visible;
+                    MaintenanceLink.Visibility = Visibility.Visible;
                     break;
                 case "Sales":
                     SalesLinks.Visibility = Visibility.Visible;
@@ -170,9 +172,9 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(InvoicePage));
                 return;
             }
-            if (completeTerm == "WorkOrder")
+            if (completeTerm == "WorkOrderPage")
             {
-                contentFrame.Navigate(typeof(WorkOrder));
+                contentFrame.Navigate(typeof(WorkOrderPage));
                 return;
             }
 

@@ -67,6 +67,7 @@
 
                 <!-- Maintenance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Content="Customer Visit" Tag="VisitCreate" x:Name="MaintenanceLinks" Visibility="Collapsed"/>
+                <NavigationViewItem Foreground="#f4cd1b" Content="Work Orders (Maintenance)" Tag="WorkOrderPage" x:Name="MaintenanceLink" Visibility="Collapsed" />
             </NavigationView.MenuItems>
 
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />

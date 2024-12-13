@@ -25,6 +25,8 @@
 //        public DbSet<Product> Products { get; set; }
 //        public DbSet<ProductsCategory> ProductsCategories { get; set; }
 //        public DbSet<User> Users { get; set; }
+//        public DbSet<WorkOrder> WorkOrders { get; set; }
+//        public DbSet<WorkOrderMat> WorkOrderMats { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions
