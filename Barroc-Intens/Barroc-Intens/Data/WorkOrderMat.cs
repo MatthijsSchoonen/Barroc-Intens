@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intens.Data
 {
-    internal class WorkOrderMat
+    public class WorkOrderMat
     {
         public int Id { get; set; }
         public int WorkOrderId { get; set; }

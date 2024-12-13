@@ -24,9 +24,9 @@
                     <GridView x:Name="GvSelectedProducts" IsItemClickEnabled="True" ItemClick="OnGvSelectedProductsClick">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:WorkOrderMat">
-                                <StackPanel>
-                                    <TextBlock Text="{x:Bind Product.Name}" FontSize="20" FontWeight="Bold" />
-                                    <TextBlock Text="{x:Bind Product.Description}" FontSize="8" FontStyle="Italic" />
+                                <StackPanel HorizontalAlignment="Stretch" Height="150" Padding="5" >
+                                    <TextBlock Text="{x:Bind Product.Name}" FontSize="20" FontWeight="Bold" TextWrapping="Wrap" />
+                                    <TextBlock Text="{x:Bind Product.Description}" FontSize="8" FontStyle="Italic" TextWrapping="Wrap" />
                                     <TextBlock>
                                         <Run Text="Available Stock: " FontWeight="Bold" />
                                         <Run Text="{x:Bind Product.Stock}" />
@@ -47,9 +47,24 @@
                     <NumberBox x:Name="FProductAmount" />
                     <Button x:Name="AddProduct" Content="Submit Product" Click="OnAddProductClick" />
                 </StackPanel>
-                
+
                 <!-- Product Selector -->
-                <ComboBox x:Name="FSelectProduct" SelectionChanged="OnFSelectProductSelectionChanged" DisplayMemberPath="Name" />
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="Select Product" />
+                    <ComboBox x:Name="FSelectProduct" SelectionChanged="OnFSelectProductSelectionChanged" DisplayMemberPath="Name" />
+                </StackPanel>
+
+                <!-- Maintenance Appointment Selector -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Select Appointyment" />
+                    <ComboBox x:Name="FSelectAppointment" SelectionChanged="OnFAppointmentSelectionChanged" DisplayMemberPath="Company.Name + StartTime"/>
+                </StackPanel>
+                
+                <!-- Submit WorkOrder -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Submit WorkOrder" />
+                    <Button Content="Submit" x:Name="Submit" Click="OnSubmitClick" />
+                </StackPanel>
             </StackPanel>
             
             <!-- All Work Orders -->
