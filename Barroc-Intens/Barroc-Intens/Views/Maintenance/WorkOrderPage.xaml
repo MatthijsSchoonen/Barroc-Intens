@@ -57,7 +57,7 @@
                 <!-- Maintenance Appointment Selector -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Select Appointyment" />
-                    <ComboBox x:Name="FSelectAppointment" SelectionChanged="OnFAppointmentSelectionChanged" DisplayMemberPath="Company.Name + StartTime"/>
+                    <ComboBox x:Name="FSelectAppointment" SelectionChanged="OnFAppointmentSelectionChanged" DisplayMemberPath="ComboBoxDisplay"/>
                 </StackPanel>
                 
                 <!-- Submit WorkOrder -->

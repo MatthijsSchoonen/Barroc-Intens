@@ -20,6 +20,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.Windows.Storage;
 using Windows.Storage;
+using Microsoft.EntityFrameworkCore;
 namespace Barroc_Intens.Views.Maintenance
 {
     public sealed partial class WorkOrderPage : Page
@@ -48,7 +49,7 @@ namespace Barroc_Intens.Views.Maintenance
                     ProductCollection.Add(prod);
                 }
 
-                List<MaintenanceAppointment> retrievedMaintenanceAppointments = dbContext.MaintenanceAppointments.ToList();
+                List<MaintenanceAppointment> retrievedMaintenanceAppointments = dbContext.MaintenanceAppointments.Include(p => p.Company).ToList();
                 foreach(MaintenanceAppointment appointment in retrievedMaintenanceAppointments)
                 {
                     MaintenanceAppointmentsCollection.Add(appointment);
@@ -225,7 +226,7 @@ namespace Barroc_Intens.Views.Maintenance
                         FSelectProduct.SelectedItem = null;
                         FProductAmount.Text = string.Empty;
                         await GenerateAndSendWorkOrderPDF(newOrder);
-                        dbContext.Entry(SelectedAppointment).Reference(a => a.Company).Load();
+                        //dbContext.Entry(SelectedAppointment).Reference(a => a.Company).Load();
                         Frame.Navigate(typeof(VisitDetails),SelectedAppointment);
                         SelectedAppointment = null;
                     }
