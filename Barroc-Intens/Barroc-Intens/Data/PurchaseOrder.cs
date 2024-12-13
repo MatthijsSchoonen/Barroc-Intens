@@ -15,5 +15,12 @@ namespace Barroc_Intens.Data
         public decimal TotalPrice { get; set; }
         public PurchaseOrderStatus OrderStatus { get; set; }
         public int TotalProductAmount { get; set; }
+
+        public override string ToString()
+        {
+            string products = string.Join(", ", Products.Select(r => r.Name));
+
+            return $"ID: {Id}, Products: [{products}], orderedAt: {OrderedAt}, TotalPrice: {TotalPrice}, OrderStatus: {OrderStatus}, TotalProductAmount: {TotalProductAmount} ";
+        }
     }
 }

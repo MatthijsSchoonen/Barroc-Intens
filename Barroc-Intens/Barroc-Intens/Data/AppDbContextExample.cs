@@ -26,6 +26,8 @@
 //        public DbSet<ProductsCategory> ProductsCategories { get; set; }
 //        public DbSet<User> Users { get; set; }
 //        public DbSet<PasswordReset> passwordResets { get; set; }
+//        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+//        public DbSet<PurchaseOrderStatus> PurchaseOrderStatuses { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions
@@ -69,6 +71,24 @@
 
 //                );
 
+//            modelBuilder.Entity<PurchaseOrderStatus>().HasData(
+
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 1,
+//                    Name = "To Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 2,
+//                    Name = "In Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 3,
+//                    Name = "Approved"
+//                }
+//            );
 
 //            modelBuilder.Entity<User>().HasData(
 
@@ -220,7 +240,7 @@
 //                    Name = "PurchaseAdmin",
 //                    Email = "AdminPurch@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
-//                    DepartmentId = 5,
+//                    DepartmentId = 7,
 //                    RoleId = 3
 //                },
 //                new User

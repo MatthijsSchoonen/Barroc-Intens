@@ -16,7 +16,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
+using System.Diagnostics;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -129,11 +129,11 @@ namespace Barroc_Intens.Views.PurchaseViews
                 // Deterine Order status
                 if (order.TotalProductAmount > 5000)
                 {
-                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 1);
+                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.Where(p => p.Id == 1).FirstOrDefault();
                 }
                 else
                 {
-                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.FirstOrDefault(p => p.Id == 3);
+                    order.OrderStatus = appDbContext.PurchaseOrderStatuses.Where(p => p.Id == 3).FirstOrDefault();
                 }
 
                 // Store order locally and in DB
@@ -152,6 +152,7 @@ namespace Barroc_Intens.Views.PurchaseViews
         {
             // Get the clicked item from the event arguments
              PurchaseOrder purchaceOrder = e.ClickedItem as PurchaseOrder;
+            Debug.WriteLine(purchaceOrder.ToString());
             if (purchaceOrder != null)
             {
                 UpdateInfoPanel.Visibility = Visibility.Visible;
