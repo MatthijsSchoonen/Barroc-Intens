@@ -73,7 +73,7 @@
                     <DataTemplate x:DataType="models:WorkOrder" >
                         <StackPanel>
                             <TextBlock x:Name="AppointmentInfo" >
-                                <Run></Run>
+                                <Run Text="{x:Bind MaintenanceAppointment.ComboBoxDisplay}" />
                             </TextBlock>
                              <!--Child GridView-->
                             <GridView ItemsSource="{x:Bind WorkOrderMats}" 

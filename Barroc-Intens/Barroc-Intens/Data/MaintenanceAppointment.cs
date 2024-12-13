@@ -28,6 +28,6 @@ namespace Barroc_Intens.Data
         public string StartTimeOnly => StartTime.ToString("HH:mm"); 
         public string EndTimeOnly => EndTime.ToString("HH:mm");
         public string TruncatedDescription => Description.Length > 100 ? Description.Substring(0, 100) + "..." : Description;
-        public string ComboBoxDisplay => $"{Company.Name} {StartTime}";
+        public string ComboBoxDisplay => $"{Company?.Name ?? "No Company"} {StartTime}";
     }
 }

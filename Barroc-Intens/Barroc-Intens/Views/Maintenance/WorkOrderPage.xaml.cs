@@ -21,6 +21,7 @@ using MailKit.Net.Smtp;
 using Microsoft.Windows.Storage;
 using Windows.Storage;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml.Navigation;
 namespace Barroc_Intens.Views.Maintenance
 {
     public sealed partial class WorkOrderPage : Page
@@ -34,27 +35,37 @@ namespace Barroc_Intens.Views.Maintenance
         public WorkOrderPage()
         {
             this.InitializeComponent();
+            InitializePage();
+
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            InitializePage();
+        }
+        private void InitializePage()
+        {
             using (AppDbContext dbContext = new())
             {
-                List<Barroc_Intens.Data.WorkOrder> retrievedWorkOrders = dbContext.WorkOrders.ToList();
+                List<Barroc_Intens.Data.WorkOrder> retrievedWorkOrders = dbContext.WorkOrders.Include(wo => wo.MaintenanceAppointment).Include(wo => wo.WorkOrderMats).ToList();
                 foreach (Barroc_Intens.Data.WorkOrder workOrder in retrievedWorkOrders)
                 {
                     WorkOrderCollection.Add(workOrder);
                 }
-                GvWorkOrders.ItemsSource = WorkOrderCollection;
 
                 List<Product> retrievedProducts = dbContext.Products.ToList();
-                foreach(Product prod in retrievedProducts)
+                foreach (Product prod in retrievedProducts)
                 {
                     ProductCollection.Add(prod);
                 }
 
                 List<MaintenanceAppointment> retrievedMaintenanceAppointments = dbContext.MaintenanceAppointments.Include(p => p.Company).ToList();
-                foreach(MaintenanceAppointment appointment in retrievedMaintenanceAppointments)
+                foreach (MaintenanceAppointment appointment in retrievedMaintenanceAppointments)
                 {
                     MaintenanceAppointmentsCollection.Add(appointment);
                 }
-
+                GvWorkOrders.ItemsSource = WorkOrderCollection;
                 FSelectAppointment.ItemsSource = MaintenanceAppointmentsCollection;
                 FSelectProduct.ItemsSource = ProductCollection;
                 GvSelectedProducts.ItemsSource = WorkOrderMatsCollection;
@@ -224,10 +235,13 @@ namespace Barroc_Intens.Views.Maintenance
                         SelectedProduct = null;
                         FSelectAppointment.SelectedItem = null;
                         FSelectProduct.SelectedItem = null;
+                        WorkOrderCollection.Add(newOrder);
                         FProductAmount.Text = string.Empty;
                         await GenerateAndSendWorkOrderPDF(newOrder);
-                        //dbContext.Entry(SelectedAppointment).Reference(a => a.Company).Load();
-                        Frame.Navigate(typeof(VisitDetails),SelectedAppointment);
+                        dbContext.Entry(SelectedAppointment).Reference(a => a.Company).Load();
+                        Frame.Navigate(typeof(VisitDetails), SelectedAppointment);
+                        AmountPanel.Visibility = Visibility.Collapsed;
+                        AddPanel.Visibility = Visibility.Collapsed;
                         SelectedAppointment = null;
                     }
                 }
