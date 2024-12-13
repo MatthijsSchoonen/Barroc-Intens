@@ -53,18 +53,23 @@ namespace Barroc_Intens
             SalesMailLink.Visibility = Visibility.Collapsed;
             FinanceWorkOrderLinks.Visibility = Visibility.Collapsed;
             NewCustomerLink.Visibility = Visibility.Collapsed;
+            resetPassLink.Visibility = Visibility.Collapsed;
+            NavItemBackToDashboard.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
                 // Show login and hide logout if no user is logged in
                 LoginLinks.Visibility = Visibility.Visible;
                 LogoutLinks.Visibility = Visibility.Collapsed;
+                resetPassLink.Visibility = Visibility.Visible;
                 return;
             }
 
             // Hide login and show logout when a user is logged in
             LoginLinks.Visibility = Visibility.Collapsed;
             LogoutLinks.Visibility = Visibility.Visible;
+            resetPassLink.Visibility = Visibility.Collapsed;
+            NavItemBackToDashboard.Visibility = Visibility.Visible;
 
             // Show specific navigation items based on department type
             switch (loggedInUser.Department.Type)
@@ -112,14 +117,13 @@ namespace Barroc_Intens
         // Gets executed once the selection is changed in the navmenu. 
         private void nvMainNavBar_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
          {
-            if (isLoggedIn)
-            {
+       
                 var selectedItem = (NavigationViewItem)args.SelectedItem;
                 string searchTerm = selectedItem.Tag.ToString();
                 SwitchPage("","",searchTerm);
                 return;
-            }
-            ShowLoginPage();
+            
+            
         }
 
         // Navigation between pages.
@@ -153,7 +157,11 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(NewCustomerPage));
                 return;
             }
-
+            if(completeTerm == "resetPassword")
+            {
+                contentFrame.Navigate(typeof(ResetPassword));
+                return;
+            }
             if(completeTerm == "StockView")
             {
                 ShowStockView();
@@ -181,8 +189,13 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(MailPage));
                 return;
             }
-         
-            if( completeTerm == "VisitCreate")
+            if (completeTerm == "login")
+            {
+                ShowLoginPage();
+                return;
+            }
+
+            if ( completeTerm == "VisitCreate")
             {
                 //Debug.WriteLine("Logged in user's name: "+loggedInUser.Name);
                 //Debug.WriteLine("ContentFrame: "+ contentFrame);
@@ -196,6 +209,7 @@ namespace Barroc_Intens
                 nvMainNavBar.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
                 this.loggedInUser = null;
                 this.isLoggedIn = false;
+                LoadNav();
                 ShowLoginPage();
                 return;
             }

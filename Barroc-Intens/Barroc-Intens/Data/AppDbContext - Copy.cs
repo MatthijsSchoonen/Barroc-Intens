@@ -25,7 +25,7 @@
 //        public DbSet<Product> Products { get; set; }
 //        public DbSet<ProductsCategory> ProductsCategories { get; set; }
 //        public DbSet<User> Users { get; set; }
-//        public DbSet<PasswordReset> passwordResets { get; set; }
+//        public DbSet<PasswordReset> PasswordResets { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions

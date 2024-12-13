@@ -48,7 +48,8 @@
                 <!-- Login and Logout -->
                 <NavigationViewItem x:Name="LogoutLinks" Foreground="#f4cd1b" Icon="OtherUser" Content="Log out" Tag="logout" Visibility="Collapsed" />
                 <NavigationViewItem x:Name="LoginLinks" Foreground="#f4cd1b" Icon="OtherUser" Content="Log In" Tag="login" />
-
+                <NavigationViewItem x:Name="resetPassLink" Foreground="#f4cd1b" Icon="OtherUser" Content="resetPassword" Tag="resetPassword" />
+    
                 <!-- Common Navigation -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Play" Content="Dashboard" x:Name="NavItemBackToDashboard" />
 

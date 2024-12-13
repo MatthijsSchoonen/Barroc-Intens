@@ -38,7 +38,7 @@ namespace Barroc_Intens.Sales
             this.InitializeComponent();                
         }
 
-        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
+        private async  void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             if (nameInput.Text == "")
             {
@@ -50,21 +50,48 @@ namespace Barroc_Intens.Sales
                 ErrorMessage.Text = "Email is required";
                 return;
             }
-           
-            //AppDbContext db = new AppDbContext();
-            //db.Users.Add(new User
-            //{
-            //    Name = nameInput.Text,
-            //    DepartmentId = 1,
-            //    RoleId = 1,
-            //    Email = emailInput.Text,
 
-            //});
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    // Create a new user
+                    User newUser = new User
+                    {
+                        Name = nameInput.Text,
+                        DepartmentId = 1,
+                        RoleId = 1,       
+                        Email = emailInput.Text,
+                    };
 
-            //db.SaveChanges();
-            string randomString = RandomString();
-            Frame.Navigate(typeof(SalesDash));
+                    db.Users.Add(newUser);
+                    db.SaveChanges(); // Save to generate the User ID
+
+                    // Generate a random string for the password reset code
+                    string randomCode = RandomString();
+
+                    
+                    PasswordReset passwordReset = new PasswordReset
+                    {
+                        UserId = newUser.Id, // Use the generated User ID
+                        Code = randomCode,
+                    };
+
+                    db.PasswordResets.Add(passwordReset);                   
+                    db.SaveChanges(); // Save the PasswordReset entry
+
+                    await SendEmailAsync(emailInput.Text, randomCode);
+                }
+
+                // Navigate to the next page
+                Frame.Navigate(typeof(SalesDash));
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage.Text = $"An error occurred: {ex.Message}";
+            }
         }
+
 
         public string RandomString()
         {
@@ -86,15 +113,16 @@ namespace Barroc_Intens.Sales
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Barroc Intens", "officialbarrocintens@gmail.com"));
             message.To.Add(new MailboxAddress("", recipientEmail));
-            message.Subject = "password reset" + ResetCode ;
+            //email Title
+            message.Subject = "password reset " + ResetCode ;
 
             // Build email body
             var bodyBuilder = new BodyBuilder
             {
-                TextBody = "Please find attached the contract details."
+                TextBody = "Go to the ResetPassword Page to Reset your password\nThis is your password reset code: " + ResetCode
             };
 
-            // Attach PDF file
+           
 
             message.Body = bodyBuilder.ToMessageBody();
 
