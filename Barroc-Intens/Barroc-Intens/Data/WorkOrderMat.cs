@@ -13,5 +13,6 @@ namespace Barroc_Intens.Data
         public WorkOrder WorkOrder { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public int ProductAmount { get; set; }
     }
 }

@@ -13,13 +13,47 @@
     <StackPanel>
         <StackPanel Padding="5">
             <TextBlock FontSize="24" FontWeight="Bold" Text="Work Orders" />
-
-            <Button x:Name="AddPanelToggle" Content="Add WorkOrder (Maintenance)" />
+            <Button x:Name="AddPanelToggle" Content="Add WorkOrder (Maintenance)" Click="OnAddPanelToggleClick" />
+            
+            <!-- Add Panel -->
             <StackPanel x:Name="AddPanel" Visibility="Collapsed" >
                 
+                <!-- Selected products -->
+                <StackPanel x:Name="ProductsPanel" >
+                    <TextBlock Text="Selected Products" />
+                    <GridView x:Name="GvSelectedProducts" IsItemClickEnabled="True" ItemClick="OnGvSelectedProductsClick">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:WorkOrderMat">
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Product.Name}" FontSize="20" FontWeight="Bold" />
+                                    <TextBlock Text="{x:Bind Product.Description}" FontSize="8" FontStyle="Italic" />
+                                    <TextBlock>
+                                        <Run Text="Available Stock: " FontWeight="Bold" />
+                                        <Run Text="{x:Bind Product.Stock}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="Amount: " />
+                                        <Run Text="{x:Bind ProductAmount}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+                
+                <!-- Amount panel -->
+                <StackPanel x:Name="AmountPanel" Visibility="Collapsed" Orientation="Horizontal" >
+                    <TextBlock Text="Amount:" />
+                    <NumberBox x:Name="FProductAmount" />
+                    <Button x:Name="AddProduct" Content="Submit Product" Click="OnAddProductClick" />
+                </StackPanel>
+                
+                <!-- Product Selector -->
+                <ComboBox x:Name="FSelectProduct" SelectionChanged="OnFSelectProductSelectionChanged" DisplayMemberPath="Name" />
             </StackPanel>
             
-            <GridView x:Name="GvWorkOrderd">
+            <!-- All Work Orders -->
+            <GridView x:Name="GvWorkOrders">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:WorkOrder" >
                         <StackPanel>
