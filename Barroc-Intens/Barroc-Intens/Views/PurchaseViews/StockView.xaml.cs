@@ -1,4 +1,5 @@
 using Barroc_Intens.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -40,8 +41,9 @@ namespace Barroc_Intens.PurchaseViews
         {
             using (var db = new AppDbContext())
             {
-                // Populate Products and FilteredProducts with data from the database
-                var products = db.Products.ToList();
+                // Include the related Brand data
+                var products = db.Products.Include(p => p.Brand).ToList();
+
                 Products.Clear();
                 FilteredProducts.Clear();
                 foreach (var product in products)
@@ -51,6 +53,7 @@ namespace Barroc_Intens.PurchaseViews
                 }
             }
         }
+
 
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -64,19 +67,20 @@ namespace Barroc_Intens.PurchaseViews
 
             // Clear and repopulate FilteredProducts based on the filter criteria
             FilteredProducts.Clear();
-            //foreach (var product in Products)
-            //{
-            //    bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
-            //                        (product.Brand != null && product.Brand.ToLower().Contains(brandFilter));
-            //    bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
-            //                              (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
+            foreach (var product in Products)
+            {
+                bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
+                                    (product.Brand != null && product.Brand.Name.ToLower().Contains(brandFilter));
+                bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
+                                          (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
 
-            //    if (matchesBrand && matchesDescription)
-            //    {
-            //        FilteredProducts.Add(product);
-            //    }
-            //}
+                if (matchesBrand && matchesDescription)
+                {
+                    FilteredProducts.Add(product);
+                }
+            }
         }
+
 
         private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
         {

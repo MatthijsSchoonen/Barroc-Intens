@@ -1,50 +1,44 @@
 using Barroc_Intens.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Barroc_Intens.PurchaseViews
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AddStockView : Page
     {
         public AddStockView()
         {
             this.InitializeComponent();
             using AppDbContext db = new();
+
+            // Populate the product categories dropdown
             productCategoryInput.ItemsSource = db.ProductsCategories.ToList();
             productCategoryInput.DisplayMemberPath = "Name";
+
+            // Populate the brands dropdown
+            brandInput.ItemsSource = db.Brands.ToList();
+            brandInput.DisplayMemberPath = "Name";
         }
 
         public void BackToOverviewButton_click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(StockView));
-            //navigate back to stockview
         }
 
         public void AddProductButton_click(object sender, RoutedEventArgs e)
         {
             using (var db = new AppDbContext())
             {
-                //input validatie
-                string? brand;
+                // Input validation
+                string? selectedBrandName = null;
                 ProductsCategory selectedCategory;
+                Brand selectedBrand = null;
+
                 if (nameInput.Text == "")
                 {
                     ErrorMessage.Text = "Name is required";
@@ -55,24 +49,39 @@ namespace Barroc_Intens.PurchaseViews
                     ErrorMessage.Text = "Description is required";
                     return;
                 }
-                if (brandInput.Text == "")
+                if (brandInput.SelectedItem == null)
                 {
-                    brand = null;
+                    ErrorMessage.Text = "Brand is required";
+                    return;
                 }
                 else
                 {
-                    brand = brandInput.Text;
+                    selectedBrand = (Brand)brandInput.SelectedItem;
                 }
-                if (priceInput.Text == "")
+                if (string.IsNullOrWhiteSpace(priceInput.Text))
                 {
                     ErrorMessage.Text = "Price is required";
                     return;
                 }
-                if (stockInput.Text == "")
+
+                if (!decimal.TryParse(priceInput.Text, out decimal price) || price <= 0)
+                {
+                    ErrorMessage.Text = "Price must be a valid positive number";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(stockInput.Text))
                 {
                     ErrorMessage.Text = "Stock is required";
                     return;
                 }
+
+                if (!int.TryParse(stockInput.Text, out int stock) || stock < 0)
+                {
+                    ErrorMessage.Text = "Stock must be a valid non-negative integer";
+                    return;
+                }
+
                 if (productCategoryInput.SelectedItem == null)
                 {
                     ErrorMessage.Text = "Category is required";
@@ -83,28 +92,31 @@ namespace Barroc_Intens.PurchaseViews
                     selectedCategory = (ProductsCategory)productCategoryInput.SelectedItem;
                 }
 
-                // add query
+                // Add product to the database
                 db.Products.Add(new Product
                 {
                     Name = nameInput.Text,
                     Description = descInput.Text,
-                    BrandId = 1,
+                    BrandId = selectedBrand.Id, // Use the selected Brand's Id
                     Price = decimal.Parse(priceInput.Text),
                     Stock = int.Parse(stockInput.Text),
                     ProductsCategoryId = selectedCategory.Id
                 });
-                //add product to the database
-                //save to database
+
+                // Save changes to the database
                 db.SaveChanges();
-                //reset input
+
+                // Reset input fields
                 nameInput.Text = string.Empty;
                 descInput.Text = string.Empty;
-                brandInput.Text = string.Empty;
+                brandInput.SelectedItem = null;
                 priceInput.Text = string.Empty;
                 stockInput.Text = string.Empty;
-                productCategoryInput.SelectedItem = -1;
+                productCategoryInput.SelectedItem = null;
+
+                // Navigate back to the StockView
+                Frame.Navigate(typeof(StockView));
             }
-            Frame.Navigate(typeof(StockView));
         }
     }
 }
