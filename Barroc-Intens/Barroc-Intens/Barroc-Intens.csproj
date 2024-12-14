@@ -19,6 +19,7 @@
 		<None Remove="BlankPage1.xaml" />
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
+		<None Remove="Views\Customer\Privacy.xaml" />
 		<None Remove="Views\Maintenance\VisitDetails.xaml" />
 		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\NotePage.xaml" />
@@ -134,7 +135,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Customer\" />
+	  <Page Update="Views\Customer\Privacy.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

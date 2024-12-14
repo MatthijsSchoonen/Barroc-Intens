@@ -18,6 +18,7 @@ using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
 using System.Diagnostics;
+using Barroc_Intens.Views.Customer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -69,6 +70,9 @@ namespace Barroc_Intens
             // Show specific navigation items based on department type
             switch (loggedInUser.Department.Type)
             {
+                case "Customer":
+                    PrivacyLink.Visibility = Visibility.Visible;
+                    break;
                 case "Purchase":
                     PurchaseLinks.Visibility = Visibility.Visible;
                     break;
@@ -159,12 +163,18 @@ namespace Barroc_Intens
                 ShowStockView();
                 return;
             }
-            if(completeTerm == "NotePage")
+            if (completeTerm == "NotePage")
             {
                 ShowNoteView();
                 return;
             }
-         
+            if (completeTerm == "Privacy")
+            {
+                contentFrame.Navigate(typeof(Privacy));
+                return;
+            }
+
+
             if (completeTerm == "Invoice")
             {
                 contentFrame.Navigate(typeof(InvoicePage));
