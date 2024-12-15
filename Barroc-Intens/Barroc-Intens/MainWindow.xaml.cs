@@ -18,6 +18,7 @@ using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
 using System.Diagnostics;
+using Barroc_Intens.Views.Sales;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -55,6 +56,7 @@ namespace Barroc_Intens
             NewCustomerLink.Visibility = Visibility.Collapsed;
             resetPassLink.Visibility = Visibility.Collapsed;
             NavItemBackToDashboard.Visibility = Visibility.Collapsed;
+            AddCompanyLink.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
@@ -84,6 +86,7 @@ namespace Barroc_Intens
                     SalesLinks.Visibility = Visibility.Visible;
                     SalesMailLink.Visibility = Visibility.Visible;
                     NewCustomerLink.Visibility = Visibility.Visible;
+                    AddCompanyLink.Visibility= Visibility.Visible;
                     break;
                 case "Finance":
                     FinanceLinks.Visibility = Visibility.Visible;
@@ -157,7 +160,12 @@ namespace Barroc_Intens
                 contentFrame.Navigate(typeof(NewCustomerPage));
                 return;
             }
-            if(completeTerm == "resetPassword")
+            if (completeTerm == "AddCompany")
+            {
+                ShowAddCompany();
+                return;
+            }
+            if (completeTerm == "resetPassword")
             {
                 contentFrame.Navigate(typeof(ResetPassword));
                 return;
@@ -218,7 +226,10 @@ namespace Barroc_Intens
             contentFrame.Content = notFoundPage;
             return;
         }
-
+        public void ShowAddCompany()
+        {
+            contentFrame.Navigate(typeof(AddCompany), this);
+        }
         public void ShowStockView()
         {
             contentFrame.Navigate(typeof(StockView));

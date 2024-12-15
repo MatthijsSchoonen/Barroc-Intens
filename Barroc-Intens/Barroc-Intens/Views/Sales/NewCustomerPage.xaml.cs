@@ -35,9 +35,21 @@ namespace Barroc_Intens.Sales
     {
         public NewCustomerPage()
         {
-            this.InitializeComponent();                
+            this.InitializeComponent();
+            LoadCompaniesAsync();
         }
 
+        private async Task LoadCompaniesAsync()
+        {
+            //connect to the database get the companies
+            using (AppDbContext context = new AppDbContext())
+            {
+                var companies = await context.Companies.ToListAsync();
+                CompanyComboBox.ItemsSource = companies;
+                CompanyComboBox.DisplayMemberPath = "Name";
+                CompanyComboBox.SelectedValuePath = "Id";
+            }
+        }
         private async  void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             if (nameInput.Text == "")
@@ -51,6 +63,9 @@ namespace Barroc_Intens.Sales
                 return;
             }
 
+            var selectedCompany = CompanyComboBox.SelectedItem as Company;
+            int? companyId = selectedCompany?.Id;
+
             try
             {
                 using (AppDbContext db = new AppDbContext())
@@ -62,6 +77,7 @@ namespace Barroc_Intens.Sales
                         DepartmentId = 1,
                         RoleId = 1,       
                         Email = emailInput.Text,
+                        CompanyId = companyId,
                     };
 
                     db.Users.Add(newUser);
@@ -144,5 +160,7 @@ namespace Barroc_Intens.Sales
                 throw;
             }
         }
+
+       
     }
 }

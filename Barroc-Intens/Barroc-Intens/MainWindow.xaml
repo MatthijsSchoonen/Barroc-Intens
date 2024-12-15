@@ -60,7 +60,8 @@
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Note" Tag="NotePage" x:Name="SalesLinks" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Mail" Tag="Mail" x:Name="SalesMailLink" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="NewCustomer" Tag="NewCustomer" x:Name="NewCustomerLink" Visibility="Collapsed" />
-               
+                <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="AddCompany" Tag="AddCompany" x:Name="AddCompanyLink" Visibility="Collapsed" />
+
 
                 <!-- Finance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice"  x:Name="FinanceLinks" Visibility="Collapsed" />
