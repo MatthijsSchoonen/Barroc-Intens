@@ -61,22 +61,31 @@ namespace Barroc_Intens.PurchaseViews
         {
             string brandFilter = BrandFilterTextBox.Text?.ToLower() ?? string.Empty;
             string descriptionFilter = DescriptionFilterTextBox.Text?.ToLower() ?? string.Empty;
+            bool hideOutOfStock = HideOutOfStockToggle.IsOn;
 
             // Clear and repopulate FilteredProducts based on the filter criteria
             FilteredProducts.Clear();
-            //foreach (var product in Products)
-            //{
-            //    bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
-            //                        (product.Brand != null && product.Brand.ToLower().Contains(brandFilter));
-            //    bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
-            //                              (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
 
-            //    if (matchesBrand && matchesDescription)
-            //    {
-            //        FilteredProducts.Add(product);
-            //    }
-            //}
+            foreach (var product in Products)
+            {
+                bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
+                     product.Brands.Any(b => b.Name.ToLower().Contains(brandFilter));
+
+                bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
+                                          (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
+                bool matchesStock = !hideOutOfStock || product.Stock > 0;
+
+                if (matchesBrand && matchesDescription && matchesStock)
+                {
+                    FilteredProducts.Add(product);
+                }
+            }
         }
+        private void HideOutOfStockToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            ApplyFilters(); // Reapply filters whenever the toggle state changes
+        }
+
 
         private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
         {

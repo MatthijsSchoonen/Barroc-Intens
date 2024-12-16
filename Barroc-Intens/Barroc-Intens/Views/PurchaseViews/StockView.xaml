@@ -33,6 +33,11 @@
                  Width="200"
                      Height="20"
                  TextChanged="FilterTextBox_TextChanged"/>
+            <ToggleSwitch x:Name="HideOutOfStockToggle"
+              Header="Hide Out of Stock"
+              Margin="10 0 0 0"
+              Toggled="HideOutOfStockToggle_Toggled"/>
+
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="10" Padding="5" Grid.Row="1" >
