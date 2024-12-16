@@ -8,27 +8,27 @@
 ////using System.Configuration;
 ////using System.Diagnostics;
 
-////namespace Barroc_Intens.Data
-////{
-////    internal class AppDbContext : DbContext
-////    {
-////        public DbSet<Company> Companies { get; set; }
-////        public DbSet<Contract> Contracts { get; set; }
-////        public DbSet<InvoiceProduct> InvoiceProducts { get; set; }
-////        public DbSet<Role> Roles { get; set; }
-////        public DbSet<Brand> Brands { get; set; }
-////        public DbSet<Department> Departments { get; set; }
-////        public DbSet<Invoice> Invoices { get; set; }
-////        public DbSet<MaintenanceAppointment> MaintenanceAppointments { get; set; }
-////        public DbSet<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
-////        public DbSet<Note> Notes { get; set; }
-////        public DbSet<Product> Products { get; set; }
-////        public DbSet<ProductsCategory> ProductsCategories { get; set; }
-////        public DbSet<User> Users { get; set; }
-////        public DbSet<PasswordReset> passwordResets { get; set; }
-////        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-////        {
-////            //Go to the App.config.example file and then follow Instructions
+//namespace Barroc_Intens.Data
+//{
+//    internal class AppDbContext : DbContext
+//    {
+//        public DbSet<Company> Companies { get; set; }
+//        public DbSet<Contract> Contracts { get; set; }s
+//        public DbSet<InvoiceProduct> InvoiceProducts { get; set; }
+//        public DbSet<Role> Roles { get; set; }
+//        public DbSet<Brand> Brands { get; set; }
+//        public DbSet<Department> Departments { get; set; }
+//        public DbSet<Invoice> Invoices { get; set; }
+//        public DbSet<MaintenanceAppointment> MaintenanceAppointments { get; set; }
+//        public DbSet<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
+//        public DbSet<Note> Notes { get; set; }
+//        public DbSet<Product> Products { get; set; }
+//        public DbSet<ProductsCategory> ProductsCategories { get; set; }
+//        public DbSet<User> Users { get; set; }
+//        public DbSet<PasswordReset> PasswordResets { get; set; }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            //Go to the App.config.example file and then follow Instructions
 
 ////            optionsBuilder.UseMySql("server=localhost;port=3306;user=root;password=;database=barrocintens", ServerVersion.Parse("8.0.30"));
 ////            base.OnConfiguring(optionsBuilder);
