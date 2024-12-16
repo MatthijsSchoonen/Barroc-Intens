@@ -12,5 +12,7 @@ namespace Barroc_Intens.Data
         public int Amount { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public int  InvoiceId { get; set; }
+        public Invoice Invoice { get; set; }
     }
 }

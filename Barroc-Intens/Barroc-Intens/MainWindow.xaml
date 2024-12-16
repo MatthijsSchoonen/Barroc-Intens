@@ -69,6 +69,10 @@
 
                 <!-- Maintenance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Content="Customer Visit" Tag="VisitCreate" x:Name="MaintenanceLinks" Visibility="Collapsed"/>
+
+
+                <!-- Customer Links -->
+                <NavigationViewItem Foreground="#f4cd1b" Content="Malfunction Report" Tag="MalfunctionReport" x:Name="MalfunctionReportLink" Visibility="Collapsed"/>
             </NavigationView.MenuItems>
 
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />

@@ -19,6 +19,7 @@ using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
 using System.Diagnostics;
 using Barroc_Intens.Views.Sales;
+using Barroc_Intens.Views.Customer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -57,6 +58,7 @@ namespace Barroc_Intens
             resetPassLink.Visibility = Visibility.Collapsed;
             NavItemBackToDashboard.Visibility = Visibility.Collapsed;
             AddCompanyLink.Visibility = Visibility.Collapsed;
+            MalfunctionReportLink.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
@@ -76,6 +78,9 @@ namespace Barroc_Intens
             // Show specific navigation items based on department type
             switch (loggedInUser.Department.Type)
             {
+                case "Customer":
+                    MalfunctionReportLink.Visibility = Visibility.Visible;
+                    break;
                 case "Purchase":
                     PurchaseLinks.Visibility = Visibility.Visible;
                     break;
@@ -153,6 +158,11 @@ namespace Barroc_Intens
             if(completeTerm == "Barroc_Intens.Dashboards.Sales"  || pageName == "Sales")
             {
                 contentFrame.Navigate(typeof(SalesDash));
+                return;
+            }
+            if(completeTerm == "MalfunctionReport")
+            {
+                contentFrame.Navigate(typeof(MalfunctionReport));
                 return;
             }
             if (completeTerm == "NewCustomer")

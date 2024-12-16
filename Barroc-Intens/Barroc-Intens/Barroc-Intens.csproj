@@ -20,6 +20,7 @@
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
 		<None Remove="ResetPassword.xaml" />
+		<None Remove="Views\Customer\MalfunctionReport.xaml" />
 		<None Remove="Views\Maintenance\VisitDetails.xaml" />
 		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\AddCompany.xaml" />
@@ -136,7 +137,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Customer\" />
+	  <Page Update="Views\Customer\MalfunctionReport.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>
