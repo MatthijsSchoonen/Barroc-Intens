@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Views.Sales.AddCompany"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Padding="20" Spacing="10">
+            <TextBlock Text="Add Company" FontSize="24" FontWeight="Bold" />
+
+            <TextBox x:Name="NameInput" PlaceholderText="Name" />
+            <TextBox x:Name="PhoneInput" PlaceholderText="Phone" />
+            <TextBox x:Name="AddressInput" PlaceholderText="Address" />
+            <TextBox x:Name="ZipcodeInput" PlaceholderText="Zipcode" />
+            <TextBox x:Name="CityInput" PlaceholderText="City" />
+            <TextBox x:Name="CountryInput" PlaceholderText="Country" />
+            <DatePicker x:Name="BkrCheckedAtInput" Header="BKR Checked At" />
+            <TextBox x:Name="ContactNameInput" PlaceholderText="Contact Name" />
+            <TextBox x:Name="ContactMailInput" PlaceholderText="Contact Email" />
+
+            <Button Content="Add Company" Click="AddCompanyButton_Click" />
+        </StackPanel>
+    </Grid>
+</Page>
