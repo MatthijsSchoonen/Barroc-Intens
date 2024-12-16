@@ -18,6 +18,7 @@ using Barroc_Intens.PurchaseViews;
 using Barroc_Intens.Sales;
 using Barroc_Intens.Maintenance;
 using System.Diagnostics;
+using Barroc_Intens.Customer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -53,6 +54,10 @@ namespace Barroc_Intens
             SalesMailLink.Visibility = Visibility.Collapsed;
             FinanceWorkOrderLinks.Visibility = Visibility.Collapsed;
             NewCustomerLink.Visibility = Visibility.Collapsed;
+        
+                CustomerStockViewLink.Visibility = Visibility.Visible;
+            
+
 
             if (loggedInUser == null)
             {
@@ -136,7 +141,12 @@ namespace Barroc_Intens
             {
                 pageType = Type.GetType($"{nameSpace}.{pageName}");
             }
-            
+
+            if (completeTerm == "CustomerStockView")
+            {
+                contentFrame.Navigate(typeof(CustomerStockView));
+                return;
+            }
 
             if (pageType != null)
             {
