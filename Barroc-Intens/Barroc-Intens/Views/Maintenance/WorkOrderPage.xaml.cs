@@ -315,7 +315,7 @@ namespace Barroc_Intens.Views.Maintenance
                 // 2. E-mail sending
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("Barroc Intens", "officialbarrocintens@gmail.com"));
-                message.To.Add(new MailboxAddress("Ontvanger", "dinanvanw@gmail.com"));
+                message.To.Add(new MailboxAddress("Ontvanger", "officialbarrocintens@gmail.com"));
                 message.Subject = $"Werk Order {workOrder.Id}";
 
                 var builder = new BodyBuilder();
