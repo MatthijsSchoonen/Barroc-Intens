@@ -17,12 +17,16 @@
                 <TextBlock FontSize="18" FontStyle="Italic" Text="Maintenance"/>
                 <!-- Inputs -->
                 <StackPanel Margin="15">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Cancel" />
+                        <Button Content="Cancel" x:Name="NavToOverview" Click="NavToOverview_Click" />
+                    </StackPanel>
                     <TextBlock x:Name="FormErrorBox" Foreground="Red" FontSize="12" />
                     <!-- Start Date of Visit -->
                     <StackPanel Padding="5" >
                         <TextBlock Text="The start date of Visit" />
                         <DatePicker x:Name="FVisitStart" SelectedDateChanged="FVisitStart_SelectedDateChanged"  />
-                        <TimePicker x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
+                        <TimePicker ClockIdentifier="24HourClock" x:Name="FVisitStartTime" SelectedTimeChanged="FVisitStartTime_SelectedTimeChanged"  />
                         <TextBlock Foreground="Red" x:Name="StartDateError" />
                         <!-- <Button x:Name="TimeTestButton" Click="TimeTestButton_Click" Content="Print value in ErrorBox"  />-->
                     </StackPanel>
@@ -31,7 +35,7 @@
                     <StackPanel Padding="5">
                         <TextBlock Text="End of Visit" />
                         <DatePicker x:Name="FVisitEnd" SelectedDateChanged="FVisitEnd_SelectedDateChanged" />
-                        <TimePicker x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
+                        <TimePicker ClockIdentifier="24HourClock" x:Name="FVisitEndTime" SelectedTimeChanged="FVisitEndTime_SelectedTimeChanged" />
                         <TextBlock Foreground="Red" x:Name="EndDateError"/>
                     </StackPanel>
 
@@ -112,9 +116,11 @@
                         <TextBlock x:Name="EmployeeError" Foreground="Red" />
                     </StackPanel>
 
-                    <StackPanel Padding="5">
-                        <TextBlock Text="Submit" />
-                        <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                    <StackPanel Padding="5" Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock Text="Submit" />
+                            <Button Content="Save appointment" x:Name="FOnSubmit" Click="FOnSubmit_Click" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

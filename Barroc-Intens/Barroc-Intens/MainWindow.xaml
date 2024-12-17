@@ -79,6 +79,7 @@
                 <NavigationViewItem Foreground="#f4cd1b" Content="Privacy" Tag="Privacy" x:Name="PrivacyLink" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Content="Malfunction Report" Tag="MalfunctionReport" x:Name="MalfunctionReportLink" Visibility="Collapsed"/>
                 
+                <NavigationViewItem Foreground="#f4cd1b" Tag="VisitOverview" x:Name="VisitOverviewLink" Content="Visit Overview" Visibility="Collapsed" />
             </NavigationView.MenuItems>
 
             <Frame x:Name="contentFrame" Background="White" Foreground="Black" />

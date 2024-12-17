@@ -16,7 +16,20 @@
             <Run Text="Logged in as: "/>
             <Run x:Name="RnLoggedInUser" FontWeight="Bold" TextDecorations="Underline" />
         </TextBlock>
+        <Button x:Name="NavToCreate" Content="Create appointment" FontSize="15" Click="NavToCreate_Click"/>
+        <!--  Week info-->
+        <StackPanel>
+            <TextBlock>
+                <Run FontSize="35" Text="Week " />
+                <Run FontSize="35" x:Name="WeekNum" />
+            </TextBlock>
+        </StackPanel>
 
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="DecreaseWeek" Content="&lt;" FontSize="20" Click="DecreaseWeek_Click" HorizontalAlignment="Left" />
+            <Button x:Name="IncreaseWeek" Content="&gt;" FontSize="20" Click="IncreaseWeek_Click" HorizontalAlignment="Right" />
+        </StackPanel>        
+        
         <!-- Week overview -->
         <GridView x:Name="GvWeekOverview" ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" IsItemClickEnabled="False" >
             

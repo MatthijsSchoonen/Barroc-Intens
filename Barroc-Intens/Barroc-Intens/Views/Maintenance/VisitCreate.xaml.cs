@@ -17,6 +17,8 @@ using Barroc_Intens.Data;
 using System.Collections.ObjectModel;
 using Barroc_Intens.Dashboards;
 using System.Diagnostics;
+using Barroc_Intens.Views.Maintenance;
+using iText.Kernel.Pdf.Canvas.Parser.ClipperLib;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -83,134 +85,158 @@ namespace Barroc_Intens.Maintenance
         }
 
         // Validation and store into DB
-        private void FOnSubmit_Click(object sender, RoutedEventArgs e)
+        private async void FOnSubmit_Click(object sender, RoutedEventArgs e)
         {
+            // Clear previous error messages
+            ClearErrorMessages();
 
-            // Check if start does not exceed end
-            DateTimeOffset startDate = FVisitStart.Date;
-            DateTimeOffset endDate = FVisitEnd.Date;
-            Company customerCompany = FCustomer.SelectedItem as Company;
-            TimeSpan startTime = FVisitStartTime.Time;
-            TimeSpan endTime = FVisitEndTime.Time;
-            string title = FTitle.Text;
-            startDate += startTime;
-            endDate += endTime;
-            string description = FDescription.Text;
-            int status = FStatus.SelectedIndex;
+            // Validate form inputs
+            if (!ValidateFormInputs())
+            {
+                return;
+            }
+
+            // Use the selected date and time directly without timezone conversions
+            DateTime startDateTime = FVisitStart.Date.DateTime.Date + FVisitStartTime.Time;
+            DateTime endDateTime = FVisitEnd.Date.DateTime.Date + FVisitEndTime.Time;
+
+            using (AppDbContext dbContext = new AppDbContext())
+            {
+                MaintenanceAppointment newApp = new()
+                {
+                    Title = FTitle.Text,
+                    Description = FDescription.Text,
+                    StartTime = startDateTime,
+                    EndTime = endDateTime,
+                    Status = FStatus.SelectedIndex,
+                    DateAdded = DateTime.Now, // Use local time for date added
+                    User = FEmployee.SelectedItem as User,
+                    Company = FCustomer.SelectedItem as Company
+                };
+
+                // Attach related entities
+                dbContext.Attach(newApp.Company);
+                dbContext.Attach(newApp.User);
+
+                // Add selected compartments (products)
+                foreach (Product product in selectedCompartments)
+                {
+                    dbContext.Attach(product);
+                }
+
+                // Save to database
+                dbContext.MaintenanceAppointments.Add(newApp);
+                await dbContext.SaveChangesAsync();
+
+                // Show confirmation dialog
+                ContentDialog confirmationDialog = new ContentDialog
+                {
+                    Title = "Successfully added",
+                    Content = "The appointment has been successfully stored into the database. You will be redirected to the overview page.",
+                    CloseButtonText = "Ok",
+                    XamlRoot = this.Content.XamlRoot
+                };
+                await confirmationDialog.ShowAsync();
+
+                Frame.Navigate(typeof(VisitOverview));
+            }
+        }
+
+        private bool ValidateFormInputs()
+        {
             bool isValid = true;
 
-            Debug.WriteLine(startTime + " |" + TimeSpan.Zero);
+            // Customer validation
             if (FCustomer.SelectedItem == null)
             {
                 CustomerError.Text = "Please select a customer.";
+                isValid = false;
             }
+
+            // Status validation
             if (FStatus.SelectedIndex == -1)
             {
                 StatusError.Text = "Please select a status.";
                 isValid = false;
             }
 
+            // Date and time validation
+            if (!FVisitStart.SelectedDate.HasValue || !FVisitEnd.SelectedDate.HasValue)
+            {
+                FormErrorBox.Text = "Please select start and end dates.";
+                isValid = false;
+            }
+            else
+            {
+                DateTime startDateTime = FVisitStart.Date.DateTime.Date + FVisitStartTime.Time;
+                DateTime endDateTime = FVisitEnd.Date.DateTime.Date + FVisitEndTime.Time;
 
-            if (!FVisitStart.SelectedDate.HasValue || FVisitStart.SelectedDate == DateTimeOffset.MinValue || startTime <= TimeSpan.Zero)
-            {
-                StartDateError.Text = "Please enter a start date and time";
-                isValid = false;
-            }
-            if (!FVisitEnd.SelectedDate.HasValue || FVisitEnd.SelectedDate == DateTimeOffset.MinValue || endTime <= TimeSpan.Zero)
-            {
-                EndDateError.Text = "Please enter a end date and time";
-                isValid = false;
-            }
-            if (startDate > endDate)
-            {
-                StartDateError.Text = "Start date cannot exceed end date, please check the input fields";
-                isValid = false;
-            }
-            if (endDate < startDate)
-            {
-                EndDateError.Text = "End date cannot take place before the start";
-                isValid = false;
+                if (startDateTime > endDateTime)
+                {
+                    StartDateError.Text = "Start date and time cannot exceed end date and time.";
+                    EndDateError.Text = "End date and time cannot be before start date and time.";
+                    isValid = false;
+                }
             }
 
-            if (this.productOfInterest == null)
+            // Title validation
+            if (string.IsNullOrWhiteSpace(FTitle.Text))
             {
-                ProductOfInterestError.Text = "Please select a product of interest (like a product where something broke or requires maintenance)";
+                TitleError.Text = "Please enter a title.";
                 isValid = false;
             }
 
-            if (selectedCompartments.Count < 1)
+            // Description validation
+            if (string.IsNullOrWhiteSpace(FDescription.Text))
             {
-                CompartmentsError.Text = "Please select one or more parts";
+                DescriptionError.Text = "Please enter a description.";
                 isValid = false;
             }
 
-            if (description.Length < 1)
-            {
-                DescriptionError.Text = "Please enter a description (provide more information about the visit, possibly some important notes)";
-                isValid = false;
-            }
-
-            if (status > 3 || status < 0)
-            {
-                StatusError.Text = "Select a valid status.";
-                isValid = false;
-            }
-
-            //if (selectedEmployees.Count < 1) {
-            //    EmployeeError.Text = "Select one or more employees.";
-            //    return;
-            //}
+            // Employee validation
             if (FEmployee.SelectedItem == null)
             {
-                EmployeeError.Text = "Please select a user";
+                EmployeeError.Text = "Please select an employee.";
                 isValid = false;
             }
 
-            if (title.Length < 1)
+            // Product of interest validation
+            if (this.productOfInterest == null)
             {
-                TitleError.Text = "Please enter a description";
+                ProductOfInterestError.Text = "Please select a product of interest.";
                 isValid = false;
             }
 
+            // Compartments validation
+            if (selectedCompartments.Count < 1)
+            {
+                CompartmentsError.Text = "Please select one or more parts.";
+                isValid = false;
+            }
+
+            // Overall form error message
             if (!isValid)
             {
-                FormErrorBox.Text = "One or more fields are not filled in properly. Please make sure everything is correct.";
-                return;
+                FormErrorBox.Text = "One or more fields are not filled in properly. Please check the inputs.";
             }
-            User attachedUser = FEmployee.SelectedItem as User;
 
-            using (AppDbContext dbContext = new AppDbContext())
-            {
-                MaintenanceAppointment newApp = new();
-
-                //newApp.User = null;
-                //newApp.Products = null;
-                //newApp.Company = null;
-                //newApp.Product = null;
-                dbContext.Attach(customerCompany);
-                dbContext.Attach(attachedUser);
-                dbContext.Attach(productOfInterest);
-                foreach (Product product in selectedCompartments)
-                {
-                    dbContext.Attach(product);
-                }
-
-                newApp.User = attachedUser;
-                newApp.Company = customerCompany;
-                newApp.Description = description;
-                newApp.Status = status;
-                newApp.DateAdded = DateTime.Now;
-                newApp.StartTime = startDate.UtcDateTime;
-                newApp.EndTime = endDate.UtcDateTime;
-                newApp.Title = title;
-                dbContext.MaintenanceAppointments.Add(newApp);
-                //newApp.User = attachedUser;
-                //newApp.Products = selectedCompartments.ToArray();
-                Debug.WriteLine(newApp.ToString());
-                dbContext.SaveChanges();
-
-            }
+            return isValid;
         }
+
+        private void ClearErrorMessages()
+        {
+            CustomerError.Text = string.Empty;
+            StatusError.Text = string.Empty;
+            FormErrorBox.Text = string.Empty;
+            StartDateError.Text = string.Empty;
+            EndDateError.Text = string.Empty;
+            TitleError.Text = string.Empty;
+            DescriptionError.Text = string.Empty;
+            EmployeeError.Text = string.Empty;
+            ProductOfInterestError.Text = string.Empty;
+            CompartmentsError.Text = string.Empty;
+        }
+
 
 
 
@@ -256,31 +282,46 @@ namespace Barroc_Intens.Maintenance
 
         private void FVisitStart_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            FVisitEnd.SelectedDateChanged -= FVisitEnd_SelectedDateChanged;
-            FVisitEnd.Date = FVisitStart.Date;
-            FVisitEnd.SelectedDateChanged += FVisitEnd_SelectedDateChanged;
+            if(!FVisitEnd.SelectedDate.HasValue)
+            {
+                FVisitEnd.SelectedDateChanged -= FVisitEnd_SelectedDateChanged;
+                FVisitEnd.Date = FVisitStart.Date;
+                FVisitEnd.SelectedDateChanged += FVisitEnd_SelectedDateChanged;
+            }
         }
 
         private void FVisitStartTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            FVisitEndTime.SelectedTimeChanged -= FVisitEndTime_SelectedTimeChanged;
-            FVisitEndTime.Time = FVisitStartTime.Time.Add(new TimeSpan(0, 30, 0));
-            FVisitEndTime.SelectedTimeChanged += FVisitEndTime_SelectedTimeChanged;
-
+            if(!FVisitEndTime.SelectedTime.HasValue)
+            {
+                FVisitEndTime.SelectedTimeChanged -= FVisitEndTime_SelectedTimeChanged;
+                FVisitEndTime.Time = FVisitStartTime.Time.Add(new TimeSpan(0, 30, 0));
+                FVisitEndTime.SelectedTimeChanged += FVisitEndTime_SelectedTimeChanged;
+            }
         }
 
         private void FVisitEnd_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
         {
-            FVisitStart.SelectedDateChanged -= FVisitStart_SelectedDateChanged;
-            FVisitStart.Date = FVisitEnd.Date;
-            FVisitStart.SelectedDateChanged += FVisitStart_SelectedDateChanged;
+            if (!FVisitStart.SelectedDate.HasValue) {
+                FVisitStart.SelectedDateChanged -= FVisitStart_SelectedDateChanged;
+                FVisitStart.Date = FVisitEnd.Date;
+                FVisitStart.SelectedDateChanged += FVisitStart_SelectedDateChanged;
+            }
+
         }
 
         private void FVisitEndTime_SelectedTimeChanged(TimePicker sender, TimePickerSelectedValueChangedEventArgs args)
         {
-            FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
-            FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0, 30, 0));
-            FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+            if (!FVisitStartTime.SelectedTime.HasValue) {
+                FVisitStartTime.SelectedTimeChanged -= FVisitStartTime_SelectedTimeChanged;
+                FVisitStartTime.Time = FVisitEndTime.Time.Subtract(new TimeSpan(0, 30, 0));
+                FVisitStartTime.SelectedTimeChanged += FVisitStartTime_SelectedTimeChanged;
+            }
+        }
+
+        private void NavToOverview_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(VisitOverview));
         }
 
         // Remove employee from ComboBox source and display elsewhere in UI

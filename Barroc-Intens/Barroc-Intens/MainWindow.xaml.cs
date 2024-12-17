@@ -23,6 +23,7 @@ using Barroc_Intens.Views.PurchaseViews;
 using Barroc_Intens.Customer;
 using Barroc_Intens.Views.Maintenance;
 using Barroc_Intens.Views.Customer;
+using Barroc_Intens.Views.Maintenance;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -98,6 +99,7 @@ namespace Barroc_Intens
                 case "Maintenance":
                     MaintenanceLinks.Visibility = Visibility.Visible;
                     MaintenanceLink.Visibility = Visibility.Visible;
+                    VisitOverviewLink.Visibility = Visibility.Visible;
                     break;
                 case "Sales":
                     SalesLinks.Visibility = Visibility.Visible;
@@ -243,6 +245,11 @@ namespace Barroc_Intens
                 //Debug.WriteLine("Result of TypeOf VisitCreate: " + typeof(VisitCreate));
                 contentFrame.Navigate(typeof(VisitCreate), this.loggedInUser);
                 return; 
+            }
+            if(completeTerm == "VisitOverview")
+            {
+                contentFrame.Navigate(typeof(VisitOverview));
+                return;
             }
             if(completeTerm == "logout")
             {
