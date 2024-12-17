@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Views.Finance.ContractManagement"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:localData="using:Barroc_Intens.Data"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel Padding="20" Background="White">
+        <TextBlock Text="Leasecontracten Beheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
+
+        <TextBlock Text="Nieuw Leasecontract Toevoegen" FontWeight="SemiBold" />
+        <TextBox x:Name="CompanyIdInput" Header="Bedrijfs ID" Margin="0,5" />
+        <TextBox x:Name="StartDateInput" Header="Start Datum (yyyy-MM-dd)" Margin="0,5" />
+        <TextBox x:Name="EndDateInput" Header="Eind Datum (yyyy-MM-dd)" Margin="0,5" />
+        <TextBox x:Name="BillingTypeInput" Header="Facturatie Type" Margin="0,5" />
+        <CheckBox x:Name="BkrCheckPassedInput" Content="BKR Check Geslaagd" Margin="0,5" />
+        <Button Content="Contract Toevoegen" Click="AddContract_Click" Margin="0,10,0,20" />
+
+        <TextBlock Text="Leasecontracten" FontWeight="SemiBold" Margin="0,20,0,10" />
+        <ListView x:Name="ContractsListView" ItemsSource="{x:Bind Contracts, Mode=OneWay}" SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="localData:Contract">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ID: " FontWeight="Bold"/>
+                        <TextBlock Text="{x:Bind Id}" Margin="5,0"/>
+                        <TextBlock Text=", Start: " FontWeight="Bold" Margin="10,0"/>
+                        <TextBlock Text="{x:Bind StartDate}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Content="Bewerk Geselecteerd Contract" Click="EditContract_Click" Margin="0,10,0,0"/>
+    </StackPanel>
+</Page>

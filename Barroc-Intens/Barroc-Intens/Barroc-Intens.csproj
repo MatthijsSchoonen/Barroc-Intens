@@ -23,6 +23,8 @@
 		<None Remove="Views\Customer\CustomerStockView.xaml" />
 		<None Remove="Views\Customer\Privacy.xaml" />
 		<None Remove="Views\Customer\MalfunctionReport.xaml" />
+		<None Remove="Views\Finance\ContractManagement.xaml" />
+		<None Remove="Views\Finance\EditContract.xaml" />
 		<None Remove="Views\Maintenance\VisitDetails.xaml" />
 		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\AddCompany.xaml" />
@@ -72,6 +74,18 @@
 
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Finance\EditContract.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\Finance\ContractManagement.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -68,6 +68,7 @@
                 <!-- Finance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice"  x:Name="FinanceLinks" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder"   x:Name="FinanceWorkOrderLinks" Visibility="Collapsed"/>
+                <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Contract Management" Tag="ContractManagement"   x:Name="ContractManagementLinks" Visibility="Collapsed"/>
 
                 <!-- Maintenance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Content="Customer Visit" Tag="VisitCreate" x:Name="MaintenanceLinks" Visibility="Collapsed"/>

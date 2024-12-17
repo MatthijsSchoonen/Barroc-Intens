@@ -18,6 +18,9 @@ namespace Barroc_Intens.Data
         public int VAT { get; set; } // Add if missing
         public DateTime StartDate { get; set; } // Add Start Date
         public DateTime EndDate { get; set; } // Add End Date
+        public bool IsPaid { get; set; }
+        public string Status => IsPaid ? "Betaald" : "Niet Betaald";
+
     }
 
 }

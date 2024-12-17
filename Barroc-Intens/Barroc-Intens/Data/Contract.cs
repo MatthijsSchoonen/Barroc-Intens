@@ -15,5 +15,7 @@ namespace Barroc_Intens.Data
         public DateOnly EndDate {  get; set; }
         public ICollection<Product> Products { get; set; }
         public ICollection<InvoiceProduct> ContractProducts { get; set; }
+        public bool BkrCheckPassed { get; set; } 
+        public string BillingType { get; set; } 
     }
 }
