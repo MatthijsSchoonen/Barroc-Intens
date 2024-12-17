@@ -21,6 +21,8 @@ namespace Barroc_Intens.Data
         public int? CompanyId { get; set; }
         public ICollection<Company> Companies { get; set; }
         public ICollection<Note> Notes { get; set; }
+        public int RoleId { get; set; }
+
 
         public static void ClearUser()
         {
