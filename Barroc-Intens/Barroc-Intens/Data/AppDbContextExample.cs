@@ -747,30 +747,28 @@
 //                    EndDate = DateOnly.FromDateTime(DateTime.UtcNow),
 //                }
 //            );
+//            modelBuilder.Entity<Invoice>().HasData(
+//             new Invoice
+//             {
+//                 Id = 1,
+//                 StartDate = DateTime.UtcNow,
+//                 EndDate = DateTime.UtcNow,
+//                 ContractId = 1,
+//                 VAT = 21,
+//             }
+//         );
 
 //            modelBuilder.Entity<InvoiceProduct>().HasData(
 //                new InvoiceProduct
 //                {
 //                    Id = 1,
 //                    ProductId = 1,
+//                    InvoiceId = 1,
 //                    Amount = 5,
 //                }
 //            );
 
 
-
-
-
-//            modelBuilder.Entity<Invoice>().HasData(
-//                new Invoice
-//                {
-//                    Id = 1,
-//                    StartDate = DateTime.UtcNow,
-//                    EndDate = DateTime.UtcNow,
-//                    ContractId = 1,
-//                    VAT = 21,
-//                }
-//            );
 //        }
 //    }
 //}
