@@ -35,7 +35,6 @@ namespace Barroc_Intens.Data
 
 
 
-        public int Stock { get; set; }
 
         public ICollection<MaintenanceAppointment> ProductMaintenanceAppointments { get; set; }
         public ICollection<MaintenanceAppointment> MaintenanceAppointments { get; set; }
