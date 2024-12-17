@@ -751,6 +751,7 @@
 //             new Invoice
 //             {
 //                 Id = 1,
+//                 CompanyId = 1,
 //                 StartDate = DateTime.UtcNow,
 //                 EndDate = DateTime.UtcNow,
 //                 ContractId = 1,
