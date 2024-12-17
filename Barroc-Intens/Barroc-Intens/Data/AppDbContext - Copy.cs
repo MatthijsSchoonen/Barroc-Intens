@@ -13,7 +13,7 @@
 //    internal class AppDbContext : DbContext
 //    {
 //        public DbSet<Company> Companies { get; set; }
-//        public DbSet<Contract> Contracts { get; set; }s
+//        public DbSet<Contract> Contracts { get; set; }
 //        public DbSet<InvoiceProduct> InvoiceProducts { get; set; }
 //        public DbSet<Role> Roles { get; set; }
 //        public DbSet<Brand> Brands { get; set; }
@@ -26,6 +26,10 @@
 //        public DbSet<ProductsCategory> ProductsCategories { get; set; }
 //        public DbSet<User> Users { get; set; }
 //        public DbSet<PasswordReset> PasswordResets { get; set; }
+//        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+//        public DbSet<PurchaseOrderStatus> PurchaseOrderStatuses { get; set; }
+//        public DbSet<WorkOrder> WorkOrders { get; set; }
+//        public DbSet<WorkOrderMat> WorkOrderMats { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions
@@ -69,19 +73,36 @@
 
 //                );
 
+//            modelBuilder.Entity<PurchaseOrderStatus>().HasData(
+
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 1,
+//                    Name = "To Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 2,
+//                    Name = "In Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 3,
+//                    Name = "Approved"
+//                }
+//            );
 
 //            modelBuilder.Entity<User>().HasData(
 
-//                new User
-//                {
-//                    Id = 1,
-//                    Name = "Customer",
-//                    Email = "Customer@gmail.com",
-//                    Password = SecureHasher.Hash("Customer"),
-//                    DepartmentId = 1,
-//                    CompanyId = 1,
-//                    RoleId = 1
-//                },
+//new User
+//{
+//    Id = 1,
+//    Name = "Customer",
+//    Email = "Customer@gmail.com",
+//    Password = SecureHasher.Hash("Customer"),
+//    DepartmentId = 1,
+//    RoleId = 1
+//},
 
 //                // Users for Department 2 (Finance)
 //                new User
@@ -177,61 +198,14 @@
 //                    RoleId = 2
 //                },
 
-//                // Users for Department 4 (Sales)
-//                new User
-//                {
-//                    Id = 16,
-//                    Name = "SalesAdmin",
-//                    Email = "AdminSales@gmail.com",
-//                    Password = SecureHasher.Hash("Sales"),
-//                    DepartmentId = 4,
-//                    RoleId = 3
-//                },
-//                new User
-//                {
-//                    Id = 17,
-//                    Name = "Sales1",
-//                    Email = "Sales1@gmail.com",
-//                    Password = SecureHasher.Hash("Sales"),
-//                    DepartmentId = 4,
-//                    RoleId = 2
-//                },
-//                new User
-//                {
-//                    Id = 18,
-//                    Name = "Sales2",
-//                    Email = "Sales2@gmail.com",
-//                    Password = SecureHasher.Hash("Sales"),
-//                    DepartmentId = 4,
-//                    RoleId = 2
-//                },
-//                new User
-//                {
-//                    Id = 19,
-//                    Name = "Sales3",
-//                    Email = "Sales3@gmail.com",
-//                    Password = SecureHasher.Hash("Sales"),
-//                    DepartmentId = 4,
-//                    RoleId = 2
-//                },
-//                new User
-//                {
-//                    Id = 20,
-//                    Name = "Sales4",
-//                    Email = "Sales4@gmail.com",
-//                    Password = SecureHasher.Hash("Sales"),
-//                    DepartmentId = 4,
-//                    RoleId = 2
-//                },
-
-//                // Users for Department 5 (Purchase)
+//                // Users for Department 5(Purchase)
 //                new User
 //                {
 //                    Id = 21,
 //                    Name = "PurchaseAdmin",
 //                    Email = "AdminPurch@gmail.com",
 //                    Password = SecureHasher.Hash("Purchase"),
-//                    DepartmentId = 5,
+//                    DepartmentId = 7,
 //                    RoleId = 3
 //                },
 //                new User
@@ -773,32 +747,28 @@
 //                    EndDate = DateOnly.FromDateTime(DateTime.UtcNow),
 //                }
 //            );
+//            modelBuilder.Entity<Invoice>().HasData(
+//             new Invoice
+//             {
+//                 Id = 1,
+//                 StartDate = DateTime.UtcNow,
+//                 EndDate = DateTime.UtcNow,
+//                 ContractId = 1,
+//                 VAT = 21,
+//             }
+//         );
 
 //            modelBuilder.Entity<InvoiceProduct>().HasData(
 //                new InvoiceProduct
 //                {
 //                    Id = 1,
-//                    InvoiceId = 1,
 //                    ProductId = 1,
+//                    InvoiceId = 1,
 //                    Amount = 5,
 //                }
 //            );
 
 
-
-
-
-//            modelBuilder.Entity<Invoice>().HasData(
-//                new Invoice
-//                {
-//                    Id = 1,
-//                    StartDate = DateTime.UtcNow,
-//                    EndDate = DateTime.UtcNow,
-//                    ContractId = 1,
-//                    CompanyId = 1,
-//                    VAT = 21,
-//                }
-//            );
 //        }
 //    }
 //}
