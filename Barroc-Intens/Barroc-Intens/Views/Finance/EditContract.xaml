@@ -7,9 +7,11 @@
     <StackPanel Padding="20" Background="White">
         <TextBlock Text="Bewerk Leasecontract" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
 
-        <TextBox x:Name="CompanyIdInput" Header="Bedrijfs ID" Margin="0,5" />
-        <TextBox x:Name="StartDateInput" Header="Start Datum (yyyy-MM-dd)" Margin="0,5" />
-        <TextBox x:Name="EndDateInput" Header="Eind Datum (yyyy-MM-dd)" Margin="0,5" />
+        <ComboBox x:Name="CompanyComboBox"
+           Header="Select Company"
+           PlaceholderText="Choose a company" />
+        <DatePicker x:Name="StartDateInput" Header="Start Datum (yyyy-MM-dd)" Margin="0,5" />
+        <DatePicker x:Name="EndDateInput" Header="Eind Datum (yyyy-MM-dd)" Margin="0,5" />
         <TextBox x:Name="BillingTypeInput" Header="Facturatie Type" Margin="0,5" />
         <CheckBox x:Name="BkrCheckPassedInput" Content="BKR Check Geslaagd" Margin="0,5" />
 

@@ -9,9 +9,11 @@
         <TextBlock Text="Leasecontracten Beheer" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
 
         <TextBlock Text="Nieuw Leasecontract Toevoegen" FontWeight="SemiBold" />
-        <TextBox x:Name="CompanyIdInput" Header="Bedrijfs ID" Margin="0,5" />
-        <TextBox x:Name="StartDateInput" Header="Start Datum (yyyy-MM-dd)" Margin="0,5" />
-        <TextBox x:Name="EndDateInput" Header="Eind Datum (yyyy-MM-dd)" Margin="0,5" />
+        <ComboBox x:Name="CompanyComboBox"
+           Header="Select Company"
+           PlaceholderText="Choose a company" />
+        <DatePicker x:Name="StartDateInput" Header="Start Datum (yyyy-MM-dd)" Margin="0,5" />
+        <DatePicker x:Name="EndDateInput" Header="Eind Datum (yyyy-MM-dd)" Margin="0,5" />
         <TextBox x:Name="BillingTypeInput" Header="Facturatie Type" Margin="0,5" />
         <CheckBox x:Name="BkrCheckPassedInput" Content="BKR Check Geslaagd" Margin="0,5" />
         <Button Content="Contract Toevoegen" Click="AddContract_Click" Margin="0,10,0,20" />

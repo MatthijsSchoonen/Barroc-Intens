@@ -4,6 +4,8 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
 using Barroc_Intens.Data;
 using System;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Barroc_Intens.Views.Finance
 {
@@ -15,6 +17,19 @@ namespace Barroc_Intens.Views.Finance
         public EditContract()
         {
             this.InitializeComponent();
+            LoadCompaniesAsync();
+        }
+
+        private async Task LoadCompaniesAsync()
+        {
+            //connect to the database get the companies
+            using (AppDbContext context = new AppDbContext())
+            {
+                var companies = await context.Companies.ToListAsync();
+                CompanyComboBox.ItemsSource = companies;
+                CompanyComboBox.DisplayMemberPath = "Name";
+                CompanyComboBox.SelectedValuePath = "Id";
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -24,25 +39,36 @@ namespace Barroc_Intens.Views.Finance
 
             if (_contract != null)
             {
-                CompanyIdInput.Text = _contract.CompanyId.ToString();
-                StartDateInput.Text = _contract.StartDate.ToString();
-                EndDateInput.Text = _contract.EndDate.ToString();
+                CompanyComboBox.SelectedValue = _contract.CompanyId;
+
+                // Convert DateOnly to DateTimeOffset for DatePicker
+                StartDateInput.Date = new DateTimeOffset(_contract.StartDate.ToDateTime(TimeOnly.MinValue));
+                EndDateInput.Date = new DateTimeOffset(_contract.EndDate.ToDateTime(TimeOnly.MinValue));
+
                 BillingTypeInput.Text = _contract.BillingType;
                 BkrCheckPassedInput.IsChecked = _contract.BkrCheckPassed;
             }
         }
 
+
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            _contract.CompanyId = int.Parse(CompanyIdInput.Text);
-            _contract.StartDate = DateOnly.Parse(StartDateInput.Text);
-            _contract.EndDate = DateOnly.Parse(EndDateInput.Text);
-            _contract.BillingType = BillingTypeInput.Text;
-            _contract.BkrCheckPassed = BkrCheckPassedInput.IsChecked == true;
 
-            _context.SaveChanges();
-            Frame.GoBack();
+                var selectedCompany = CompanyComboBox.SelectedItem as Company;
+                int? companyId = selectedCompany?.Id;
+                _contract.CompanyId = (int)companyId;
+
+                // Convert DateTimeOffset to DateOnly
+                _contract.StartDate = DateOnly.FromDateTime(StartDateInput.Date.DateTime);
+                _contract.EndDate = DateOnly.FromDateTime(EndDateInput.Date.DateTime);
+
+                _contract.BillingType = BillingTypeInput.Text;
+                _contract.BkrCheckPassed = BkrCheckPassedInput.IsChecked == true;
+
+                _context.SaveChanges();
+                Frame.GoBack();
         }
+
 
         private void DeleteContract_Click(object sender, RoutedEventArgs e)
         {
