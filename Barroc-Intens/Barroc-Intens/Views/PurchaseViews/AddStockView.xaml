@@ -26,9 +26,9 @@
                     <TextBox x:Name="descInput" Header="Product beschrijving:"
                              HorizontalAlignment="Left"  Width="380"
                              PlaceholderText="Beschrijving" />
-                    <TextBox x:Name="brandInput" Header="Merk:"
-                                HorizontalAlignment="Left"  Width="380"
-                                PlaceholderText="Merk" />
+                    <ComboBox x:Name="brandInput" Header="Merk:"
+                              HorizontalAlignment="Left" Width="380"
+                              PlaceholderText="Selecteer een merk" />
                     <TextBox x:Name="priceInput" Header="Prijs:"
                              HorizontalAlignment="Left"  Width="380"
                              PlaceholderText="Prijs" />
@@ -49,3 +49,4 @@
         </ScrollViewer>
     </Grid>
 </Page>
+

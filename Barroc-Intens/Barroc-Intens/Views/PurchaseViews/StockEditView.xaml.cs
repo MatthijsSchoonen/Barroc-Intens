@@ -1,27 +1,9 @@
 using Barroc_Intens.Data;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Barroc_Intens.PurchaseViews
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class StockEditView : Window
     {
         private int currentProductId;
@@ -32,16 +14,26 @@ namespace Barroc_Intens.PurchaseViews
             this.currentProductId = productId;
 
             using AppDbContext db = new();
-            //get data from the product to fill the items
+            // Fetch the product data to pre-fill the inputs
             Product product = db.Products.First(p => p.Id == productId);
+
+            // Populate fields with product data
             nameInput.Text = product.Name;
             descInput.Text = product.Description;
-            brandInput.Text = "1";
-            priceInput.Text = product.Price.ToString();
-            stockInput.Text = product.Stock.ToString();
-            productCategoryInput.ItemsSource = db.ProductsCategories;
+
+            // Populate brand dropdown and select the correct brand
+            brandInput.ItemsSource = db.Brands.ToList();
+            brandInput.DisplayMemberPath = "Name";
+            brandInput.SelectedItem = db.Brands.FirstOrDefault(b => b.Id == product.BrandId);
+
+            // Populate category dropdown and select the correct category
+            productCategoryInput.ItemsSource = db.ProductsCategories.ToList();
             productCategoryInput.DisplayMemberPath = "Name";
             productCategoryInput.SelectedItem = product.ProductsCategory;
+
+            // Populate price and stock
+            priceInput.Text = product.Price.ToString();
+            stockInput.Text = product.Stock.ToString();
         }
 
         public void BackToOverviewButton_click(object sender, RoutedEventArgs e)
@@ -52,33 +44,29 @@ namespace Barroc_Intens.PurchaseViews
         public void EditProductButton_click(object sender, RoutedEventArgs e)
         {
             using AppDbContext db = new();
-            string? brand;
-            ProductsCategory selectedCategory;
-            //checks the input if its not an empty string
-            if (nameInput.Text == "")
+
+            // Input validation
+            if (string.IsNullOrWhiteSpace(nameInput.Text))
             {
                 ErrorMessage.Text = "Name is required";
                 return;
             }
-            if (descInput.Text == "")
+            if (string.IsNullOrWhiteSpace(descInput.Text))
             {
                 ErrorMessage.Text = "Description is required";
                 return;
             }
-            if (brandInput.Text == "")
+            if (brandInput.SelectedItem == null)
             {
-                brand = null;
+                ErrorMessage.Text = "Brand is required";
+                return;
             }
-            else
-            {
-                brand = brandInput.Text;
-            }
-            if (priceInput.Text == "")
+            if (string.IsNullOrWhiteSpace(priceInput.Text))
             {
                 ErrorMessage.Text = "Price is required";
                 return;
             }
-            if (stockInput.Text == "")
+            if (string.IsNullOrWhiteSpace(stockInput.Text))
             {
                 ErrorMessage.Text = "Stock is required";
                 return;
@@ -88,30 +76,51 @@ namespace Barroc_Intens.PurchaseViews
                 ErrorMessage.Text = "Category is required";
                 return;
             }
-            else
+            if (string.IsNullOrWhiteSpace(priceInput.Text))
             {
-                selectedCategory = (ProductsCategory)productCategoryInput.SelectedItem;
+                ErrorMessage.Text = "Price is required";
+                return;
             }
-            //updates the product in the database
+
+            if (!decimal.TryParse(priceInput.Text, out decimal price) || price <= 0)
+            {
+                ErrorMessage.Text = "Price must be a valid positive number";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(stockInput.Text))
+            {
+                ErrorMessage.Text = "Stock is required";
+                return;
+            }
+
+            if (!int.TryParse(stockInput.Text, out int stock) || stock < 0)
+            {
+                ErrorMessage.Text = "Stock must be a valid non-negative integer";
+                return;
+            }
+
+
+            // Update the product in the database
             var product = db.Products.First(p => p.Id == currentProductId);
             product.Name = nameInput.Text;
             product.Description = descInput.Text;
-            product.BrandId = 1;
-            product.ProductsCategory = (ProductsCategory)productCategoryInput.SelectedItem;
+            product.BrandId = ((Brand)brandInput.SelectedItem).Id; // Save selected brand
+            product.Price = decimal.Parse(priceInput.Text);
+            product.Stock = int.Parse(stockInput.Text);
+            product.ProductsCategoryId = ((ProductsCategory)productCategoryInput.SelectedItem).Id;
+
             db.SaveChanges();
             this.Close();
         }
 
-        private void DeleteProductButton_click(object sender, RoutedEventArgs p)
+        private void DeleteProductButton_click(object sender, RoutedEventArgs e)
         {
-            //delete products
-            using var db = new AppDbContext();
-            {
-                var product = db.Products.First(p => p.Id == currentProductId);
-                db.Products.Remove(product);
-                db.SaveChanges();
-                this.Close();
-            }
+            using AppDbContext db = new();
+            var product = db.Products.First(p => p.Id == currentProductId);
+            db.Products.Remove(product);
+            db.SaveChanges();
+            this.Close();
         }
     }
 }

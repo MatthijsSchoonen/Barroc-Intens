@@ -15,10 +15,9 @@ namespace Barroc_Intens.Data
         public int? ProductsCategoryId { get; set; }
         public ProductsCategory ProductsCategory { get; set; }
         public int? BrandId { get; set; }
+        public Brand Brand { get; set; }  // Navigation property to Brand
         public string Name { get; set; }
         public string Description { get; set; }
-      
-
         public decimal? Price { get; set; }
         private int stock;
         public int Stock
@@ -36,6 +35,8 @@ namespace Barroc_Intens.Data
 
 
 
+        public int Stock { get; set; }
+
         public ICollection<MaintenanceAppointment> ProductMaintenanceAppointments { get; set; }
         public ICollection<MaintenanceAppointment> MaintenanceAppointments { get; set; }
         public ICollection<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
@@ -52,4 +53,5 @@ namespace Barroc_Intens.Data
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
 }
