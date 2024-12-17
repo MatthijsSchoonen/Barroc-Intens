@@ -14,7 +14,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-
+using System.Diagnostics;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -59,6 +59,7 @@ namespace Barroc_Intens.PurchaseViews
 
         private void ApplyFilters()
         {
+        
             string brandFilter = BrandFilterTextBox.Text?.ToLower() ?? string.Empty;
             string descriptionFilter = DescriptionFilterTextBox.Text?.ToLower() ?? string.Empty;
 

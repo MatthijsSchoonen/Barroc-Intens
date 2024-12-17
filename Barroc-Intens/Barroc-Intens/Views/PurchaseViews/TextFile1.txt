@@ -1,0 +1,114 @@
+﻿          <!-- Purchase overview -->
+            <StackPanel Grid.Column="1" Grid.Row="0" >
+                <StackPanel HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" CornerRadius="15" VerticalAlignment="Center" Padding="10">
+                    <TextBlock Text="Purchase Overview" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
+                    
+                    <!-- Order information -->
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total product count: " />
+                            <TextBlock x:Name="TotalProductCount" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total: " />
+                            <TextBlock x:Name="CostsTb" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- Product Overview -->
+                    <!--<ListView x:Name="PurchaseOverviewLv" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Product">
+                                <StackPanel Padding="5" BorderBrush="Black" BorderThickness="2" CornerRadius="15" Margin="0,0,0,15" >
+                                    <TextBlock Text="{x:Bind Name}" HorizontalAlignment="Left" FontWeight="SemiBold" />
+                                    <TextBlock Text="{x:Bind Stock }" HorizontalAlignment="Right" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+
+                </StackPanel>
+            </StackPanel>
+
+
+
+
+
+
+
+
+            // Code-Behind: PurchasesView.xaml.cs
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace YourNamespace
+{
+    public sealed partial class PurchasesView : Page
+    {
+        public ObservableCollection<PurchaseOrder> PurchaseOrders { get; set; } = new();
+
+        public PurchasesView()
+        {
+            this.InitializeComponent();
+            LoadPurchaseOrderHistory();
+        }
+
+        private void LoadPurchaseOrderHistory()
+        {
+            PurchaseOrders.Clear(); // Clear the collection first
+            using (var dbContext = new AppDbContext())
+            {
+                var purchaseOrders = dbContext.PurchaseOrders
+                    .Include(po => po.OrderStatus) // Ensure OrderStatus is included
+                    .OrderByDescending(po => po.OrderedAt)
+                    .ToList();
+
+                foreach (var order in purchaseOrders)
+                {
+                    PurchaseOrders.Add(order);
+                }
+            }
+        }
+
+        private void OnAddProductClick(object sender, RoutedEventArgs e)
+        {
+            using (var dbContext = new AppDbContext())
+            {
+                var newOrder = new PurchaseOrder
+                {
+                    OrderedAt = DateTime.Now,
+                    OrderStatusId = 1, // Default status (e.g., Pending)
+                    TotalPrice = 100.00m // Example value
+                };
+
+                dbContext.PurchaseOrders.Add(newOrder);
+                dbContext.SaveChanges();
+            }
+
+            LoadPurchaseOrderHistory(); // Refresh the collection
+        }
+
+        private void UpdateProduct_Click(object sender, RoutedEventArgs e)
+        {
+            if (PurchaseOrderHistoryGridView.SelectedItem is not PurchaseOrder selectedOrder)
+                return;
+
+            using (var dbContext = new AppDbContext())
+            {
+                var orderToUpdate = dbContext.PurchaseOrders
+                    .FirstOrDefault(po => po.Id == selectedOrder.Id);
+
+                if (orderToUpdate != null)
+                {
+                    orderToUpdate.OrderStatusId = 2; // Example: Update status
+                    dbContext.SaveChanges();
+                }
+            }
+
+            LoadPurchaseOrderHistory(); // Refresh the collection
+        }
+    }
+}

@@ -23,6 +23,7 @@
 		<None Remove="Views\Maintenance\VisitDetails.xaml" />
 		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\AddCompany.xaml" />
+		<None Remove="Views\PurchaseViews\PurchasesView.xaml" />
 		<None Remove="Views\Sales\NotePage.xaml" />
 		<None Remove="Dashboards\Customer.xaml" />
 		<None Remove="Dashboards\Finance.xaml" />
@@ -147,6 +148,12 @@
 
 	<ItemGroup>
 	  <Page Update="ResetPassword.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Page Update="Views\PurchaseViews\PurchasesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
 	</ItemGroup>

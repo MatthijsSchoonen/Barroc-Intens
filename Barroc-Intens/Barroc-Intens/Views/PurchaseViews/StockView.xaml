@@ -25,13 +25,13 @@
             <TextBox x:Name="BrandFilterTextBox"
                  PlaceholderText="Filter by Brand"
                  Width="200"
-                     Height="20"
+                 Height="20"
                  Margin="0 0 10 0"
                  TextChanged="FilterTextBox_TextChanged"/>
             <TextBox x:Name="DescriptionFilterTextBox"
                  PlaceholderText="Filter by Description"
                  Width="200"
-                     Height="20"
+                 Height="20"
                  TextChanged="FilterTextBox_TextChanged"/>
         </StackPanel>
 

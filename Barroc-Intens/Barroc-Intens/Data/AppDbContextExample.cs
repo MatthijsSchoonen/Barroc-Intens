@@ -69,6 +69,24 @@
 
 ////                );
 
+//            modelBuilder.Entity<PurchaseOrderStatus>().HasData(
+
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 1,
+//                    Name = "To Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 2,
+//                    Name = "In Review"
+//                },
+//                new PurchaseOrderStatus
+//                {
+//                    Id = 3,
+//                    Name = "Approved"
+//                }
+//            );
 
 ////            modelBuilder.Entity<User>().HasData(
 
@@ -176,99 +194,52 @@
 ////                    RoleId = 2
 ////                },
 
-////                // Users for Department 4 (Sales)
-////                new User
-////                {
-////                    Id = 16,
-////                    Name = "SalesAdmin",
-////                    Email = "AdminSales@gmail.com",
-////                    Password = SecureHasher.Hash("Sales"),
-////                    DepartmentId = 4,
-////                    RoleId = 3
-////                },
-////                new User
-////                {
-////                    Id = 17,
-////                    Name = "Sales1",
-////                    Email = "Sales1@gmail.com",
-////                    Password = SecureHasher.Hash("Sales"),
-////                    DepartmentId = 4,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 18,
-////                    Name = "Sales2",
-////                    Email = "Sales2@gmail.com",
-////                    Password = SecureHasher.Hash("Sales"),
-////                    DepartmentId = 4,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 19,
-////                    Name = "Sales3",
-////                    Email = "Sales3@gmail.com",
-////                    Password = SecureHasher.Hash("Sales"),
-////                    DepartmentId = 4,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 20,
-////                    Name = "Sales4",
-////                    Email = "Sales4@gmail.com",
-////                    Password = SecureHasher.Hash("Sales"),
-////                    DepartmentId = 4,
-////                    RoleId = 2
-////                },
-
-////                // Users for Department 5 (Purchase)
-////                new User
-////                {
-////                    Id = 21,
-////                    Name = "PurchaseAdmin",
-////                    Email = "AdminPurch@gmail.com",
-////                    Password = SecureHasher.Hash("Purchase"),
-////                    DepartmentId = 5,
-////                    RoleId = 3
-////                },
-////                new User
-////                {
-////                    Id = 22,
-////                    Name = "Purchase1",
-////                    Email = "Purch1@gmail.com",
-////                    Password = SecureHasher.Hash("Purchase"),
-////                    DepartmentId = 5,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 23,
-////                    Name = "Purchase2",
-////                    Email = "Purch2@gmail.com",
-////                    Password = SecureHasher.Hash("Purchase"),
-////                    DepartmentId = 5,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 24,
-////                    Name = "Purchase3",
-////                    Email = "Purch3@gmail.com",
-////                    Password = SecureHasher.Hash("Purchase"),
-////                    DepartmentId = 5,
-////                    RoleId = 2
-////                },
-////                new User
-////                {
-////                    Id = 25,
-////                    Name = "Purchase4",
-////                    Email = "Purch4@gmail.com",
-////                    Password = SecureHasher.Hash("Purchase"),
-////                    DepartmentId = 5,
-////                    RoleId = 2
-////                }
+//                // Users for Department 5 (Purchase)
+//                new User
+//                {
+//                    Id = 21,
+//                    Name = "PurchaseAdmin",
+//                    Email = "AdminPurch@gmail.com",
+//                    Password = SecureHasher.Hash("Purchase"),
+//                    DepartmentId = 7,
+//                    RoleId = 3
+//                },
+//                new User
+//                {
+//                    Id = 22,
+//                    Name = "Purchase1",
+//                    Email = "Purch1@gmail.com",
+//                    Password = SecureHasher.Hash("Purchase"),
+//                    DepartmentId = 5,
+//                    RoleId = 2
+//                },
+//                new User
+//                {
+//                    Id = 23,
+//                    Name = "Purchase2",
+//                    Email = "Purch2@gmail.com",
+//                    Password = SecureHasher.Hash("Purchase"),
+//                    DepartmentId = 5,
+//                    RoleId = 2
+//                },
+//                new User
+//                {
+//                    Id = 24,
+//                    Name = "Purchase3",
+//                    Email = "Purch3@gmail.com",
+//                    Password = SecureHasher.Hash("Purchase"),
+//                    DepartmentId = 5,
+//                    RoleId = 2
+//                },
+//                new User
+//                {
+//                    Id = 25,
+//                    Name = "Purchase4",
+//                    Email = "Purch4@gmail.com",
+//                    Password = SecureHasher.Hash("Purchase"),
+//                    DepartmentId = 5,
+//                    RoleId = 2
+//                }
 
 
 ////            );

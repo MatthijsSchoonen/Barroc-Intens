@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intens.Views.PurchaseViews.PurchasesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intens.Views.PurchaseViews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Barroc_Intens.Data"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel Padding="10">
+        <!-- Grid container for content -->
+        <Grid>
+            <!-- Column setup -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!-- Purchase Creation  -->
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <TextBlock FontSize="24" FontWeight="Bold" Text="Purchases View" />
+                <Button x:Name="MakePurchaseToggle" Content="Make Purchase" Click="MakePurchaseToggle_Click" />
+
+                <!--  Create Purchase Panel-->
+                <StackPanel x:Name="CreatePurchase"  Visibility="Collapsed" >
+                    <TextBlock Text="Select Products" />
+                    <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="InfoPanel" Visibility="Collapsed" >
+                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="ProductTitle" />
+                        <TextBlock FontSize="12" x:Name="ProductDescription" />
+
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="Enter amount" />
+                            <NumberBox x:Name="FProdAmount" />
+                            <Button x:Name="AddProduct" Content="Add Product" Click="OnAddProductClick" />
+                        </StackPanel>
+                    </StackPanel>
+                    <ComboBox x:Name="FProductSelector" DisplayMemberPath="Name" SelectionChanged="OnProductSelectionChanged" />
+                </StackPanel>
+
+                <!-- Update form -->
+                <StackPanel BorderBrush="Black" BorderThickness="2" x:Name="UpdateInfoPanel" Visibility="Collapsed" >
+                    <TextBlock FontSize="18" FontWeight="Bold" x:Name="UpdateProductTitle" />
+                    <TextBlock FontSize="12" x:Name="UpdateProductDescription" />
+
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="Enter amount" />
+                        <NumberBox x:Name="FUpdateProdAmount" />
+                        <Button x:Name="UpdateProduct" Content="Update Product" Click="UpdateProduct_Click" />
+                        <Button x:Name="WriteToStock" Content="Write To Stock" Visibility="Collapsed" Click="WriteToStock_Click" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" x:Name="TicketStatusUpdatePanel" Visibility="Collapsed">
+                        <TextBlock Text="Order Status: " />
+                        <ComboBox x:Name="FStatusChange" DisplayMemberPath="Name" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Purchase overview -->
+            <!--<StackPanel Grid.Column="1" Grid.Row="0" >
+                <StackPanel HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" CornerRadius="15" VerticalAlignment="Center" Padding="10">
+                    <TextBlock Text="Purchase Overview" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" />
+
+                    --><!-- Order information --><!--
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total product count: " />
+                            <TextBlock x:Name="TotalProductCount" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Total: " />
+                            <TextBlock x:Name="CostsTb" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>-->
+
+            <!-- Data Overview  -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="10">
+                <GridView x:Name="PurchaseOrderHistoryGridView"  ItemsSource="{Binding PurchaseOrders}" IsItemClickEnabled="True" ItemClick="PurchaseOverviewLv_ItemClick" >
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1" Margin="10" Padding="10" CornerRadius="8">
+                                <StackPanel>
+                                    <!-- Purchase Order Header -->
+                                    <TextBlock Text="{Binding OrderedAt}" FontWeight="Bold" FontSize="16" Margin="0,0,0,8" />
+                                    <TextBlock Text="Order Status: " FontWeight="Bold" />
+                                    <TextBlock Text="{Binding OrderStatus.Name}" Margin="0,0,0,8" />
+
+                                    <!-- Product Information -->
+                                    <TextBlock Text="Total Price: " FontWeight="Bold" />
+                                    <TextBlock Text="{Binding TotalPrice}" Margin="0,0,0,8" />
+
+                                    <TextBlock Text="Products: " FontWeight="Bold" />
+                                    <ItemsControl ItemsSource="{Binding Products}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock>
+                                                        <Run Text="Name: " />
+                                                        <Run Text="{Binding Name}" FontWeight="Bold" />
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                         <Run Text="Description: " />
+                                                         <Run Text="{Binding Description}" FontStyle="Italic" Foreground="Gray" />
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                        <Run Text="Price / Unit: " />
+                                                        <Run Text="{Binding Price}" />
+                                                    </TextBlock>
+                                                    <TextBlock>
+                                                        <Run Text="Current Stock" />
+                                                        <Run Text="{Binding Stock}" />
+                                                    </TextBlock>
+                                                    
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <!-- Product Count -->
+                                    <!--<TextBlock Text="Product Count" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding ProductCount}" FontWeight="Bold" Margin="0,10,0,0"/>-->
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Page>
