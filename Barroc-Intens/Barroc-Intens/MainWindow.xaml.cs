@@ -65,6 +65,8 @@ namespace Barroc_Intens
             PurchasesLinks.Visibility = Visibility.Collapsed;
             CustomerStockViewLink.Visibility = Visibility.Visible;
             MalfunctionReportLink.Visibility = Visibility.Collapsed;
+            PrivacyLink.Visibility = Visibility.Collapsed;
+            CustomerStockViewLink.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
@@ -87,6 +89,7 @@ namespace Barroc_Intens
                 case "Customer":
                     PrivacyLink.Visibility = Visibility.Visible;
                     MalfunctionReportLink.Visibility = Visibility.Visible;
+                    CustomerStockViewLink.Visibility= Visibility.Visible;
                     break;
                 case "Purchase":
                     PurchaseLinks.Visibility = Visibility.Visible;
