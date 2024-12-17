@@ -62,10 +62,8 @@ namespace Barroc_Intens
             NavItemBackToDashboard.Visibility = Visibility.Collapsed;
             AddCompanyLink.Visibility = Visibility.Collapsed;
             PurchasesLinks.Visibility = Visibility.Collapsed;
-        
-                CustomerStockViewLink.Visibility = Visibility.Visible;
-            
-
+            CustomerStockViewLink.Visibility = Visibility.Visible;
+            MalfunctionReportLink.Visibility = Visibility.Collapsed;
 
             if (loggedInUser == null)
             {
@@ -87,6 +85,7 @@ namespace Barroc_Intens
             {
                 case "Customer":
                     PrivacyLink.Visibility = Visibility.Visible;
+                    MalfunctionReportLink.Visibility = Visibility.Visible;
                     break;
                 case "Purchase":
                     PurchaseLinks.Visibility = Visibility.Visible;
@@ -176,6 +175,11 @@ namespace Barroc_Intens
             if(completeTerm == "Barroc_Intens.Dashboards.Sales"  || pageName == "Sales")
             {
                 contentFrame.Navigate(typeof(SalesDash));
+                return;
+            }
+            if(completeTerm == "MalfunctionReport")
+            {
+                contentFrame.Navigate(typeof(MalfunctionReport));
                 return;
             }
             if (completeTerm == "NewCustomer")
