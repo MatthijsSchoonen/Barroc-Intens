@@ -5,6 +5,7 @@
     xmlns:local="using:Barroc_Intens.Views.Maintenance"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Barroc_Intens.Data"
     mc:Ignorable="d">
 
     <Grid Padding="20" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -14,7 +15,7 @@
                 <Run Text="Please try again later" />
             </TextBlock>
         </StackPanel>
-        <StackPanel Spacing="15" x:Name="DetailsPanel" >
+        <StackPanel x:Name="DetailsPanel" Visibility="Collapsed" Spacing="15">
             <!-- Title -->
             <TextBlock FontSize="24" FontWeight="Bold" Text="{x:Bind SelectedAppointment.Title, Mode=OneWay}" />
 
@@ -22,58 +23,52 @@
             <StackPanel>
                 <TextBlock FontWeight="SemiBold" Text="Appointment Details:" Margin="0,10,0,5" />
                 <TextBlock>
-                    <Run Text="Start Time: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.StartTimeOnly, Mode=OneWay}" />
+            <Run Text="Start Time: " FontWeight="Bold" />
+            <Run Text="{x:Bind SelectedAppointment.StartTimeOnly, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock>
-                    <Run Text="End Time: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.EndTimeOnly, Mode=OneWay}" />
+            <Run Text="End Time: " FontWeight="Bold" />
+            <Run Text="{x:Bind SelectedAppointment.EndTimeOnly, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock TextWrapping="Wrap">
-                    <Run Text="Description: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Description, Mode=OneWay}" />
+            <Run Text="Description: " FontWeight="Bold" />
+            <Run Text="{x:Bind SelectedAppointment.Description, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock>
-                    <Run Text="Status: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Status, Mode=OneWay}" />
+            <Run Text="Status: " FontWeight="Bold" />
+            <Run Text="{x:Bind SelectedAppointment.Status, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
 
-            <!-- Company Details -->
+            <!-- Work Order Details -->
             <StackPanel>
-                <TextBlock FontWeight="SemiBold" Text="Company Details:" Margin="0,10,0,5" />
+                <TextBlock FontWeight="SemiBold" Text="Work Order Details:" Margin="0,10,0,5" />
                 <TextBlock>
-                    <Run Text="Name: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.Name, Mode=OneWay}" />
+            <Run Text="Product Information:" FontWeight="Bold" />
                 </TextBlock>
-                <TextBlock>
-                    <Run Text="Phone: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.Phone, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="Address: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.Address, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="Zipcode: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.Zipcode, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="City: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.City, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="Contact Name: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.ContactName, Mode=OneWay}" />
-                </TextBlock>
-                <TextBlock>
-                    <Run Text="Contact Email: " FontWeight="Bold" />
-                    <Run Text="{x:Bind SelectedAppointment.Company.ContactMail, Mode=OneWay}" />
-                </TextBlock>
+
+                <!-- Display the WorkOrderMats -->
+                <ListView ItemsSource="{x:Bind SelectedWorkOrder.WorkOrderMats, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:WorkOrderMat">
+                            <StackPanel>
+                                <TextBlock>
+                            <Run Text="Product Name: " FontWeight="Bold" />
+                            <Run Text="{x:Bind Product.Name, Mode=OneWay}" />
+                                </TextBlock>
+                                <TextBlock>
+                            <Run Text="Amount: " FontWeight="Bold" />
+                            <Run Text="{x:Bind ProductAmount, Mode=OneWay}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
 
             <!-- Back Button -->
             <Button Content="Back to Overview" Click="BtnOverviewNav_Click" HorizontalAlignment="Left" />
         </StackPanel>
+
     </Grid>
 </Page>

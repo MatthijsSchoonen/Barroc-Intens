@@ -24,9 +24,10 @@ namespace Barroc_Intens.Data
 
         public ICollection<MaintenanceAppointmentProduct> MaintenanceAppointmentProducts { get; set; }
 
-        // New properties for formatted time strings
+        // New properties for formatted strings
         public string StartTimeOnly => StartTime.ToString("HH:mm"); 
         public string EndTimeOnly => EndTime.ToString("HH:mm");
         public string TruncatedDescription => Description.Length > 100 ? Description.Substring(0, 100) + "..." : Description;
+        public string ComboBoxDisplay => $"{Company?.Name ?? "No Company"} {StartTime}";
     }
 }

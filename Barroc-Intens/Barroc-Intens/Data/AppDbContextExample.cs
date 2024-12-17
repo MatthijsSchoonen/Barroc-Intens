@@ -28,6 +28,8 @@
 //        public DbSet<PasswordReset> PasswordResets { get; set; }
 //        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 //        public DbSet<PurchaseOrderStatus> PurchaseOrderStatuses { get; set; }
+//        public DbSet<WorkOrder> WorkOrders { get; set; }
+//        public DbSet<WorkOrderMat> WorkOrderMats { get; set; }
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
 //            //Go to the App.config.example file and then follow Instructions
