@@ -14,21 +14,21 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using System.Diagnostics;
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Barroc_Intens.PurchaseViews
+namespace Barroc_Intens.Customer
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class StockView : Page
+    public sealed partial class CustomerStockView : Page
     {
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
         public ObservableCollection<Product> FilteredProducts { get; set; } = new ObservableCollection<Product>();
 
-        public StockView()
+        public CustomerStockView()
         {
             this.InitializeComponent();
 
@@ -59,7 +59,6 @@ namespace Barroc_Intens.PurchaseViews
 
         private void ApplyFilters()
         {
-        
             string brandFilter = BrandFilterTextBox.Text?.ToLower() ?? string.Empty;
             string descriptionFilter = DescriptionFilterTextBox.Text?.ToLower() ?? string.Empty;
             bool hideOutOfStock = HideOutOfStockToggle.IsOn;
@@ -88,15 +87,12 @@ namespace Barroc_Intens.PurchaseViews
         }
 
 
-        private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(AddStockView));
-        }
+ 
 
         private void StockSearchingView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var selectedItem = (Product)e.ClickedItem;
-            var window = new StockEditView(selectedItem.Id);
+            var window = new PurchaseViews.StockEditView(selectedItem.Id);
             window.Closed += StockEditWindow_Closed;
             window.Activate();
         }

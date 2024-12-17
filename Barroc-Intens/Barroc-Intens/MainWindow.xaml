@@ -64,6 +64,9 @@
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="AddCompany" Tag="AddCompany" x:Name="AddCompanyLink" Visibility="Collapsed" />
 
 
+                <!--Customer Links-->
+                <NavigationViewItem Foreground="#f4cd1b" Content="Customer Stock View" Tag="CustomerStockView" x:Name="CustomerStockViewLink" Visibility="Collapsed"/>
+
                 <!-- Finance Links -->
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Refresh" Content="Invoice" Tag="Invoice"  x:Name="FinanceLinks" Visibility="Collapsed" />
                 <NavigationViewItem Foreground="#f4cd1b" Icon="Download" Content="Work Order" Tag="WorkOrder"   x:Name="FinanceWorkOrderLinks" Visibility="Collapsed"/>

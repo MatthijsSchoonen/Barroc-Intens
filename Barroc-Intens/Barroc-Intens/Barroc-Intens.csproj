@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -20,6 +20,7 @@
 		<None Remove="Data\AppDbContext.cs.example" />
 		<None Remove="Data\AppDbContextExample.cs.example" />
 		<None Remove="ResetPassword.xaml" />
+		<None Remove="Views\Customer\CustomerStockView.xaml" />
 		<None Remove="Views\Maintenance\VisitDetails.xaml" />
 		<None Remove="Views\Maintenance\VisitOverview.xaml" />
 		<None Remove="Views\Sales\AddCompany.xaml" />
@@ -73,6 +74,9 @@
 	<ItemGroup>
 	  <Page Update="Sales\NewCustomerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	  <Page Update="Views\Customer\CustomerStockView.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
 	  </Page>
 	</ItemGroup>
 

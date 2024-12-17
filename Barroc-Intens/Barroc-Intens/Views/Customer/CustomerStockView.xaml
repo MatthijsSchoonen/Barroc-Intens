@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="Barroc_Intens.PurchaseViews.StockView"
+    x:Class="Barroc_Intens.Customer.CustomerStockView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Barroc_Intens.PurchaseViews"
@@ -25,13 +25,13 @@
             <TextBox x:Name="BrandFilterTextBox"
                  PlaceholderText="Filter by Brand"
                  Width="200"
-                 Height="20"
+                     Height="20"
                  Margin="0 0 10 0"
                  TextChanged="FilterTextBox_TextChanged"/>
             <TextBox x:Name="DescriptionFilterTextBox"
                  PlaceholderText="Filter by Description"
                  Width="200"
-                 Height="20"
+                     Height="20"
                  TextChanged="FilterTextBox_TextChanged"/>
             <ToggleSwitch x:Name="HideOutOfStockToggle"
               Header="Hide Out of Stock"
@@ -78,8 +78,6 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Orientation="Vertical" Grid.Column="2">
-            <Button x:Name="AddProductFormButton" Margin="10" Content="Voeg nieuw product toe" Click="AddProductFormButton_Click"/>
-        </StackPanel>
+    
     </Grid>
 </Page>
