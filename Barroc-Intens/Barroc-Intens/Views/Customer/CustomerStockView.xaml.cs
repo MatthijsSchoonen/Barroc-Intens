@@ -1,4 +1,6 @@
 using Barroc_Intens.Data;
+using Barroc_Intens.PurchaseViews;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -7,22 +9,11 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Barroc_Intens.Customer
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class CustomerStockView : Page
     {
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
@@ -31,8 +22,6 @@ namespace Barroc_Intens.Customer
         public CustomerStockView()
         {
             this.InitializeComponent();
-
-            // Load products from the database
             LoadProducts();
         }
 
@@ -40,8 +29,9 @@ namespace Barroc_Intens.Customer
         {
             using (var db = new AppDbContext())
             {
-                // Populate Products and FilteredProducts with data from the database
-                var products = db.Products.ToList();
+                // Include the related Brand data
+                var products = db.Products.Include(p => p.Brand).ToList();
+
                 Products.Clear();
                 FilteredProducts.Clear();
                 foreach (var product in products)
@@ -65,12 +55,10 @@ namespace Barroc_Intens.Customer
 
             // Clear and repopulate FilteredProducts based on the filter criteria
             FilteredProducts.Clear();
-
             foreach (var product in Products)
             {
                 bool matchesBrand = string.IsNullOrEmpty(brandFilter) ||
-                     product.Brands.Any(b => b.Name.ToLower().Contains(brandFilter));
-
+                                    (product.Brand != null && product.Brand.Name.ToLower().Contains(brandFilter));
                 bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
                                           (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
                 bool matchesStock = !hideOutOfStock || product.Stock > 0;
@@ -81,18 +69,21 @@ namespace Barroc_Intens.Customer
                 }
             }
         }
+
         private void HideOutOfStockToggle_Toggled(object sender, RoutedEventArgs e)
         {
             ApplyFilters(); // Reapply filters whenever the toggle state changes
         }
 
-
- 
+        private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(AddStockView));
+        }
 
         private void StockSearchingView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var selectedItem = (Product)e.ClickedItem;
-            var window = new PurchaseViews.StockEditView(selectedItem.Id);
+            var window = new StockEditView(selectedItem.Id);
             window.Closed += StockEditWindow_Closed;
             window.Activate();
         }
@@ -108,5 +99,4 @@ namespace Barroc_Intens.Customer
             ApplyFilters();  // Reapply filters to update FilteredProducts after refreshing the data
         }
     }
-
 }

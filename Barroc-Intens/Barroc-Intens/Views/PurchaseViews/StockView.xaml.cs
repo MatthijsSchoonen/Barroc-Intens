@@ -1,4 +1,5 @@
 using Barroc_Intens.Data;
+using Barroc_Intens.PurchaseViews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,22 +9,11 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using System.Diagnostics;
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Barroc_Intens.PurchaseViews
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class StockView : Page
     {
         public ObservableCollection<Product> Products { get; set; } = new ObservableCollection<Product>();
@@ -32,8 +22,6 @@ namespace Barroc_Intens.PurchaseViews
         public StockView()
         {
             this.InitializeComponent();
-
-            // Load products from the database
             LoadProducts();
         }
 
@@ -54,7 +42,6 @@ namespace Barroc_Intens.PurchaseViews
             }
         }
 
-
         private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             ApplyFilters();
@@ -62,7 +49,6 @@ namespace Barroc_Intens.PurchaseViews
 
         private void ApplyFilters()
         {
-        
             string brandFilter = BrandFilterTextBox.Text?.ToLower() ?? string.Empty;
             string descriptionFilter = DescriptionFilterTextBox.Text?.ToLower() ?? string.Empty;
             bool hideOutOfStock = HideOutOfStockToggle.IsOn;
@@ -75,19 +61,19 @@ namespace Barroc_Intens.PurchaseViews
                                     (product.Brand != null && product.Brand.Name.ToLower().Contains(brandFilter));
                 bool matchesDescription = string.IsNullOrEmpty(descriptionFilter) ||
                                           (product.Description != null && product.Description.ToLower().Contains(descriptionFilter));
+                bool matchesStock = !hideOutOfStock || product.Stock > 0;
 
-                if (matchesBrand && matchesDescription)
+                if (matchesBrand && matchesDescription && matchesStock)
                 {
                     FilteredProducts.Add(product);
                 }
             }
         }
+
         private void HideOutOfStockToggle_Toggled(object sender, RoutedEventArgs e)
         {
             ApplyFilters(); // Reapply filters whenever the toggle state changes
         }
-
-
 
         private void AddProductFormButton_Click(object sender, RoutedEventArgs e)
         {
@@ -113,5 +99,4 @@ namespace Barroc_Intens.PurchaseViews
             ApplyFilters();  // Reapply filters to update FilteredProducts after refreshing the data
         }
     }
-
 }

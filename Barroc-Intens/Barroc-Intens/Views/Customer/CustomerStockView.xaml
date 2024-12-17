@@ -67,12 +67,14 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="localData:Product">
                             <StackPanel Orientation="Horizontal" Padding="5">
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Name}" Width="100"/>
-                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
+                                <TextBlock TextWrapping="Wrap" Margin="0 0 20 0" Text="{x:Bind Name}" Width="100"/>
+                                <TextBlock TextWrapping="Wrap" Margin="0 0 20 0" Text="{x:Bind Description}" Width="500"/>
                                 <TextBlock Margin="0 0 20 0" Text="{x:Bind Price}" Width="100"/>
                                 <TextBlock Margin="0 0 20 0" Text="{x:Bind Stock}" Width="100"/>
+                                <TextBlock Margin="0 0 20 0" Text="{x:Bind Brand.Name}" Width="100"/>
                             </StackPanel>
                         </DataTemplate>
+
                     </ListView.ItemTemplate>
                 </ListView>
             </StackPanel>
