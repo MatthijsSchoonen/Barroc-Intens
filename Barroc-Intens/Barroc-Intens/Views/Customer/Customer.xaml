@@ -9,8 +9,37 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Padding="5">
-        <TextBlock FontSize="24" FontWeight="Bold" Text="Customer Dashboard" />
-        <!--  Style="{StaticResource.HeadingStyle}" -->
-    </StackPanel>
+    <Grid>
+        <!-- Title -->
+        <TextBlock Text="Uw huidige leasecontracten" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" 
+                   Margin="10" />
+
+        <!-- ListView to display work orders -->
+        <ListView x:Name="ContractListBox" Margin="10,50,10,10">
+            <ListView.ItemTemplate>
+                <!-- Template for each item (work order) -->
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="5" BorderBrush="Gray" BorderThickness="1">
+
+                        <TextBlock Margin="0,5">
+                            <Run Text="Bedrijf: " />
+                            <Run Text="{Binding Company.Name}" />
+                        </TextBlock>
+                        <TextBlock Margin="0,5">
+                            <Run Text="Start datum: " />
+                            <Run Text="{Binding StartDate}" />
+                        </TextBlock>
+                        <TextBlock Margin="0,5">
+                            <Run Text="Eind datum: " />
+                            <Run Text="{Binding EndDate}" />
+                        </TextBlock>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </Page>
